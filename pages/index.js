@@ -1,65 +1,136 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Page from '../layout/Page'
 
-export default function Home() {
+ const Home = () => {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+    <Page title="Homepage" head="Nechte prostor vyprávět váš příběh.">
+      <section className="video-bg">
+        <video src="/assets/top-video.mp4" loop muted playsInline uk-video="autoplay: inview"></video>
+      </section>
+      <section className="sec-center">
+        <div className="uk-container">
+          <div className="big-sec">
+            <div>
+              <p>Dopřejte vašim zákazníkům unikátní vizuální zážitek, spolehněte se na práci profesionálů a starosti s realizací nechte na nás.</p>
+            </div>
+            <button className="button">O NÁS <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></button>
+          </div>
         </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
+      </section>
+      <section className="sec-center">
+        <img src="/assets/sec-1.jpg" alt="" />
+        <div className="uk-overlay-primary uk-position-cover sec-info">
+          <div className="uk-container">
+            <div className="uk-width-2-3">
+              <img className="uk-svg sec-logo-partner" src="/assets/authentica-logo.svg" uk-svg="" alt="logo"/>
+              <p>Pomáháme společnostem předat jejich vizuální sdělení, která nezůstanou bez povšimnutí. Spolupracujeme s řadou světových i domácích značek, které s naší pomocí vyčnívají z davu.</p>
+              <a href="/" className="button bare"><span>více o authentica</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>
+          </div>
+        </div>
+        </div>
+      </section>
+      <section className="sec-center">
+        <img src="/assets/sec-2.jpg" alt="" />
+        <div className="uk-overlay-primary uk-position-cover sec-info">
+          <div className="uk-container">
+            <div className="uk-width-2-3">
+              <img className="uk-svg sec-logo-partner" src="/assets/fulfullment-logo.svg" uk-svg="" alt="logo"/>
+              <p>Řekněte sbohem starostem s logistikou a svěřte své podnikání do rukou profesionálního Fulfillment centra. Nadstandardní služby, okamžitý přehled o stavu objednávek i osobní account manager jen pro vás.</p>
+              <a href="/" className="button bare"><span>více o Fulfillment</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>
+          </div>
+        </div>
+        </div>
+      </section>
+      <section className="sec-center">
+        <img src="/assets/sec-3.jpg" alt="" />
+        <div className="uk-overlay-primary uk-position-cover sec-info">
+          <div className="uk-container">
+            <div className="uk-width-2-3">
+              <img className="uk-svg sec-logo-partner" src="/assets/grd-servis-logo.svg" uk-svg="" alt="logo"/>
+              <p>Pod našima rukama se vize našich klientů stávají realitou. Naší doménou je papír a výrobky z něj, od osvědčených dodavatelů z celého světa.</p>
+              <a href="/" className="button bare"><span>více o GRD servis</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="sec-center">
+        <img src="/assets/sec-4.jpg" alt="" />
+        <div className="uk-overlay-primary uk-position-cover sec-info">
+          <div className="uk-container">
+            <div className="uk-width-2-3">
+              <img className="uk-svg sec-logo-partner" src="/assets/craftwork-logo.svg" uk-svg="" alt="logo"/>
+              <p>Dáváme šanci lidem se zdravotním hendikepem se plnohodnotně zapojit na trhu práce. Pro naše klienty vyrábíme a skládáme obaly, šijeme, kompletujeme a poskytujeme firmám náhradní plnění.</p>
+              <a href="/" className="button bare"><span>více o Craftwork</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>
+          </div>
+        </div>
+        </div>
+      </section>
+      <section className="sec-center">
+        <div className="uk-width-expand">
+          <div className="uk-container">
+            <h2>Naše úspěchy v číslech.</h2>
+          </div>
+          <div className="numbers">
+            <div className="uk-grid uk-child-width-1-5" uk-grid="">
+              <div className="numer-item">
+                <span>18</span>
+                <p>let odborné práce</p>
+              </div>
+              <div className="numer-item">
+                <span>15tis</span>
+                <p>uspěšných projektů ročně</p>
+              </div>
+              <div className="numer-item">
+                <span>250</span>
+                <p>spokojených zaměstnců</p>
+              </div>
+              <div className="numer-item">
+                <span>3</span>
+                <p>pobočky v evropě</p>
+              </div>
+              <div className="numer-item">
+                <span>74</span>
+                <p>prestižních ocenění</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="partners partners-video">
+        <div className="uk-container">
+          <h2>Naši spokojení klienti, kteří nám pravidelně svěřují svou důvěru.</h2>
+        </div>
+        <div className="partners-logo-wrap">
+          <div className="partners-video">
+            <video src="/assets/partners.mp4" loop muted playsInline uk-video="autoplay: inview"></video>
+          </div>
+          <div className="partners-items">
+            <div className="uk-container">
+              <div className="uk-grid uk-child-width-1-3" uk-grid="">
+                <div className="partners-item">
+                  <img className="uk-svg" src="/assets/partners-logo/1.svg" uk-svg="" alt="logo-partners"/>
+                </div>
+                <div className="partners-item">
+                  <img className="uk-svg" src="/assets/partners-logo/2.svg" uk-svg="" alt="logo-partners"/>
+                </div>
+                <div className="partners-item">
+                  <img className="uk-svg" src="/assets/partners-logo/3.svg" uk-svg="" alt="logo-partners"/>
+                </div>
+                <div className="partners-item">
+                  <img className="uk-svg" src="/assets/partners-logo/4.svg" uk-svg="" alt="logo-partners"/>
+                </div>
+                <div className="partners-item">
+                  <img className="uk-svg" src="/assets/partners-logo/5.svg" uk-svg="" alt="logo-partners"/>
+                </div>
+                <div className="partners-item">
+                  <img className="uk-svg" src="/assets/partners-logo/6.svg" uk-svg="" alt="logo-partners"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </Page>
   )
 }
+
+export default Home
