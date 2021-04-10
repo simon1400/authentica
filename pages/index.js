@@ -6,7 +6,7 @@ import Page from '../layout/Page'
       <section className="video-bg">
         <video src="/assets/top-video.mp4" loop muted playsInline uk-video="autoplay: inview"></video>
       </section>
-      <section className="sec-center">
+      <section className="sec-center fdsghgdhsgf asfgsdfg">
         <div className="uk-container">
           <div className="big-sec">
             <div>
@@ -16,7 +16,7 @@ import Page from '../layout/Page'
           </div>
         </div>
       </section>
-      <section className="sec-center">
+      <section className="sec-center adsfgsdfg">
         <img src="/assets/sec-1.jpg" alt="" />
         <div className="uk-overlay-primary uk-position-cover sec-info">
           <div className="uk-container">
