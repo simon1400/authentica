@@ -5,7 +5,6 @@
 *{
   padding: 0;
   margin: 0;
-  letter-spacing: 2.24px;
   font-family: $ff-name, sans-serif!important;
 }
 
@@ -21,10 +20,24 @@
   display: -ms-flex;
   display: flex;
   height: auto;
+  position: relative;
+  z-index: 1000;
   justify-content: space-between;
   align-items: center;
   padding: 70px 0 0;
   font-size: $header-size;
+  &.active{
+    color: $black;
+    .hamburger-inner, .hamburger-inner::before, .hamburger-inner::after{
+      background-color: $black;
+    }
+    .lang-wrap ul li a{
+      color: $black;
+    }
+    .logo-wrap{
+      color: $black;
+    }
+  }
 }
 
 .control-header{
@@ -66,6 +79,7 @@
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
+  cursor: pointer;
   justify-content: flex-end;
   margin-left: 65px;
   align-items: center;
@@ -83,7 +97,7 @@
 }
 
 .header-content{
-  height: calc(100vh - 94px);
+  height: calc(90vh - 94px);
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
@@ -139,18 +153,28 @@ section{
 
 .partners{
   h2{
-    padding-top: 100px;
-    margin-bottom: 150px!important;
+    padding-top: 20px;
+    margin-bottom: 60px!important;
   }
-
   .partners-logo-wrap{
     position: relative;
     height: 100%;
+    overflow: hidden;
     flex: 1;
   }
-  .partners-video{
+  &.without-video{
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .uk-container{
+      width: 100%;
+    }
+  }
+  &.partners-video{
     position: relative;
-    height: 100%;
+    min-height: 100vh;
     overflow: hidden;
     video{
       width: 100%;
@@ -159,18 +183,14 @@ section{
       left: 50%;
       transform: translate(-50%, -50%);
     }
-  }
-  &.partners-video{
-    display: -webkit-flex;
-    display: -ms-flex;
-    display: flex;
-    flex-direction: column;
-    .partners-items{
-      height: 100%;
+    .partners-wrap{
       position: absolute;
-      top: 0;
+      top: 50%;
       left: 0;
+      transform: translateY(-50%);
       width: 100%;
+      // height: 100%;
+      display: block;
     }
   }
 
@@ -178,15 +198,11 @@ section{
 
 .partners-items{
   height: 100%;
-  display: -webkit-flex;
-  display: -ms-flex;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   justify-content: space-between;
+  gap: 60px;
   .partners-item{
-    display: -webkit-flex;
-    display: -ms-flex;
     display: flex;
     > *{
       margin: auto;
@@ -194,15 +210,20 @@ section{
   }
 }
 
+.footer-items-wrap{
+  display: grid;
+  justify-content: center;
+  gap: 60px;
+  > div {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    justify-content: center;
+  }
+}
 
 .footer-item{
   margin-top: 130px;
-  &:not(:first-child){
-    margin-left: 20px;
-  }
-  &:not(:last-child){
-    margin-right: 20px;
-  }
   p{
     font-size: $text-small;
     line-height: 30px;
@@ -222,5 +243,66 @@ section{
     margin-top: 150px;
   }
 }
+
+@keyframes showNavbar {
+  0% {
+    transform: translate3d(0,-40px,0);
+    opacity: 0;
+  }
+  100% {
+    transform: translateZ(0);
+    opacity: 1;
+  }
+}
+
+
+.menu{
+  position: absolute;
+  display: block;
+  visibility: hidden;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  right: 0;
+  background-color: $white;
+  color: $black;
+  overflow: hidden;
+  z-index: 999;
+  opacity: 0;
+  transition: all .3s ease;
+  &.active{
+    opacity: 1;
+    visibility: visible;
+    nav{
+      animation: showNavbar .9s ease forwards;
+      visibility: visible;
+    }
+  }
+  nav{
+    height: 100%;
+    position: relative;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    visibility: hidden;
+    ul{
+      li{
+        list-style-type: none;
+        text-align: right;
+        a{
+          color: $black;
+          font-size: $menu-size;
+          &:hover{
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+
 
 @import 'media';

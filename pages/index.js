@@ -6,7 +6,7 @@ import Page from '../layout/Page'
       <section className="video-bg">
         <video src="/assets/top-video.mp4" loop muted playsInline uk-video="autoplay: inview"></video>
       </section>
-      <section className="sec-center fdsghgdhsgf asfgsdfg">
+      <section className="sec-center">
         <div className="uk-container">
           <div className="big-sec">
             <div>
@@ -16,7 +16,7 @@ import Page from '../layout/Page'
           </div>
         </div>
       </section>
-      <section className="sec-center adsfgsdfg">
+      <section className="sec-center">
         <img src="/assets/sec-1.jpg" alt="" />
         <div className="uk-overlay-primary uk-position-cover sec-info">
           <div className="uk-container">
@@ -96,16 +96,14 @@ import Page from '../layout/Page'
         </div>
       </section>
       <section className="partners partners-video">
-        <div className="uk-container">
-          <h2>Naši spokojení klienti, kteří nám pravidelně svěřují svou důvěru.</h2>
-        </div>
         <div className="partners-logo-wrap">
           <div className="partners-video">
             <video src="/assets/partners.mp4" loop muted playsInline uk-video="autoplay: inview"></video>
           </div>
-          <div className="partners-items">
+          <div className="partners-wrap">
             <div className="uk-container">
-              <div className="uk-grid uk-child-width-1-3" uk-grid="">
+              <h2>Naši spokojení klienti, kteří nám pravidelně svěřují svou důvěru.</h2>
+              <div className="partners-items">
                 <div className="partners-item">
                   <img className="uk-svg" src="/assets/partners-logo/1.svg" uk-svg="" alt="logo-partners"/>
                 </div>

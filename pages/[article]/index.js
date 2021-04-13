@@ -49,11 +49,11 @@ const Article = () => {
           <p>Jsme Authentica, česká společnost s centrálou v Brně. Náš tým tvoří kolegové s bohatými pracovními zkušenostmi z různých oborů, kteří dokáží najít inovativní řešení pro každý projekt. Naším posláním je nabídnout klientům jen ten nejvyšší standard, protože společně utváříme obraz a hlas značky, který vyčnívá z davu. Pracujeme s vědomím, že při naší práci záleží na každém detailu a výsledkem musí být jedinečný produkt, stejně jedinečný, jako jsou vize našich klientů.</p>
         </div>
       </section>
-      <section className="partners">
-        <div className="uk-width-expand">
-          <div className="uk-container">
-            <h2>Naši vážení klienti</h2>
-          </div>
+      <section className="partners without-video">
+        <div className="uk-container">
+          <h2>Naši vážení klienti</h2>
+        </div>
+        <div className="partners-wrap">
           <div className="uk-container">
             <div className="partners-items">
               <div className="partners-item">
