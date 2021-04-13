@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: authentica-client
+    hostname: authentica-client
+    restart: always
+    env_file: .env
+    environment:
+      - APP_API=$APP_API
+    ports:
+      - "3002:3002"
+    networks:
+      - authenticaClient
+
+networks:
+  authenticaClient:
