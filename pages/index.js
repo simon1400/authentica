@@ -1,6 +1,81 @@
+import {useState} from 'react'
 import Page from '../layout/Page'
+import CountUp from 'react-countup';
+
+import handleViewport from 'react-in-viewport';
+
+const Block = handleViewport(({ inViewport, forwardedRef, startCount, setStartCount }) => {
+
+  if(inViewport){
+    setStartCount(true)
+  }
+
+
+  return(
+      <div className="uk-grid uk-child-width-auto" uk-parallax="x: 50vw, -50vw" uk-grid="" ref={forwardedRef}>
+      <div className="numer-item">
+        {startCount && <CountUp
+          start={0}
+          end={18}
+          duration={2}
+          useEasing={true}
+          useGrouping={true}
+          redraw={true}
+        />}
+        <p>let odborné práce</p>
+      </div>
+      <div className="numer-item">
+        <span>{startCount && <CountUp
+          start={0}
+          end={15}
+          duration={2}
+          useEasing={true}
+          useGrouping={true}
+          redraw={true}
+        />}tis</span>
+        <p>uspěšných projektů ročně</p>
+      </div>
+      <div className="numer-item">
+        {startCount && <CountUp
+          start={0}
+          end={250}
+          duration={2}
+          useEasing={true}
+          useGrouping={true}
+          redraw={true}
+        />}
+        <p>spokojených zaměstnců</p>
+      </div>
+      <div className="numer-item">
+        {startCount && <CountUp
+          start={0}
+          end={3}
+          duration={2}
+          useEasing={true}
+          useGrouping={true}
+          redraw={true}
+        />}
+        <p>pobočky v evropě</p>
+      </div>
+      <div className="numer-item">
+        {startCount && <CountUp
+          start={0}
+          end={74}
+          duration={2}
+          useEasing={true}
+          useGrouping={true}
+          redraw={true}
+        />}
+        <p>prestižních ocenění</p>
+      </div>
+    </div>
+  )
+})
 
  const Home = () => {
+
+   const [startCount, setStartCount] = useState(false)
+
   return (
     <Page title="Homepage" head="Nechte prostor vyprávět váš příběh.">
       <section className="video-bg">
@@ -24,8 +99,8 @@ import Page from '../layout/Page'
               <img className="uk-svg sec-logo-partner" src="/assets/authentica-logo.svg" uk-svg="" alt="logo"/>
               <p>Pomáháme společnostem předat jejich vizuální sdělení, která nezůstanou bez povšimnutí. Spolupracujeme s řadou světových i domácích značek, které s naší pomocí vyčnívají z davu.</p>
               <a href="/" className="button bare"><span>více o authentica</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>
+            </div>
           </div>
-        </div>
         </div>
       </section>
       <section className="sec-center">
@@ -70,28 +145,7 @@ import Page from '../layout/Page'
             <h2>Naše úspěchy v číslech.</h2>
           </div>
           <div className="numbers">
-            <div className="uk-grid uk-child-width-1-5" uk-grid="">
-              <div className="numer-item">
-                <span>18</span>
-                <p>let odborné práce</p>
-              </div>
-              <div className="numer-item">
-                <span>15tis</span>
-                <p>uspěšných projektů ročně</p>
-              </div>
-              <div className="numer-item">
-                <span>250</span>
-                <p>spokojených zaměstnců</p>
-              </div>
-              <div className="numer-item">
-                <span>3</span>
-                <p>pobočky v evropě</p>
-              </div>
-              <div className="numer-item">
-                <span>74</span>
-                <p>prestižních ocenění</p>
-              </div>
-            </div>
+            <Block startCount={startCount} setStartCount={setStartCount} />
           </div>
         </div>
       </section>

@@ -137,6 +137,9 @@ section{
 
 .numbers{
   margin-top: 150px;
+  .uk-grid{
+    justify-content: space-between;
+  }
   .numer-item{
     text-align: center;
     span{
