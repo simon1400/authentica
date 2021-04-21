@@ -14,26 +14,28 @@ const Header = ({
 
   return (
     <header>
-      <div className="uk-container uk-container-large">
-        <div className={`header-top${menu ? ' active' : ''}`}>
-          <Link href="/">
-            <a className="logo-wrap"><img className="uk-svg" src="/assets/authentica-group-logo.svg" alt="Authentica" uk-svg=""/></a>
-          </Link>
-          <div className="control-header">
-            <div className="lang-wrap uk-visible@s">
-              <ul>
-                <li><a href="/">cz</a></li>
-                <li><a href="/">en</a></li>
-                <li><a href="/">de</a></li>
-              </ul>
-            </div>
-            <div className="control-menu" onClick={() => toggleMenu()}>
-              <span className="uk-visible@s">Menu</span>
-              <button className={`hamburger hamburger--collapse${menu ? ' is-active' : ''}`}>
-                <span className="hamburger-box">
-                  <span className="hamburger-inner"></span>
-                </span>
-              </button>
+      <div className={`header-fix${menu ? ' active' : ''}`}>
+        <div className="uk-container uk-container-large">
+          <div className={`header-top${menu ? ' active' : ''}`}>
+            <Link href="/">
+              <a className="logo-wrap"><img className="uk-svg" src="/assets/authentica-group-logo.svg" alt="Authentica" uk-svg=""/></a>
+            </Link>
+            <div className="control-header">
+              <div className="lang-wrap uk-visible@s">
+                <ul>
+                  <li><a href="/">cz</a></li>
+                  <li><a href="/">en</a></li>
+                  <li><a href="/">de</a></li>
+                </ul>
+              </div>
+              <div className="control-menu" onClick={() => toggleMenu()}>
+                <span className="uk-visible@s">Menu</span>
+                <button className={`hamburger hamburger--collapse${menu ? ' is-active' : ''}`}>
+                  <span className="hamburger-box">
+                    <span className="hamburger-inner"></span>
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
         </div>

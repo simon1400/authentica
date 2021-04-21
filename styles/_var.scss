@@ -175,6 +175,8 @@ section{
 }
 
 footer{
+  position: relative;
+  z-index: 810;
   background-color: $white;
   min-height: calc(100vh - 300px);
   color: $black;

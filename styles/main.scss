@@ -42,16 +42,28 @@
   }
 }
 
+.header-fix{
+  width: 100%;
+  position: fixed;
+  z-index: 800;
+  top: 0;
+  left: 0;
+  background-image: linear-gradient(to bottom, #000000, rgba(0, 0, 0, 0));
+  &.active{
+    background-image: none;
+    z-index: 850;
+  }
+}
+
 .header-top{
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
   height: auto;
-  position: relative;
   z-index: 1000;
   justify-content: space-between;
   align-items: center;
-  padding: 70px 0 0;
+  padding: 70px 0;
   font-size: $header-size;
   &.active{
     color: $black;
@@ -125,6 +137,7 @@
 
 .header-content{
   height: calc(90vh - 94px);
+  margin-top: 94px;
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
@@ -208,11 +221,20 @@ section{
     min-height: 100vh;
     overflow: hidden;
     video{
-      width: 100%;
+      /* Make video to at least 100% wide and tall */
+      min-width: 100%;
+      min-height: 100%;
+
+      /* Setting width & height to auto prevents the browser from stretching or squishing the video */
+      width: auto;
+      height: auto;
+
+      /* Center the video */
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%,-50%);
+      max-width: none;
     }
     .partners-wrap{
       position: absolute;
@@ -288,7 +310,7 @@ section{
 
 
 .menu{
-  position: absolute;
+  position: fixed;
   display: block;
   visibility: hidden;
   height: 100vh;
@@ -298,12 +320,12 @@ section{
   background-color: $white;
   color: $black;
   overflow: hidden;
-  z-index: 999;
   opacity: 0;
   transition: all .3s ease;
   &.active{
     opacity: 1;
     visibility: visible;
+    z-index: 820;
     nav{
       animation: showNavbar .9s ease forwards;
       visibility: visible;
