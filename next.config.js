@@ -14,6 +14,8 @@ module.exports = (phase) => {
 
   console.log(`isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging}`)
 
+
+
   const env = {
     APP_API: (() => {
       if (isDev) return 'http://localhost:9001'
@@ -25,5 +27,10 @@ module.exports = (phase) => {
   // next.config.js object
   return {
     env,
+    i18n: {
+      locales: ['cs', 'en', 'de'],
+      defaultLocale: 'cs',
+      localeDetection: false,
+    }
   }
 }

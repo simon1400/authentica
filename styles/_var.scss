@@ -189,6 +189,10 @@ footer{
   }
   .button{
     border: solid 1.5px rgba($black, 0.16);
+    img, svg{
+      margin-left: 60px;
+      height: 20px;
+    }
     &:hover{
       border: solid 1.5px rgba($black, 0.32);
       text-decoration: none;

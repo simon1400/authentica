@@ -6,7 +6,7 @@ const Footer = () => {
           <div>
             <h2>Chcete se o našich službách dozvědět víc? Ozvěte se nám!</h2>
           </div>
-          <a className="button">info@authentica.cz <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Message"/></a>
+          <a className="button">info@authentica.cz <img className="uk-svg" src="/assets/envelope.svg" uk-svg="" alt="Message"/></a>
         </div>
         <div className="footer-items-wrap" style={{gridTemplateColumns: 'repeat(2, 1fr)'}}>
           <div>
@@ -33,12 +33,13 @@ const Footer = () => {
                   D-90574</p>
             </div>
           </div>
-    
+
         </div>
         <div className="footer-logo">
-          <div>
-
-          </div>
+          <div><img src="/assets/footer_1.svg" uk-svg="" /></div>
+          <div><img src="/assets/footer_2.svg" uk-svg="" /></div>
+          <div><img src="/assets/footer_3.svg" uk-svg="" /></div>
+          <div><img src="/assets/footer_4.svg" uk-svg="" /></div>
         </div>
       </div>
     </footer>

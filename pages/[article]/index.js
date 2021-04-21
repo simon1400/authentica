@@ -1,5 +1,19 @@
 import Page from '../../layout/Page'
 
+import { sanityStaticProps, useSanityQuery, PortableText, imageUrlBuilder } from "../../lib/sanity";
+
+const urlFor = source => imageUrlBuilder.image(source)
+
+const query = (local, url) => {
+  return `*[_type == 'article'] {
+    "content": content.${local}
+  }[0]`
+};
+
+export const getServerSideProps = async (context) => ({
+  props: await sanityStaticProps({context, query: query(context.locale, context.math)})
+})
+
 const Article = () => {
   return(
     <Page title="Article" head="Váš příběh, naše know how, účinná strategie." logoHead="/assets/authentica-logo.svg">

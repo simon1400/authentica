@@ -15,6 +15,17 @@
   }
 }
 
+.video-bg{
+  position: relative;
+  overflow: hidden;
+  iframe{
+    position: absolute;
+    top: -10%;
+    height: 120%;
+    pointer-events: none;
+  }
+}
+
 .header-top{
   display: -webkit-flex;
   display: -ms-flex;
@@ -126,6 +137,7 @@ section{
     align-items: center;
     .sec-logo-partner{
       height: 50px;
+      width: auto;
       margin-bottom: 30px;
     }
     .button{
@@ -304,6 +316,15 @@ section{
       }
     }
   }
+}
+
+.footer-logo{
+  padding-top: 150px;
+  width: 100%;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  justify-content: space-between;
 }
 
 

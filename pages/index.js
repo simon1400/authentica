@@ -4,151 +4,83 @@ import CountUp from 'react-countup';
 
 import handleViewport from 'react-in-viewport';
 
-const Block = handleViewport(({ inViewport, forwardedRef, startCount, setStartCount }) => {
+import { sanityStaticProps, useSanityQuery, PortableText, imageUrlBuilder } from "../lib/sanity";
 
-  if(inViewport){
-    setStartCount(true)
-  }
+const urlFor = source => imageUrlBuilder.image(source)
 
+const query = (local) => {
+  return `*[_type == 'homepage'] {
+    "content": content.${local}
+  }[0]`
+};
 
-  return(
-      <div className="uk-grid uk-child-width-auto" uk-parallax="x: 50vw, -50vw" uk-grid="" ref={forwardedRef}>
-      <div className="numer-item">
-        {startCount && <CountUp
-          start={0}
-          end={18}
-          duration={2}
-          useEasing={true}
-          useGrouping={true}
-          redraw={true}
-        />}
-        <p>let odborné práce</p>
-      </div>
-      <div className="numer-item">
-        <span>{startCount && <CountUp
-          start={0}
-          end={15}
-          duration={2}
-          useEasing={true}
-          useGrouping={true}
-          redraw={true}
-        />}tis</span>
-        <p>uspěšných projektů ročně</p>
-      </div>
-      <div className="numer-item">
-        {startCount && <CountUp
-          start={0}
-          end={250}
-          duration={2}
-          useEasing={true}
-          useGrouping={true}
-          redraw={true}
-        />}
-        <p>spokojených zaměstnců</p>
-      </div>
-      <div className="numer-item">
-        {startCount && <CountUp
-          start={0}
-          end={3}
-          duration={2}
-          useEasing={true}
-          useGrouping={true}
-          redraw={true}
-        />}
-        <p>pobočky v evropě</p>
-      </div>
-      <div className="numer-item">
-        {startCount && <CountUp
-          start={0}
-          end={74}
-          duration={2}
-          useEasing={true}
-          useGrouping={true}
-          redraw={true}
-        />}
-        <p>prestižních ocenění</p>
-      </div>
-    </div>
-  )
+export const getServerSideProps = async (context) => ({
+  props: await sanityStaticProps({context, query: query(context.locale)})
 })
 
- const Home = () => {
+const Home = (props) => {
 
-   const [startCount, setStartCount] = useState(false)
+  var { data, loading, error } = useSanityQuery(query, props);
+  const [startCount, setStartCount] = useState(false)
+  data = data.content
 
   return (
-    <Page title="Homepage" head="Nechte prostor vyprávět váš příběh.">
-      <section className="video-bg">
-        <video src="/assets/top-video.mp4" loop muted playsInline uk-video="autoplay: inview"></video>
-      </section>
+    <Page title="Homepage" head={data.title}>
+      {!!data.media.video && <section className="video-bg">
+          <iframe width="100%" src={`https://www.youtube.com/embed/${data.media.video}?controls=0&showinfo=0&autohide=1&modestbranding=1&autoplay=1&mute=1&loop=1`} frameBorder="0" allow='autoplay; encrypted-media' allowFullScreen></iframe>
+          {/*<video src="https://youtu.be/Znm9UlsFm5k" loop muted playsInline uk-video="autoplay: inview"></video>*/}
+        </section>}
+
+      {!!data.media.image && <section className="sec-center">
+          <img src={urlFor(data.media.image).url()} alt="" />
+          <div className="uk-overlay-primary uk-position-cover sec-info">
+            {/*<div className="uk-container">
+              <div className="uk-width-2-3">
+                <img className="uk-svg sec-logo-partner" src={urlFor(item.logo)} uk-svg="" alt="logo"/>
+                <PortableText blocks={item.content} />
+                <a href="/" className="button bare"><span>{item.button.name}</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>
+              </div>
+            </div>*/}
+          </div>
+        </section>}
+
       <section className="sec-center">
         <div className="uk-container">
           <div className="big-sec">
             <div>
-              <p>Dopřejte vašim zákazníkům unikátní vizuální zážitek, spolehněte se na práci profesionálů a starosti s realizací nechte na nás.</p>
+              <PortableText blocks={data.content} />
             </div>
-            <button className="button">O NÁS <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></button>
+            <button className="button">{data.button.name} <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></button>
           </div>
         </div>
       </section>
-      <section className="sec-center">
-        <img src="/assets/sec-1.jpg" alt="" />
+
+      {data.firmArr.map((item, index) => <section key={index} className="sec-center">
+        <img src={urlFor(item.background).url()} alt="" />
         <div className="uk-overlay-primary uk-position-cover sec-info">
           <div className="uk-container">
             <div className="uk-width-2-3">
-              <img className="uk-svg sec-logo-partner" src="/assets/authentica-logo.svg" uk-svg="" alt="logo"/>
-              <p>Pomáháme společnostem předat jejich vizuální sdělení, která nezůstanou bez povšimnutí. Spolupracujeme s řadou světových i domácích značek, které s naší pomocí vyčnívají z davu.</p>
-              <a href="/" className="button bare"><span>více o authentica</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="sec-center">
-        <img src="/assets/sec-2.jpg" alt="" />
-        <div className="uk-overlay-primary uk-position-cover sec-info">
-          <div className="uk-container">
-            <div className="uk-width-2-3">
-              <img className="uk-svg sec-logo-partner" src="/assets/fulfullment-logo.svg" uk-svg="" alt="logo"/>
-              <p>Řekněte sbohem starostem s logistikou a svěřte své podnikání do rukou profesionálního Fulfillment centra. Nadstandardní služby, okamžitý přehled o stavu objednávek i osobní account manager jen pro vás.</p>
-              <a href="/" className="button bare"><span>více o Fulfillment</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>
-          </div>
-        </div>
-        </div>
-      </section>
-      <section className="sec-center">
-        <img src="/assets/sec-3.jpg" alt="" />
-        <div className="uk-overlay-primary uk-position-cover sec-info">
-          <div className="uk-container">
-            <div className="uk-width-2-3">
-              <img className="uk-svg sec-logo-partner" src="/assets/grd-servis-logo.svg" uk-svg="" alt="logo"/>
-              <p>Pod našima rukama se vize našich klientů stávají realitou. Naší doménou je papír a výrobky z něj, od osvědčených dodavatelů z celého světa.</p>
-              <a href="/" className="button bare"><span>více o GRD servis</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>
+              <img className="uk-svg sec-logo-partner" src={urlFor(item.logo)} uk-svg="" alt="logo"/>
+              <PortableText blocks={item.content} />
+              <a href="/" className="button bare"><span>{item.button.name}</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>
             </div>
           </div>
         </div>
-      </section>
-      <section className="sec-center">
-        <img src="/assets/sec-4.jpg" alt="" />
-        <div className="uk-overlay-primary uk-position-cover sec-info">
-          <div className="uk-container">
-            <div className="uk-width-2-3">
-              <img className="uk-svg sec-logo-partner" src="/assets/craftwork-logo.svg" uk-svg="" alt="logo"/>
-              <p>Dáváme šanci lidem se zdravotním hendikepem se plnohodnotně zapojit na trhu práce. Pro naše klienty vyrábíme a skládáme obaly, šijeme, kompletujeme a poskytujeme firmám náhradní plnění.</p>
-              <a href="/" className="button bare"><span>více o Craftwork</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>
-          </div>
-        </div>
-        </div>
-      </section>
+      </section>)}
+
+
+
       <section className="sec-center">
         <div className="uk-width-expand">
           <div className="uk-container">
-            <h2>Naše úspěchy v číslech.</h2>
+            <h2>{data.secSuccess.title}</h2>
           </div>
           <div className="numbers">
-            <Block startCount={startCount} setStartCount={setStartCount} />
+            <Block startCount={startCount} setStartCount={setStartCount} data={data.secSuccess.chapters} />
           </div>
         </div>
       </section>
+
       <section className="partners partners-video">
         <div className="partners-logo-wrap">
           <div className="partners-video">
@@ -156,26 +88,11 @@ const Block = handleViewport(({ inViewport, forwardedRef, startCount, setStartCo
           </div>
           <div className="partners-wrap">
             <div className="uk-container">
-              <h2>Naši spokojení klienti, kteří nám pravidelně svěřují svou důvěru.</h2>
+              <h2>{data.partners.title}</h2>
               <div className="partners-items">
-                <div className="partners-item">
-                  <img className="uk-svg" src="/assets/partners-logo/1.svg" uk-svg="" alt="logo-partners"/>
-                </div>
-                <div className="partners-item">
-                  <img className="uk-svg" src="/assets/partners-logo/2.svg" uk-svg="" alt="logo-partners"/>
-                </div>
-                <div className="partners-item">
-                  <img className="uk-svg" src="/assets/partners-logo/3.svg" uk-svg="" alt="logo-partners"/>
-                </div>
-                <div className="partners-item">
-                  <img className="uk-svg" src="/assets/partners-logo/4.svg" uk-svg="" alt="logo-partners"/>
-                </div>
-                <div className="partners-item">
-                  <img className="uk-svg" src="/assets/partners-logo/5.svg" uk-svg="" alt="logo-partners"/>
-                </div>
-                <div className="partners-item">
-                  <img className="uk-svg" src="/assets/partners-logo/6.svg" uk-svg="" alt="logo-partners"/>
-                </div>
+                {data.partners.logo.map((item, index) => <div key={index} className="partners-item">
+                  <img className="uk-svg" src={urlFor(item).url()} uk-svg="" alt="logo-partners"/>
+                </div>)}
               </div>
             </div>
           </div>
@@ -184,5 +101,28 @@ const Block = handleViewport(({ inViewport, forwardedRef, startCount, setStartCo
     </Page>
   )
 }
+
+const Block = handleViewport(({ inViewport, forwardedRef, startCount, setStartCount, data }) => {
+
+  if(inViewport){
+    setStartCount(true)
+  }
+
+  return(
+    <div className="uk-grid uk-child-width-auto" uk-parallax="x: 50vw, -50vw" uk-grid="" ref={forwardedRef}>
+      {data.map((item, index) => <div key={index} className="numer-item">
+        {startCount && <CountUp
+          start={0}
+          end={parseInt(item.number)}
+          duration={2}
+          useEasing={true}
+          useGrouping={true}
+          redraw={true}
+        />}
+        <p>{item.title}</p>
+      </div>)}
+    </div>
+  )
+})
 
 export default Home
