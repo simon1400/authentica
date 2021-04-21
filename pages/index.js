@@ -10,7 +10,8 @@ const urlFor = source => imageUrlBuilder.image(source)
 
 const query = (local) => {
   return `*[_type == 'homepage'] {
-    "content": content.${local}
+    "content": content.${local},
+    "videoFiles": content.cs.media.videoFile.asset->url
   }[0]`
 };
 
@@ -22,17 +23,17 @@ const Home = (props) => {
 
   var { data, loading, error } = useSanityQuery(query, props);
   const [startCount, setStartCount] = useState(false)
-  data = data.content
+  const content = data.content
 
   return (
-    <Page title="Homepage" head={data.title}>
-      {!!data.media.video && <section className="video-bg">
-          <iframe width="100%" src={`https://www.youtube.com/embed/${data.media.video}?controls=0&showinfo=0&autohide=1&modestbranding=1&autoplay=1&mute=1&loop=1`} frameBorder="0" allow='accelerometer; autoplay; picture-in-picture; encrypted-media; gyroscope;' allowFullScreen></iframe>
-          {/*<video src="https://youtu.be/Znm9UlsFm5k" loop muted playsInline uk-video="autoplay: inview"></video>*/}
+    <Page title="Homepage" head={content.title}>
+      {!!content.media.video && <section className="video-bg">
+          {/*<iframe width="100%" src={`https://www.youtube.com/embed/${data.media.video}?controls=0&showinfo=0&autohide=1&modestbranding=1&autoplay=1&mute=1&loop=1`} frameBorder="0" allow='accelerometer; autoplay; picture-in-picture; encrypted-media; gyroscope;' allowFullScreen></iframe>*/}
+          <video src={data.videoFiles} loop muted playsInline uk-video="autoplay: inview"></video>
         </section>}
 
-      {!!data.media.image && <section className="sec-center">
-          <img src={urlFor(data.media.image).url()} alt="" />
+      {!!content.media.image && <section className="sec-center">
+          <img src={urlFor(content.media.image).url()} alt="" />
           <div className="uk-overlay-primary uk-position-cover sec-info">
             {/*<div className="uk-container">
               <div className="uk-width-2-3">
@@ -48,14 +49,14 @@ const Home = (props) => {
         <div className="uk-container">
           <div className="big-sec">
             <div>
-              <PortableText blocks={data.content} />
+              <PortableText blocks={content.content} />
             </div>
-            <button className="button">{data.button.name} <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></button>
+            <button className="button">{content.button.name} <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></button>
           </div>
         </div>
       </section>
 
-      {data.firmArr.map((item, index) => <section key={index} className="sec-center">
+      {content.firmArr.map((item, index) => <section key={index} className="sec-center">
         <img src={urlFor(item.background).url()} alt="" />
         <div className="uk-overlay-primary uk-position-cover sec-info">
           <div className="uk-container">
@@ -72,10 +73,10 @@ const Home = (props) => {
       <section className="sec-center">
         <div className="uk-width-expand">
           <div className="uk-container">
-            <h2>{data.secSuccess.title}</h2>
+            <h2>{content.secSuccess.title}</h2>
           </div>
           <div className="numbers">
-            <Block startCount={startCount} setStartCount={setStartCount} data={data.secSuccess.chapters} />
+            <Block startCount={startCount} setStartCount={setStartCount} data={content.secSuccess.chapters} />
           </div>
         </div>
       </section>
@@ -87,9 +88,9 @@ const Home = (props) => {
           </div>
           <div className="partners-wrap">
             <div className="uk-container">
-              <h2>{data.partners.title}</h2>
+              <h2>{content.partners.title}</h2>
               <div className="partners-items">
-                {data.partners.logo.map((item, index) => <div key={index} className="partners-item">
+                {content.partners.logo.map((item, index) => <div key={index} className="partners-item">
                   <img className="uk-svg" src={urlFor(item).url()} uk-svg="" alt="logo-partners"/>
                 </div>)}
               </div>
