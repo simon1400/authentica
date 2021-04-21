@@ -20,7 +20,7 @@ const Header = ({
             <a className="logo-wrap"><img className="uk-svg" src="/assets/authentica-group-logo.svg" alt="Authentica" uk-svg=""/></a>
           </Link>
           <div className="control-header">
-            <div className="lang-wrap">
+            <div className="lang-wrap uk-visible@s">
               <ul>
                 <li><a href="/">cz</a></li>
                 <li><a href="/">en</a></li>
@@ -28,7 +28,7 @@ const Header = ({
               </ul>
             </div>
             <div className="control-menu" onClick={() => toggleMenu()}>
-              <span>Menu</span>
+              <span className="uk-visible@s">Menu</span>
               <button className={`hamburger hamburger--collapse${menu ? ' is-active' : ''}`}>
                 <span className="hamburger-box">
                   <span className="hamburger-inner"></span>

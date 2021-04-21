@@ -27,7 +27,7 @@ const Home = (props) => {
   return (
     <Page title="Homepage" head={data.title}>
       {!!data.media.video && <section className="video-bg">
-          <iframe width="100%" src={`https://www.youtube.com/embed/${data.media.video}?controls=0&showinfo=0&autohide=1&modestbranding=1&autoplay=1&mute=1&loop=1`} frameBorder="0" allow='autoplay; encrypted-media' allowFullScreen></iframe>
+          <iframe width="100%" src={`https://www.youtube.com/embed/${data.media.video}?controls=0&showinfo=0&autohide=1&modestbranding=1&autoplay=1&mute=1&loop=1`} frameBorder="0" allow='accelerometer; autoplay; picture-in-picture; encrypted-media; gyroscope;' allowFullScreen></iframe>
           {/*<video src="https://youtu.be/Znm9UlsFm5k" loop muted playsInline uk-video="autoplay: inview"></video>*/}
         </section>}
 
@@ -59,7 +59,7 @@ const Home = (props) => {
         <img src={urlFor(item.background).url()} alt="" />
         <div className="uk-overlay-primary uk-position-cover sec-info">
           <div className="uk-container">
-            <div className="uk-width-2-3">
+            <div className="uk-width-1-1 uk-width-2-3@s">
               <img className="uk-svg sec-logo-partner" src={urlFor(item.logo)} uk-svg="" alt="logo"/>
               <PortableText blocks={item.content} />
               <a href="/" className="button bare"><span>{item.button.name}</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>
@@ -67,7 +67,6 @@ const Home = (props) => {
           </div>
         </div>
       </section>)}
-
 
 
       <section className="sec-center">
@@ -109,12 +108,12 @@ const Block = handleViewport(({ inViewport, forwardedRef, startCount, setStartCo
   }
 
   return(
-    <div className="uk-grid uk-child-width-auto" uk-parallax="x: 50vw, -50vw" uk-grid="" ref={forwardedRef}>
+    <div className="uk-grid uk-child-width-1-1 uk-child-width-auto@s" uk-parallax="x: 50vw, -50vw; media: @s" uk-grid="" ref={forwardedRef}>
       {data.map((item, index) => <div key={index} className="numer-item">
         {startCount && <CountUp
           start={0}
           end={parseInt(item.number)}
-          duration={2}
+          duration={4}
           useEasing={true}
           useGrouping={true}
           redraw={true}

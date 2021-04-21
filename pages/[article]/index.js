@@ -35,7 +35,7 @@ const Article = () => {
           <h2>Poznejte naši práci</h2>
         </div>
         <div className="uk-container uk-container-large">
-          <div className="uk-grid uk-child-width-1-2" uk-grid="">
+          <div className="uk-grid uk-child-width-1-1 uk-child-width-1-2@s" uk-grid="">
             <div className="article-info">
               <img src="/assets/sec-1.jpg" alt="Article info" />
             </div>
