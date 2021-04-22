@@ -1,14 +1,20 @@
 import Link from 'next/link'
 import {useState, useEffect} from 'react'
 import { useRouter } from 'next/router'
-
 import sanityClient from "../../lib/sanity";
+import imageUrlBuilder from "@sanity/image-url";
+const imageBuilder = imageUrlBuilder(sanityClient);
+const urlFor = source => imageBuilder.image(source)
 
-const query = (local) => {
-  return `*[_type == 'nav']{
-    "topNav": content.${local}.topNav,
-    "secNav": content.${local}.secNav
-  }[0]`
+const navQuery = (local) => {
+  return `*[_type == 'nav'].content.${local} {
+    "titleTopNav": topNav[].title,
+    "linksTopNav": *[_type in ["article", "jobOff", "category"] && _id in ^.topNav[].link._ref].content.${local}.slug.current,
+    "typesTopNav": *[_type in ["article", "jobOff", "category"] && _id in ^.topNav[].link._ref]._type,
+    "titleSecNav": secNav[].title,
+    "linksSecNav": *[_type in ["article", "jobOff", "category"] && _id in ^.secNav[].link._ref].content.${local}.slug.current,
+    "typesSecNav": *[_type in ["article", "jobOff", "category"] && _id in ^.secNav[].link._ref]._type
+  }`
 };
 
 const Header = ({
@@ -24,17 +30,26 @@ const Header = ({
   const [secNav, setSecNav] = useState([])
 
   useEffect(async () => {
-    const nav = await sanityClient.fetch(query(router.locale))
-    setTopNav(nav.topNav)
-    setSecNav(nav.secNav)
+    const nav = await sanityClient.fetch(navQuery(router.locale))
+    const topNavData = nav[0].titleTopNav.map((item, index) => {
+      return {
+        title: item,
+        link: `${nav[0].typesTopNav[index] === 'jobOff' ? '/pozice' : ''}/${nav[0].linksTopNav[index]}`,
+      }
+    })
+    const secNavData = nav[0].titleSecNav.map((item, index) => {
+      return {
+        title: item,
+        link: `${nav[0].typesSecNav[index] === 'jobOff' ? '/pozice' : ''}/${nav[0].linksSecNav[index]}`
+      }
+    })
+    setTopNav(topNavData)
+    setSecNav(secNavData)
   }, [])
 
   const toggleMenu = () => {
     setMenu(!menu)
   }
-
-  console.log(topNav);
-  console.log(secNav);
 
   return (
     <header className={heightAuto ? 'height-auto' : ''}>
@@ -66,7 +81,7 @@ const Header = ({
       </div>
       <div className="header-content">
         <div className="uk-container">
-          {!!logoHead && <img className="uk-svg" src={logoHead} uk-svg="" alt="Logo article"/>}
+          {!!logoHead && <img className="uk-svg" src={urlFor(logoHead).url()} uk-svg="" alt="Logo article"/>}
           <h1>{head}</h1>
         </div>
       </div>
@@ -75,10 +90,10 @@ const Header = ({
           <nav>
             <div>
               <ul className="topNav">
-                {topNav.map((item, index) => <li key={index}><a href="/">{item.title}</a></li>)}
+                {topNav.map((item, index) => <li key={index}><a href={item.link}>{item.title}</a></li>)}
               </ul>
               <ul className="secNav">
-                {secNav.map((item, index) => <li key={index}><a href="/">{item.title}</a></li>)}
+                {secNav.map((item, index) => <li key={index}><a href={item.link}>{item.title}</a></li>)}
               </ul>
             </div>
           </nav>

@@ -1,45 +1,54 @@
+import {useState, useEffect} from 'react'
+import { useRouter } from 'next/router'
+import sanityClient from "../../lib/sanity";
+import imageUrlBuilder from "@sanity/image-url";
+const imageBuilder = imageUrlBuilder(sanityClient);
+const urlFor = source => imageBuilder.image(source)
+import BlockContent from "@sanity/block-content-to-react";
+
+const query = (local) => {
+  return `*[_type == 'footer'].content.${local}{
+    title,
+    addreses,
+    logos,
+    button
+  }`
+};
+
+
 const Footer = () => {
+
+  const router = useRouter()
+  const [footer, setFooter] = useState({})
+
+  useEffect(async () => {
+    const footer = await sanityClient.fetch(query(router.locale))
+    setFooter(footer[0])
+  }, [])
+
+  if(!footer.title){
+    return ''
+  }
+
   return (
     <footer>
       <div className="uk-container">
         <div className="big-sec">
           <div>
-            <h2>Chcete se o našich službách dozvědět víc? Ozvěte se nám!</h2>
+            <h2>{footer.title}</h2>
           </div>
-          <a className="button">info@authentica.cz <img className="uk-svg" src="/assets/envelope.svg" uk-svg="" alt="Message"/></a>
+          <a href={`mailto:${footer.button.exterLink}`} className="button">{footer.button.name} <img className="uk-svg" src="/assets/envelope.svg" uk-svg="" alt="Message"/></a>
         </div>
-        <div className="footer-items-wrap" style={{gridTemplateColumns: 'repeat(2, 1fr)'}}>
-          <div>
+        <div className="footer-items-wrap" style={{gridTemplateColumns: `repeat(${footer.addreses.length < 4 ? footer.addreses.length : '4'}, 1fr)`}}>
+          {footer.addreses.map((item, index) => <div key={index}>
             <div className="footer-item">
-              <h3>Česko</h3>
-              <p><a href="/">+420 548 217 991</a> <br/>
-                  <a href="/">authentica@authentica.cz</a></p>
-
-              <p>Authentica group, s.r.o.</p>
-              <p>Lazaretní 7<br/>
-                  Brno<br/>
-                  CZ-615 00</p>
+              <h3>{item.title}</h3>
+              <BlockContent blocks={item.content} />
             </div>
-          </div>
-          <div>
-            <div className="footer-item">
-              <h3>Německo</h3>
-              <p><a href="/">+49 160 96636575</a> <br/>
-                  <a href="/">authentica@authentica.cz</a></p>
-
-              <p>Authentica group, s.r.o.</p>
-              <p>Felsenstraße 36<br/>
-                  Roßtal<br/>
-                  D-90574</p>
-            </div>
-          </div>
-
+          </div>)}
         </div>
         <div className="footer-logo">
-          <div><img src="/assets/footer_1.svg" uk-svg="" /></div>
-          <div><img src="/assets/footer_2.svg" uk-svg="" /></div>
-          <div><img src="/assets/footer_3.svg" uk-svg="" /></div>
-          <div><img src="/assets/footer_4.svg" uk-svg="" /></div>
+          {footer.logos.map((item, index) => <a href={item.button?.exterLink} key={index}><img src={urlFor(item.image).url()} uk-svg="" /></a>)}
         </div>
       </div>
     </footer>

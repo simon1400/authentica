@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
-// import sanityClient from "../lib/sanity.js";
-// import { DataStateContext } from '../context/dataStateContext'
-// import query from '../queries/page'
+import sanityClient from "../../lib/sanity.js";
+
+const query = (local) => `*[_type == 'settings'].content.${local}`;
 
 import Header from '../Header'
 import Footer from '../Footer'
@@ -25,7 +25,9 @@ const Page = ({
   head,
   logoHead,
   tags,
-  heightAuto
+  heightAuto,
+  ogTitle = '',
+  ogDescription = ''
 }) => {
 
   const router = useRouter()
@@ -36,19 +38,21 @@ const Page = ({
     defaultDescription: 'Authentica',
     defaultImage: `${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://authentica.cz'}`,
     defaultTwitter: '@cereallarceny',
-    defaultSep: ' '
+    defaultSep: ' ',
+    gtm: '',
+    std: {}
   })
 
-  // const { dataContextState } = useContext(DataStateContext)
-
-  // useEffect(() => {
-  //   sanityClient.fetch(query).then(res => {
-  //     setGlobal({
-  //       ...global,
-  //       defaultTitle: res[1].endTitle || 'HUROM'
-  //     })
-  //   })
-  // }, [])
+  useEffect(() => {
+    sanityClient.fetch(query(router.locale)).then(res => {
+      setGlobal({
+        ...global,
+        defaultTitle: res[0].endTitle || 'AUTHENTICA',
+        gtm: res[0].gtm || '',
+        std: res[0].std || ''
+      })
+    })
+  }, [])
 
   const theTitle = title ? (title + global.defaultSep + global.defaultTitle).substring(0, 60) : global.defaultTitle;
   const theDescription = description ? description.substring(0, 155) : global.defaultDescription;
@@ -58,6 +62,15 @@ const Page = ({
   return (
     <div>
       <Head>
+
+        {/*<!-- Google Tag Manager -->*/}
+        {global?.gtm && <script dangerouslySetInnerHTML={{__html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','${global?.gtm}');`}} />}
+        {/*<!-- End Google Tag Manager -->*/}
+
         <meta charSet="utf-8" />
 
         {/* FAVICON */}
@@ -69,10 +82,9 @@ const Page = ({
         <link rel="manifest" href="/favicon/site.webmanifest" />
 
         <meta name="msapplication-TileColor" content="#ffffff" />
-        <meta name="theme-color" content="#80bd01" />
+        <meta name="theme-color" content="#000" />
 
         {/* FONTY */}
-        {/*<link rel="stylesheet preload prefetch" href="/fonts.css" as="style" type="text/css" crossOrigin="anonymous" />*/}
         <link rel="stylesheet preload prefetch" href="https://use.typekit.net/vpe5tmu.css" as="style" type="text/css" crossOrigin="anonymous" />
 
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -88,11 +100,11 @@ const Page = ({
         <meta name="twitter:description" content={theDescription} />
         <meta name="twitter:creator" content={twitter || global.defaultTwitter} />
         <meta name="twitter:image:src" content={theImage} />*/}
-        <meta property="og:title" content={theTitle} />
+        <meta property="og:title" content={ogTitle || theTitle} />
         <meta property="og:type" content={contentType || 'website'} />
         <meta property="og:url" content={global.site_url+router.asPath} />
         <meta property="og:image" content={theImage} />
-        <meta property="og:description" content={theDescription} />
+        <meta property="og:description" content={ogDescription || theDescription} />
         <meta property="og:site_name" content="HUROM" />
         <meta property="fb:app_id" content={global.facebook_app_id} />
 
@@ -102,6 +114,11 @@ const Page = ({
         {noCrawl && <meta name="robots" content="noindex, nofollow" />}
         {tags && <meta name="article:tag" content={tags} />}
       </Head>
+
+      {/*<!-- Google Tag Manager (noscript) -->*/}
+      <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${global?.gtm || 'GTM-KH5BW7W'}`}
+      height="0" width="0" style={{display:'none', visibility:'hidden'}}></iframe></noscript>
+      {/*<!-- End Google Tag Manager (noscript) -->*/}
 
       <Header  head={head} logoHead={logoHead} heightAuto={heightAuto} />
       <main id={id} className={className}>{children}</main>

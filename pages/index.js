@@ -4,44 +4,101 @@ import CountUp from 'react-countup';
 
 import handleViewport from 'react-in-viewport';
 
-import { sanityStaticProps, useSanityQuery, PortableText, imageUrlBuilder } from "../lib/sanityNext";
+import sanityClient from "../lib/sanity";
+import imageUrlBuilder from "@sanity/image-url";
+import BlockContent from "@sanity/block-content-to-react";
 
-const urlFor = source => imageUrlBuilder.image(source)
+const imageBuilder = imageUrlBuilder(sanityClient);
+const urlFor = source => imageBuilder.image(source)
 
-const query = (local) => {
-  return `*[_type == 'homepage'] {
-    "content": content.${local},
-    "videoFiles": content.cs.media.videoFile.asset->url
-  }[0]`
-};
+export async function getStaticProps({params, locale}) {
 
-export const getServerSideProps = async (context) => ({
-  props: await sanityStaticProps({context, query: query(context.locale)})
-})
+  const query = `*[_type == 'homepage'][0].content.${locale} {
+    title,
+    meta,
+    media,
+    button,
+    "linkButton": *[_type in ['article', 'jobOff'] && _id in [^.button.link._ref]]{
+      "slug": content.${locale}.slug.current,
+      "type": _type
+    }[0],
+    firmArr,
+    secSuccess,
+    partners,
+    content
+  }`
 
-const Home = (props) => {
+  const data = await sanityClient.fetch(query)
 
-  var { data, loading, error } = useSanityQuery(query, props);
+  const linksArr = []
+  for(var i = 0; i < data.firmArr.length; i++){
+    if(data.firmArr[i].button.link){
+      linksArr.push(data.firmArr[i].button.link._ref)
+    }else{
+      linksArr.push('-')
+    }
+
+  }
+
+  const queryLinks = `*[_type in ['article', 'jobOff'] && _id in [${linksArr.map(item => `"${item}"`)}]]{
+    _id,
+    _type,
+    "slug": content.${locale}.slug.current
+  }`
+
+  const links = await sanityClient.fetch(queryLinks)
+
+  for(var i = 0; i < data.firmArr.length; i++){
+    for(var a = 0; a < links.length; a++){
+      if(data.firmArr[i].button.link?._ref == links[a]._id){
+        data.firmArr[i].button.link = `${links[a]._type === 'article' ? '' : '/pozice'}/${links[a].slug}`
+      }
+    }
+  }
+
+  return {
+    props: {
+      data
+    }
+  }
+}
+
+const Home = ({data, linksArr, links}) => {
+
   const [startCount, setStartCount] = useState(false)
-  const content = data.content
+
+  const content = data
+
+  console.log(data);
 
   return (
-    <Page title="Homepage" head={content.title} heightAuto={!data.videoFiles && !content.media.iamge}>
-      {!!data.videoFiles && <section className="video-bg">
-        <video src={data.videoFiles} loop muted playsInline uk-video="autoplay: inview"></video>
-      </section>}
+    <Page
+      title={content.meta.title}
+      description={data.meta.description}
+      image={urlFor(data.meta.image).url()}
+      ogTitle={data.meta.ogTitle}
+      ogDescription={data.meta.ogDescription}
+      head={content.title}
+      heightAuto={!data.videoFile && !content.media.iamge}
+    >
+      <section className="video-bg">
+        <video src="/assets/top-video.mp4" loop muted playsInline uk-video="autoplay: inview"></video>
+      </section>
+      {/*{!!data.videoFile && <section className="video-bg">
+        <video src={data.videoFile} loop muted playsInline uk-video="autoplay: inview"></video>
+      </section>}*/}
 
-      {!!content.media.iamge && !data.videoFiles && <section className="sec-center">
-          <img src={urlFor(content.media.iamge).url()} alt="" />
-        </section>}
+      {/*{!!content.media?.iamge && !data.videoFile && <section className="sec-center">
+        <img src={urlFor(content.media.iamge).url()} alt="" />
+      </section>}*/}
 
       <section className="sec-center sec-min">
         <div className="uk-container">
           <div className="big-sec">
             <div>
-              <PortableText blocks={content.content} />
+              <BlockContent blocks={content.content} />
             </div>
-            <button className="button">{content.button.name} <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></button>
+            <a href={`${content.linkButton.type === 'article' ? '' : '/pozice'}/${content.linkButton.slug}`} className="button">{content.button?.name} <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>
           </div>
         </div>
       </section>
@@ -52,8 +109,8 @@ const Home = (props) => {
           <div className="uk-container">
             <div className="uk-width-1-1 uk-width-2-3@s">
               <img className="uk-svg sec-logo-partner" src={urlFor(item.logo)} uk-svg="" alt="logo"/>
-              <PortableText blocks={item.content} />
-              <a href="/" className="button bare"><span>{item.button.name}</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>
+              <BlockContent blocks={item.content} />
+              {(!!item.button.link && !!item.button.name) && <a href={item.button.link} className="button bare"><span>{item.button.name}</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>}
             </div>
           </div>
         </div>

@@ -295,7 +295,7 @@ section{
     margin-bottom: 150px!important;
   }
   p{
-    margin-top: 150px;
+    // margin-top: 150px;
   }
 }
 
@@ -368,7 +368,9 @@ section{
     }
   }
 }
-
+.mr-top{
+  margin-top: 190px;
+}
 .footer-logo{
   padding-top: 150px;
   width: 100%;
@@ -376,6 +378,12 @@ section{
   display: -ms-flex;
   display: flex;
   justify-content: space-between;
+  a{
+    color: black;
+    &:hover{
+      color: black;
+    }
+  }
 }
 
 .height-auto{
