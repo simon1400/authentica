@@ -25,11 +25,11 @@ const Article = ({content}) => {
 
   return(
     <Page
-      title={content.meta.title}
-      description={content.meta.description}
-      image={urlFor(content.meta.image).url()}
-      ogTitle={content.meta.ogTitle}
-      ogDescription={content.meta.ogDescription}
+      title={content.meta?.title}
+      description={content.meta?.description}
+      image={urlFor(content.meta?.image).url()}
+      ogTitle={content.meta?.ogTitle}
+      ogDescription={content.meta?.ogDescription}
       head={content.title}
       logoHead={content.logo}
     >
@@ -40,19 +40,21 @@ const Article = ({content}) => {
         <div className="uk-container">
           <div className="big-sec">
             <BlockContent blocks={content.content} />
-            <button className="button">{content.button.name} <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></button>
+            <button className="button">{content.button?.name} <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></button>
           </div>
         </div>
       </section>
 
-      {content.chapters.map((item, index) => <section key={index} className="sec-auto article-sec">
+      {!!content.chapters?.length && content.chapters.map((item, index) => <section key={index} className="sec-auto article-sec">
         {!!item.title && <div className="uk-container">
           <h2>{item.title}</h2>
         </div>}
         {!!item.images?.length && <div className="uk-container uk-container-large">
-          <div className={`uk-grid uk-child-width-1-1 uk-child-width-1-${item.images.length < 4 ? item.images.length : '4'}@s`} uk-grid="">
-            {item.images.map((image, indexImage) => <div key={indexImage} className="article-info">
-              <img src={urlFor(image).url()} alt="Article info" />
+          <div className={`uk-grid uk-child-width-1-1 uk-child-width-1-${item.images.length < 3 ? item.images.length : '3'}@s`} uk-grid="">
+            {item.images.map((image, indexImage) => <div key={indexImage}>
+              <div className={`article-info ${item.images.length > 1 ? 'square-img' : ''}`}>
+                <img src={urlFor(image).url()} alt="Article info" />
+              </div>
             </div>)}
           </div>
         </div>}
@@ -61,20 +63,27 @@ const Article = ({content}) => {
         </div>}
       </section>)}
 
-      <section className="partners without-video">
+      {content.partners?.logo.length && <section className="partners without-video">
         <div className="uk-container">
-          <h2>{content.partners.title}</h2>
+          <h2>{content.partners?.title}</h2>
         </div>
         <div className="partners-wrap">
           <div className="uk-container">
             <div className="partners-items">
-              {content.partners.logo.map((item, index) => <div key={index} className="partners-item">
-                <img className="uk-svg" src={urlFor(item).url()} uk-svg="" alt="logo-partners"/>
-              </div>)}
+              {content.partners?.logo.map((item, index) => {
+                if(index < 6){
+                  return(
+                    <div key={index} className="partners-item">
+                      <img className="uk-svg" src={urlFor(item).url()} uk-svg="" alt="logo-partners"/>
+                    </div>
+                  )
+                }
+                return ''
+              })}
             </div>
           </div>
         </div>
-      </section>
+      </section>}
     </Page>
   )
 }

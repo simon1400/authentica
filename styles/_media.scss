@@ -48,12 +48,16 @@
     }
   }
   .sec-center{
+    max-height: none;
     h2{
       padding-top: 100px;
     }
     .numbers{
       margin-top: 30px;
       margin-bottom: 100px;
+      .uk-grid{
+        flex-wrap: wrap;
+      }
       .numer-item{
         text-align: left;
         display: -webkit-flex;
@@ -95,6 +99,7 @@
   }
   .partners.partners-video{
     min-height: auto;
+    max-height: none;
     .partners-logo-wrap{
       padding-top: 60px;
       padding-bottom: 60px;
@@ -122,6 +127,7 @@
   }
   .partners-items{
     grid-template-columns: repeat(2, 1fr);
+    gap: 80px;
     max-width: calc(100vw - 30px);
   }
 
@@ -191,6 +197,14 @@
     padding-bottom: 0;
   }
 
+  section .sec-info .button{
+    margin-top: 20px;
+  }
+
+  .mr-top{
+    margin-top: 30px;
+  }
+
   .uk-container{
     width: calc(100% - 30px)!important;
   }
@@ -214,6 +228,16 @@
     }
     .big-sec.small-text p{
       font-size: 16px;
+    }
+  }
+  .footer-item p{
+    font-size: 16px;
+    line-height: 22px;
+  }
+  footer{
+    h3{
+      font-size: 20px;
+      line-height: 35px;
     }
   }
 }

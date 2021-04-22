@@ -168,7 +168,7 @@ const Block = handleViewport(({ inViewport, forwardedRef, startCount, setStartCo
   }
 
   return(
-    <div className="uk-grid uk-child-width-1-1 uk-child-width-auto@s uk-flex-nowrap" uk-parallax="x: 40vw, -100vw; media: @s" uk-grid="" ref={forwardedRef}>
+    <div className="uk-grid uk-child-width-1-1 uk-child-width-auto@s" uk-parallax="x: 40vw, -100vw; media: @s" uk-grid="" ref={forwardedRef}>
       {data.map((item, index) => <div key={index} className="numer-item">
         {startCount && <CountUp
           start={0}
