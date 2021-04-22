@@ -10,6 +10,7 @@
   "dependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.13.12",
     "@sanity/client": "^2.8.0",
+    "@sanity/image-url": "^0.140.22",
     "hamburgers": "^1.1.3",
     "next": "10.1.2",
     "next-sanity-extra": "^0.2.3",

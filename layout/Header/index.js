@@ -33,6 +33,9 @@ const Header = ({
     setMenu(!menu)
   }
 
+  console.log(topNav);
+  console.log(secNav);
+
   return (
     <header className={heightAuto ? 'height-auto' : ''}>
       <div className={`header-fix${menu ? ' active' : ''}`}>
