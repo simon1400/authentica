@@ -1,5 +1,6 @@
 import Page from '../../layout/Page'
 import sanityClient from "../../lib/sanity";
+import imageUrlBuilder from "@sanity/image-url";
 
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
