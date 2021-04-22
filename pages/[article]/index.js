@@ -1,6 +1,6 @@
 import Page from '../../layout/Page'
 
-import { sanityStaticProps, useSanityQuery, PortableText, imageUrlBuilder } from "../../lib/sanity";
+import { sanityStaticProps, useSanityQuery, PortableText, imageUrlBuilder } from "../../lib/sanityNext";
 
 const urlFor = source => imageUrlBuilder.image(source)
 
@@ -20,7 +20,7 @@ const Article = () => {
       <section className="video-bg">
         <video src="/assets/top-video.mp4" loop muted playsInline uk-video="autoplay: inview"></video>
       </section>
-      <section className="sec-center">
+      <section className="sec-center sec-min">
         <div className="uk-container">
           <div className="big-sec">
             <div>

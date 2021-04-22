@@ -4,7 +4,7 @@ import CountUp from 'react-countup';
 
 import handleViewport from 'react-in-viewport';
 
-import { sanityStaticProps, useSanityQuery, PortableText, imageUrlBuilder } from "../lib/sanity";
+import { sanityStaticProps, useSanityQuery, PortableText, imageUrlBuilder } from "../lib/sanityNext";
 
 const urlFor = source => imageUrlBuilder.image(source)
 
@@ -45,7 +45,7 @@ const Home = (props) => {
           </div>
         </section>}
 
-      <section className="sec-center">
+      <section className="sec-center sec-min">
         <div className="uk-container">
           <div className="big-sec">
             <div>

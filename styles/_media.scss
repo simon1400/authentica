@@ -185,4 +185,38 @@
   .menu nav ul li a{
     font-size: 32px;
   }
+  .sec-min{
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  header{
+    .uk-container{
+      width: calc(100% - 30px);
+    }
+  }
+  .uk-container{
+    width: calc(100% - 30px);
+  }
+  .height-auto .header-content{
+    margin-top: 100px;
+    margin-bottom: 0;
+  }
+  .position-sec{
+    padding-top: 0;
+    padding-bottom: 0;
+    .big-sec{
+      padding-top: 50px;
+      padding-bottom: 50px;
+      .bare{
+        margin-left: 0;
+        margin-top: 30px;
+      }
+    }
+    h2{
+      padding-top: 0;
+    }
+    .big-sec.small-text p{
+      font-size: 16px;
+    }
+  }
 }

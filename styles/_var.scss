@@ -13,9 +13,12 @@ $text-small: 19px;
 
 $black: black;
 $white: white;
-
+html{
+  overflow-x: hidden;
+}
 body{
   font-family: $ff-name, sans-serif;
+  overflow-x: hidden;
   h1{
     font-weight: lighter;
     font-size: $head-1;
@@ -35,11 +38,38 @@ body{
     color: $white;
     line-height: 46px;
     font-weight: lighter;
+    a{
+      color: white;
+      &:hover{
+        color: white;
+      }
+    }
+    ul{
+      li{
+        list-style-type: none;
+        position: relative;
+        padding-left: 25px;
+        &:before{
+          content: '';
+          display: block;
+          width: 10px;
+          height: 1.5px;
+          background-color: #fff;
+          left: 0;
+          top: 23px;
+          position: absolute;
+        }
+      }
+    }
   }
   ul{
     margin: 0;
     padding: 0;
   }
+}
+
+.uk-container{
+  width: 100%;
 }
 
 @keyframes slidein {
@@ -145,6 +175,9 @@ section, header{
 
 header{
   height: 90vh;
+  .uk-container{
+    width: 100%;
+  }
 }
 
 video{

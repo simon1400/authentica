@@ -24,7 +24,8 @@ const Page = ({
   noCrawl,
   head,
   logoHead,
-  tags
+  tags,
+  heightAuto
 }) => {
 
   const router = useRouter()
@@ -102,7 +103,7 @@ const Page = ({
         {tags && <meta name="article:tag" content={tags} />}
       </Head>
 
-      <Header  head={head} logoHead={logoHead} />
+      <Header  head={head} logoHead={logoHead} heightAuto={heightAuto} />
       <main id={id} className={className}>{children}</main>
       <Footer />
 

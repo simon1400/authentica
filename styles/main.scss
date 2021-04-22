@@ -63,7 +63,7 @@
   z-index: 1000;
   justify-content: space-between;
   align-items: center;
-  padding: 70px 0;
+  padding: 70px 0 200px;
   font-size: $header-size;
   &.active{
     color: $black;
@@ -341,6 +341,7 @@ section{
     align-items: center;
     visibility: hidden;
     ul{
+      display: block;
       li{
         list-style-type: none;
         text-align: right;
@@ -356,6 +357,16 @@ section{
   }
 }
 
+.menu nav .secNav{
+  margin-top: 50px;
+  li{
+    a{
+      font-size: 20px;
+      color: rgba($black, .75);
+    }
+  }
+}
+
 .footer-logo{
   padding-top: 150px;
   width: 100%;
@@ -365,6 +376,36 @@ section{
   justify-content: space-between;
 }
 
+.height-auto{
+  height: auto;
+  .header-content{
+    height: auto;
+    margin-top: 350px;
+    margin-bottom: 150px;
+  }
+}
+
+.position-sec{
+  height: auto;
+  padding-top: 90px;
+  padding-bottom: 90px;
+  .button{
+    margin-left: 0;
+    margin-top: 50px;
+  }
+  .big-sec.small-text{
+    p{
+      font-size: 26px;
+    }
+  }
+}
+
+.sec-min{
+  height: auto;
+  min-height: auto;
+  padding-top: 250px;
+  padding-bottom: 250px;
+}
 
 
 @import 'media';

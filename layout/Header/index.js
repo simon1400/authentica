@@ -1,19 +1,40 @@
 import Link from 'next/link'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
+import { useRouter } from 'next/router'
+
+import sanityClient from "../../lib/sanity";
+
+const query = (local) => {
+  return `*[_type == 'nav']{
+    "topNav": content.${local}.topNav,
+    "secNav": content.${local}.secNav
+  }[0]`
+};
 
 const Header = ({
   head,
-  logoHead = false
+  logoHead = false,
+  heightAuto = false
 }) => {
 
+  const router = useRouter()
   const [menu, setMenu] = useState(false)
+
+  const [topNav, setTopNav] = useState([])
+  const [secNav, setSecNav] = useState([])
+
+  useEffect(async () => {
+    const nav = await sanityClient.fetch(query(router.locale))
+    setTopNav(nav.topNav)
+    setSecNav(nav.secNav)
+  }, [])
 
   const toggleMenu = () => {
     setMenu(!menu)
   }
 
   return (
-    <header>
+    <header className={heightAuto ? 'height-auto' : ''}>
       <div className={`header-fix${menu ? ' active' : ''}`}>
         <div className="uk-container uk-container-large">
           <div className={`header-top${menu ? ' active' : ''}`}>
@@ -49,14 +70,14 @@ const Header = ({
       <div className={`menu${menu ? ' active' : ''}`}>
         <div className="uk-container uk-height-1-1">
           <nav>
-            <ul>
-              <li><a href="/">O nás</a></li>
-              <li><a href="/">Authentica</a></li>
-              <li><a href="/">Fulfillment</a></li>
-              <li><a href="/">GRD servis</a></li>
-              <li><a href="/">Craftwork</a></li>
-              <li><a href="/">Kontakty</a></li>
-            </ul>
+            <div>
+              <ul className="topNav">
+                {topNav.map((item, index) => <li key={index}><a href="/">{item.title}</a></li>)}
+              </ul>
+              <ul className="secNav">
+                {secNav.map((item, index) => <li key={index}><a href="/">{item.title}</a></li>)}
+              </ul>
+            </div>
           </nav>
         </div>
       </div>
