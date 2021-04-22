@@ -48,11 +48,29 @@
   z-index: 800;
   top: 0;
   left: 0;
-  background-image: linear-gradient(to bottom, #000000, rgba(0, 0, 0, 0));
+  background-image: linear-gradient(
+                      hsl(0, 0%, 0%) 0%,
+                      hsla(0, 0%, 0%, 0.738) 19%,
+                      hsla(0, 0%, 0%, 0.541) 34%,
+                      hsla(0, 0%, 0%, 0.382) 47%,
+                      hsla(0, 0%, 0%, 0.278) 56.5%,
+                      hsla(0, 0%, 0%, 0.194) 65%,
+                      hsla(0, 0%, 0%, 0.126) 73%,
+                      hsla(0, 0%, 0%, 0.075) 80.2%,
+                      hsla(0, 0%, 0%, 0.042) 86.1%,
+                      hsla(0, 0%, 0%, 0.021) 91%,
+                      hsla(0, 0%, 0%, 0.008) 95.2%,
+                      hsla(0, 0%, 0%, 0.002) 98.2%,
+                      hsla(0, 0%, 0%, 0) 100%
+                    );
   &.active{
     background-image: none;
     z-index: 850;
   }
+}
+
+.uk-container{
+  width: calc(100% - 80px)!important;
 }
 
 .header-top{
@@ -62,11 +80,12 @@
   height: auto;
   z-index: 1000;
   justify-content: space-between;
-  align-items: center;
-  padding: 70px 0 200px;
+  align-items: flex-start;
+  padding: 70px 0;
   font-size: $header-size;
   &.active{
     color: $black;
+    padding-bottom: 0;
     .hamburger-inner, .hamburger-inner::before, .hamburger-inner::after{
       background-color: $black;
     }
@@ -96,6 +115,11 @@
     li{
       display: inline-block;
       list-style-type: none;
+      &.active-lang{
+        a{
+          color: $white;
+        }
+      }
       &:not(:first-child){
         margin-left: 12px;
       }
@@ -104,10 +128,27 @@
       }
       a{
         font-size: $header-size;
-        color: $white;
+        color: rgba($white, .4);
         text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 2.24px;
+        position: relative;
         &:hover{
           text-decoration: none;
+          &:after{
+            width: 100%;
+          }
+        }
+        &:after{
+          content: '';
+          display: block;
+          position: absolute;
+          bottom: -2px;
+          right: 0;
+          height: 1.5px;
+          width: 0;
+          transition: all .5s ease;
+          background-color: $white;
         }
       }
     }
@@ -125,6 +166,8 @@
   text-transform: uppercase;
   > span{
     margin-right: 17px;
+    font-weight: 600;
+    letter-spacing: 2.24px;
   }
   button{
     outline: none;
@@ -165,7 +208,7 @@ section{
     display: flex;
     align-items: center;
     .sec-logo-partner{
-      height: 50px;
+      height: 43px;
       width: auto;
       margin-bottom: 30px;
     }
@@ -256,7 +299,7 @@ section{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-content: space-between;
-  gap: 60px;
+  gap: 80px 60px;
   .partners-item{
     display: flex;
     > *{
@@ -284,6 +327,9 @@ section{
     line-height: 30px;
     a{
       color: $black;
+      &:hover{
+        color: $black;
+      }
     }
   }
 }
@@ -350,8 +396,23 @@ section{
         a{
           color: $black;
           font-size: $menu-size;
+          position: relative;
           &:hover{
             text-decoration: none;
+            &:after{
+              width: 100%;
+            }
+          }
+          &:after{
+            content: '';
+            display: block;
+            width: 0;
+            height: 1.5px;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            transition: all .5s ease;
+            background-color: $black;
           }
         }
       }

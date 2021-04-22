@@ -62,7 +62,7 @@ const Header = ({
             <div className="control-header">
               <div className="lang-wrap uk-visible@s">
                 <ul>
-                  <li><a href="/">cz</a></li>
+                  <li className="active-lang"><a href="/">cz</a></li>
                   <li><a href="/">en</a></li>
                   <li><a href="/">de</a></li>
                 </ul>

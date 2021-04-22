@@ -142,9 +142,16 @@ const Home = ({data, linksArr, links}) => {
             <div className="uk-container">
               <h2>{content.partners.title}</h2>
               <div className="partners-items">
-                {content.partners.logo.map((item, index) => <div key={index} className="partners-item">
-                  <img className="uk-svg" src={urlFor(item).url()} uk-svg="" alt="logo-partners"/>
-                </div>)}
+                {content.partners.logo.map((item, index) => {
+                  if(index < 6){
+                    return(
+                      <div key={index} className="partners-item">
+                        <img className="uk-svg" src={urlFor(item).url()} uk-svg="" alt="logo-partners"/>
+                      </div>
+                    )
+                  }
+                  return ''
+                })}
               </div>
             </div>
           </div>
@@ -161,7 +168,7 @@ const Block = handleViewport(({ inViewport, forwardedRef, startCount, setStartCo
   }
 
   return(
-    <div className="uk-grid uk-child-width-1-1 uk-child-width-auto@s uk-flex-nowrap" uk-parallax="x: 50vw, -50vw; media: @s" uk-grid="" ref={forwardedRef}>
+    <div className="uk-grid uk-child-width-1-1 uk-child-width-auto@s uk-flex-nowrap" uk-parallax="x: 40vw, -100vw; media: @s" uk-grid="" ref={forwardedRef}>
       {data.map((item, index) => <div key={index} className="numer-item">
         {startCount && <CountUp
           start={0}

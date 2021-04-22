@@ -190,13 +190,9 @@
     padding-top: 0;
     padding-bottom: 0;
   }
-  header{
-    .uk-container{
-      width: calc(100% - 30px);
-    }
-  }
+
   .uk-container{
-    width: calc(100% - 30px);
+    width: calc(100% - 30px)!important;
   }
   .height-auto .header-content{
     margin-top: 100px;
