@@ -183,6 +183,7 @@ section{
   }
   .numer-item{
     text-align: center;
+
     span{
       font-size: 155px;
       color: rgba($white, .2);
@@ -191,6 +192,7 @@ section{
     }
     p{
       margin-top: -50px;
+      white-space: nowrap;
     }
   }
 }

@@ -1,24 +1,32 @@
 import Page from '../../layout/Page'
+import sanityClient from "../../lib/sanity";
 
-import { sanityStaticProps, useSanityQuery, PortableText, imageUrlBuilder } from "../../lib/sanityNext";
+const imageBuilder = imageUrlBuilder(sanityClient);
+const urlFor = source => imageBuilder.image(source)
 
-const urlFor = source => imageUrlBuilder.image(source)
+export async function getServerSideProps({params, locale}) {
 
-const query = (local, url) => {
-  return `*[_type == 'article'] {
-    "content": content.${local}
-  }[0]`
-};
+  const query = `*[_type == 'article' && ${lang}.slug.current == $url] {
+    "content": content.${locale}
+  }[0]`;
 
-export const getServerSideProps = async (context) => ({
-  props: await sanityStaticProps({context, query: query(context.locale, context.math)})
-})
+  const data = await sanityClient.fetch(query, {slug: params.article})
 
-const Article = () => {
+  return {
+    props: {
+      content: data[0]
+    }
+  }
+}
+
+const Article = ({content}) => {
+
+  console.log(content);
+
   return(
     <Page title="Article" head="Váš příběh, naše know how, účinná strategie." logoHead="/assets/authentica-logo.svg">
       <section className="video-bg">
-        <video src="/assets/top-video.mp4" loop muted playsInline uk-video="autoplay: inview"></video>
+        <video src="/assets/top-video.mp4" loop muted preload playsInline uk-video="autoplay: inview"></video>
       </section>
       <section className="sec-center sec-min">
         <div className="uk-container">

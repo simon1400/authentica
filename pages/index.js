@@ -26,23 +26,13 @@ const Home = (props) => {
   const content = data.content
 
   return (
-    <Page title="Homepage" head={content.title}>
-      {!!content.media.video && <section className="video-bg">
-          {/*<iframe width="100%" src={`https://www.youtube.com/embed/${data.media.video}?controls=0&showinfo=0&autohide=1&modestbranding=1&autoplay=1&mute=1&loop=1`} frameBorder="0" allow='accelerometer; autoplay; picture-in-picture; encrypted-media; gyroscope;' allowFullScreen></iframe>*/}
-          <video src={data.videoFiles} loop muted playsInline uk-video="autoplay: inview"></video>
-        </section>}
+    <Page title="Homepage" head={content.title} heightAuto={!data.videoFiles && !content.media.iamge}>
+      {!!data.videoFiles && <section className="video-bg">
+        <video src={data.videoFiles} loop muted playsInline uk-video="autoplay: inview"></video>
+      </section>}
 
-      {!!content.media.image && <section className="sec-center">
-          <img src={urlFor(content.media.image).url()} alt="" />
-          <div className="uk-overlay-primary uk-position-cover sec-info">
-            {/*<div className="uk-container">
-              <div className="uk-width-2-3">
-                <img className="uk-svg sec-logo-partner" src={urlFor(item.logo)} uk-svg="" alt="logo"/>
-                <PortableText blocks={item.content} />
-                <a href="/" className="button bare"><span>{item.button.name}</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>
-              </div>
-            </div>*/}
-          </div>
+      {!!content.media.iamge && !data.videoFiles && <section className="sec-center">
+          <img src={urlFor(content.media.iamge).url()} alt="" />
         </section>}
 
       <section className="sec-center sec-min">
@@ -57,7 +47,7 @@ const Home = (props) => {
       </section>
 
       {content.firmArr.map((item, index) => <section key={index} className="sec-center">
-        <img src={urlFor(item.background).url()} alt="" />
+        {!!item.background && <img src={urlFor(item.background).url()} alt="" />}
         <div className="uk-overlay-primary uk-position-cover sec-info">
           <div className="uk-container">
             <div className="uk-width-1-1 uk-width-2-3@s">
@@ -68,7 +58,6 @@ const Home = (props) => {
           </div>
         </div>
       </section>)}
-
 
       <section className="sec-center">
         <div className="uk-width-expand">
@@ -84,7 +73,7 @@ const Home = (props) => {
       <section className="partners partners-video">
         <div className="partners-logo-wrap">
           <div className="partners-video">
-            <video src="/assets/partners.mp4" loop muted playsInline uk-video="autoplay: inview"></video>
+            <video src="/assets/partners.mp4" loop muted preload playsInline uk-video="autoplay: inview"></video>
           </div>
           <div className="partners-wrap">
             <div className="uk-container">
@@ -109,7 +98,7 @@ const Block = handleViewport(({ inViewport, forwardedRef, startCount, setStartCo
   }
 
   return(
-    <div className="uk-grid uk-child-width-1-1 uk-child-width-auto@s" uk-parallax="x: 50vw, -50vw; media: @s" uk-grid="" ref={forwardedRef}>
+    <div className="uk-grid uk-child-width-1-1 uk-child-width-auto@s uk-flex-nowrap" uk-parallax="x: 50vw, -50vw; media: @s" uk-grid="" ref={forwardedRef}>
       {data.map((item, index) => <div key={index} className="numer-item">
         {startCount && <CountUp
           start={0}
