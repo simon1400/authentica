@@ -240,4 +240,14 @@
       line-height: 35px;
     }
   }
+  section .sec-info .sec-logo-partner{
+    height: 32px;
+  }
+  section ul li{
+    font-size: 16px;
+    line-height: 30px;
+    &:before{
+      top: 15px;
+    }
+  }
 }

@@ -26,11 +26,11 @@ const FullPosition = ({content}) => {
 
   return(
     <Page
-      title={content.meta.title}
-      description={content.meta.description}
-      image={urlFor(content.meta.image).url()}
-      ogTitle={content.meta.ogTitle}
-      ogDescription={content.meta.ogDescription}
+      title={content.meta?.title}
+      description={content.meta?.description}
+      image={urlFor(content.meta?.image).url()}
+      ogTitle={content.meta?.ogTitle}
+      ogDescription={content.meta?.ogDescription}
       head={content.title}
       heightAuto={true}
     >

@@ -87,8 +87,9 @@ body{
   }
 }
 
-p a{
+section ul a, p a{
   position: relative;
+  color: white;
   &:after{
     position: absolute;
     content: '';
@@ -101,6 +102,7 @@ p a{
   }
   &:hover{
     text-decoration: none;
+    color: $white;
     &:after{
       animation-duration: .5s;
       animation-name: slidein;
@@ -267,6 +269,10 @@ footer{
     margin-bottom: 0!important;
   }
   p a{
+    color: $black;
+    &:hover{
+      color: $black;
+    }
     &:after{
       background-color: $black;
     }
@@ -302,5 +308,6 @@ $hamburger-layer-height        : 2px;
 $hamburger-layer-spacing       : 9px;
 $hamburger-layer-color         : $white;
 $hamburger-layer-border-radius : 0px;
+$hamburger-hover-opacity: 1;
 // $hamburger-active-layer-color  : $hamburger-layer-color !default;
 // $hamburger-active-hover-opacity: $hamburger-hover-opacity !default;
