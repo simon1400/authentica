@@ -31,14 +31,16 @@ export async function getStaticProps({params, locale}) {
   const data = await sanityClient.fetch(query)
 
   const linksArr = []
-  for(var i = 0; i < data.firmArr.length; i++){
-    if(data.firmArr[i].button.link){
-      linksArr.push(data.firmArr[i].button.link._ref)
-    }else{
-      linksArr.push('-')
+  if(data?.firmArr && data?.firmArr.length){
+    for(var i = 0; i < data?.firmArr.length; i++){
+      if(data.firmArr[i].button.link){
+        linksArr.push(data.firmArr[i].button.link._ref)
+      }else{
+        linksArr.push('-')
+      }
     }
-
   }
+
 
   const queryLinks = `*[_type in ['article', 'jobOff'] && _id in [${linksArr.map(item => `"${item}"`)}]]{
     _id,
@@ -48,10 +50,12 @@ export async function getStaticProps({params, locale}) {
 
   const links = await sanityClient.fetch(queryLinks)
 
-  for(var i = 0; i < data.firmArr.length; i++){
-    for(var a = 0; a < links.length; a++){
-      if(data.firmArr[i].button.link?._ref == links[a]._id){
-        data.firmArr[i].button.link = `${links[a]._type === 'article' ? '' : '/pozice'}/${links[a].slug}`
+  if(data?.firmArr && data?.firmArr.length){
+    for(var i = 0; i < data.firmArr.length; i++){
+      for(var a = 0; a < links.length; a++){
+        if(data.firmArr[i].button.link?._ref == links[a]._id){
+          data.firmArr[i].button.link = `${links[a]._type === 'article' ? '' : '/pozice'}/${links[a].slug}`
+        }
       }
     }
   }
@@ -69,20 +73,22 @@ const Home = ({data, linksArr, links}) => {
 
   const content = data
 
-  console.log(data);
+  if(!data?.title){
+    return ''
+  }
 
   return (
     <Page
-      title={content.meta.title}
-      description={data.meta.description}
-      image={urlFor(data.meta.image).url()}
-      ogTitle={data.meta.ogTitle}
-      ogDescription={data.meta.ogDescription}
-      head={content.title}
-      heightAuto={!data.videoFile && !content.media.iamge}
+      title={content?.meta?.title}
+      description={data?.meta?.description}
+      image={urlFor(data?.meta?.image).url()}
+      ogTitle={data?.meta?.ogTitle}
+      ogDescription={data?.meta?.ogDescription}
+      head={content?.title}
+      heightAuto={!data?.videoFile && !content?.media?.iamge}
     >
       <section className="video-bg">
-        <video src="/assets/top-video.mp4" loop muted playsInline uk-video="autoplay: inview"></video>
+        <video src="/assets/top-video.mp4" loop muted preload="true" playsInline uk-video="autoplay: inview"></video>
       </section>
       {/*{!!data.videoFile && <section className="video-bg">
         <video src={data.videoFile} loop muted playsInline uk-video="autoplay: inview"></video>
@@ -130,7 +136,7 @@ const Home = ({data, linksArr, links}) => {
       <section className="partners partners-video">
         <div className="partners-logo-wrap">
           <div className="partners-video">
-            <video src="/assets/partners.mp4" loop muted preload playsInline uk-video="autoplay: inview"></video>
+            <video src="/assets/partners.mp4" loop muted preload="true" playsInline uk-video="autoplay: inview"></video>
           </div>
           <div className="partners-wrap">
             <div className="uk-container">
