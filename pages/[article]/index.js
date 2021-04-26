@@ -31,8 +31,6 @@ export async function getServerSideProps({params, locale}) {
 
 const Article = ({content, button}) => {
 
-  console.log(button);
-
   return(
     <Page
       title={content.meta?.title}
@@ -47,22 +45,24 @@ const Article = ({content, button}) => {
         <video src="/assets/top-video.mp4" loop muted preload="" playsInline uk-video="autoplay: inview"></video>
       </section>*/}
       {!!content.media?.iamge && <section className="sec-center">
-        <img src={urlFor(content.media.iamge).url()} alt="" />
+        <img className="uk-animation-reverse uk-transform-origin-top-right" uk-scrollspy="cls: uk-animation-kenburns; repeat: true" src={urlFor(content.media.iamge).url()} alt="" />
       </section>}
       <section className="sec-center sec-min">
         <div className="uk-container">
           <div className="big-sec">
-            <BlockContent blocks={content.content} />
-            {(!!button?.name?.length && !!button?.link?.slug?.length) && <a href={`${button?.link.type === 'jobOff' ? '/pozice' : ''}/${button?.link.slug}`} className="button">{button?.name} <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>}
+            <div uk-scrollspy="cls: uk-animation-fade; delay: 300">
+              <BlockContent blocks={content.content} />
+            </div>
+            {(!!button?.name?.length && !!button?.link?.slug?.length) && <div uk-scrollspy="cls: uk-animation-fade; delay: 500"><a href={`${button?.link.type === 'jobOff' ? '/pozice' : ''}/${button?.link.slug}`} className="button">{button?.name} <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a></div>}
           </div>
         </div>
       </section>
 
       {!!content.chapters?.length && content.chapters.map((item, index) => <section key={index} className={`sec-auto article-sec ${!item.images?.length && !item.title ? 'uk-padding-remove-top' : ''}`}>
         {!!item.title && <div className="uk-container">
-          {!!item.title?.length && <h2>{item.title}</h2>}
+          {!!item.title?.length && <h2 uk-scrollspy="cls: uk-animation-fade; delay: 300">{item.title}</h2>}
         </div>}
-        {!!item.images?.length && <div className="uk-container uk-container-large">
+        {!!item.images?.length && <div className="uk-container uk-container-large" uk-scrollspy="cls: uk-animation-fade; target: .article-info; delay: 500">
           <div className={`uk-grid uk-child-width-1-1 uk-child-width-1-${item.images.length < 3 ? item.images.length : '3'}@s`} uk-grid="">
             {item.images.map((image, indexImage) => <div key={indexImage}>
               <div className={`article-info ${item.images.length > 1 ? 'square-img' : ''}`}>
@@ -71,12 +71,12 @@ const Article = ({content, button}) => {
             </div>)}
           </div>
         </div>}
-        {!!item.content && <div className={`uk-container ${!!item.images?.length ? 'mr-top' : ''}`}>
+        {!!item.content && <div uk-scrollspy="cls: uk-animation-fade; delay: 300" className={`uk-container ${!!item.images?.length ? 'mr-top' : ''}`}>
           <BlockContent blocks={item.content} />
         </div>}
       </section>)}
 
-      {content.partners?.logo.length && <section className="partners without-video">
+      {content.partners?.logo.length && <section className="partners without-video" uk-scrollspy="cls: uk-animation-fade; target: .partners-item; delay: 500">
         <div className="uk-container">
           <h2>{content.partners?.title}</h2>
         </div>

@@ -120,7 +120,7 @@ const Page = ({
       height="0" width="0" style={{display:'none', visibility:'hidden'}}></iframe></noscript>
       {/*<!-- End Google Tag Manager (noscript) -->*/}
 
-      <Header  head={head} logoHead={logoHead} heightAuto={heightAuto} />
+      <Header head={head} logoHead={logoHead} heightAuto={heightAuto} />
       <main id={id} className={className}>{children}</main>
       <Footer />
 

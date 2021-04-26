@@ -101,10 +101,10 @@ const Home = ({data, linksArr, links}) => {
       <section className="sec-center sec-min">
         <div className="uk-container">
           <div className="big-sec">
-            <div>
+            <div uk-scrollspy="cls: uk-animation-fade; delay: 300">
               <BlockContent blocks={content.content} />
             </div>
-            {(!!content.button?.name?.length && !!content.linkButton?.slug.length) && <a href={`${content.linkButton.type === 'jobOff' ? '/pozice' : ''}/${content.linkButton.slug}`} className="button">{content.button?.name} <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>}
+            {(!!content.button?.name?.length && !!content.linkButton?.slug.length) && <div uk-scrollspy="cls: uk-animation-fade; delay: 500"><a href={`${content.linkButton.type === 'jobOff' ? '/pozice' : ''}/${content.linkButton.slug}`} className="button">{content.button?.name} <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a></div>}
           </div>
         </div>
       </section>
