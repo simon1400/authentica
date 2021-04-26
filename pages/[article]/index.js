@@ -56,7 +56,7 @@ const Article = ({content, button, dataControl}) => {
     <Page
       title={content.meta?.title}
       description={content.meta?.description}
-      image={urlFor(content.meta?.image).url()}
+      image={urlFor(content.meta?.image).width(1200).height(630).url()}
       ogTitle={content.meta?.ogTitle}
       ogDescription={content.meta?.ogDescription}
       head={content.title}

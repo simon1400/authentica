@@ -81,7 +81,7 @@ const Home = ({data, linksArr, links}) => {
     <Page
       title={content?.meta?.title}
       description={data?.meta?.description}
-      image={urlFor(data?.meta?.image).url()}
+      image={urlFor(data?.meta?.image).width(1200).height(630).url()}
       ogTitle={data?.meta?.ogTitle}
       ogDescription={data?.meta?.ogDescription}
       head={content?.title}

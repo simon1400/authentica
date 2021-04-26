@@ -2,8 +2,11 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
-import sanityClient from "../../lib/sanity.js";
+import imageUrlBuilder from "@sanity/image-url";
 
+import sanityClient from "../../lib/sanity.js";
+const imageBuilder = imageUrlBuilder(sanityClient);
+const urlFor = source => imageBuilder.image(source)
 const query = (local) => `*[_type == 'settings'].content.${local}`;
 
 import Header from '../Header'
@@ -43,16 +46,24 @@ const Page = ({
     std: {}
   })
 
-  useEffect(() => {
+  const getData = () => {
     sanityClient.fetch(query(router.locale)).then(res => {
       setGlobal({
         ...global,
         defaultTitle: res[0]?.endTitle || 'AUTHENTICA',
         gtm: res[0]?.gtm || '',
-        std: res[0]?.std || ''
+        std: res[0]?.std || '',
       })
     })
+  }
+
+  useEffect(() => {
+    getData()
   }, [])
+
+  useEffect(() => {
+    getData()
+  }, [router.locale])
 
   const theTitle = title ? (title + global.defaultSep + global.defaultTitle).substring(0, 60) : global.defaultTitle;
   const theDescription = description ? description.substring(0, 155) : global.defaultDescription;
@@ -70,6 +81,24 @@ const Page = ({
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','${global?.gtm}');`}} />}
         {/*<!-- End Google Tag Manager -->*/}
+
+        {global?.std && <script type="application/ld+json" dangerouslySetInnerHTML={{__html: `{
+          "@context" : "http://schema.org",
+          "@type" : "LocalBusiness",
+          "name" : "${global.std?.title}",
+          "image" : "${urlFor(global.std?.image).url()}",
+          "telephone" : "${global.std?.phone}",
+          "email" : "${global.std?.email}",
+          "address" : {
+            "@type" : "PostalAddress",
+            "streetAddress" : "${global.std?.street}",
+            "addressLocality" : "${global.std?.city}",
+            "addressRegion" : "${global.std?.region}",
+            "addressCountry" : "${global.std?.country}",
+            "postalCode" : "${global.std?.zip}"
+          },
+          "url" : "${global.std?.url}"
+        }`}} />}
 
         <meta charSet="utf-8" />
 
@@ -94,12 +123,12 @@ const Page = ({
         <meta itemProp="description" content={theDescription} />
         <meta itemProp="image" content={theImage} />
         <meta name="description" content={theDescription} />
-        {/*<meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content={global.defaultTwitter} />
-        <meta name="twitter:title" content={theTitle} />
-        <meta name="twitter:description" content={theDescription} />
-        <meta name="twitter:creator" content={twitter || global.defaultTwitter} />
-        <meta name="twitter:image:src" content={theImage} />*/}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="AUTHENTICA GROUP" />
+        <meta name="twitter:title" content={ogTitle || theTitle} />
+        <meta name="twitter:description" content={ogDescription || theDescription} />
+        {/*<meta name="twitter:creator" content={twitter || global.defaultTwitter} />*/}
+        <meta name="twitter:image:src" content={theImage} />
         <meta property="og:title" content={ogTitle || theTitle} />
         <meta property="og:type" content={contentType || 'website'} />
         <meta property="og:url" content={global.site_url+router.asPath} />

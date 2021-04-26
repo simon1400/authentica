@@ -42,7 +42,7 @@ const Position = ({job, jobOff}) => {
     <Page
       title={job.meta?.title}
       description={job.meta?.description}
-      image={urlFor(job.meta?.image).url()}
+      image={urlFor(job.meta?.image).width(1200).height(630).url()}
       ogTitle={job.meta?.ogTitle}
       ogDescription={job.meta?.ogDescription}
       head={job.title}

@@ -25,6 +25,10 @@ const Footer = () => {
     const footer = await sanityClient.fetch(query(router.locale))
     setFooter(footer[0])
   }, [])
+  useEffect(async () => {
+    const footer = await sanityClient.fetch(query(router.locale))
+    setFooter(footer[0])
+  }, [router.locale])
 
   if(!footer?.title){
     return ''
