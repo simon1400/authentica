@@ -114,13 +114,13 @@ const Home = ({data, linksArr, links}) => {
         <div className="uk-overlay-primary uk-position-cover sec-info">
           <div className="uk-container">
             <div className="uk-width-1-1 uk-width-2-3@s">
-              <div uk-scrollspy="cls: uk-animation-fade; repeat: true; delay: 300">
+              <div uk-scrollspy="cls: uk-animation-fade; delay: 300">
                 <img className="uk-svg sec-logo-partner" src={urlFor(item.logo)} uk-svg="" alt="logo"/>
               </div>
-              <div uk-scrollspy="cls: uk-animation-fade; repeat: true; delay: 500">
+              <div uk-scrollspy="cls: uk-animation-fade; delay: 500">
                 <BlockContent blocks={item.content} />
               </div>
-              {(!!item.button?.link && !!item.button?.name) && <div uk-scrollspy="cls: uk-animation-fade; repeat: true; delay: 700"><a href={item.button.link} className="button bare" ><span>{item.button.name}</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a></div>}
+              {(!!item.button?.link && !!item.button?.name) && <div uk-scrollspy="cls: uk-animation-fade; delay: 700"><a href={item.button.link} className="button bare" ><span>{item.button.name}</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a></div>}
             </div>
           </div>
         </div>
@@ -142,7 +142,7 @@ const Home = ({data, linksArr, links}) => {
           <div className="partners-video">
             <video src="/assets/partners.mp4" loop muted preload="true" playsInline uk-video="autoplay: inview"></video>
           </div>
-          <div className="partners-wrap" uk-scrollspy="cls: uk-animation-fade; target: .partners-item; delay: 500; repeat: true">
+          <div className="partners-wrap" uk-scrollspy="cls: uk-animation-fade; target: .partners-item; delay: 500">
             <div className="uk-container">
               <h2>{content.partners?.title}</h2>
               <div className="partners-items">

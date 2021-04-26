@@ -90,7 +90,9 @@
     padding: 20px 52px;
     font-size: 11px;
     svg, img{
-      margin-left: 50px;
+      margin-left: 20px;
+      height: 14px;
+      margin-top: 0;
     }
   }
   body h2{
@@ -126,8 +128,10 @@
     }
   }
   .partners-items{
+    padding-left: 20px;
+    padding-right: 20px;
     grid-template-columns: repeat(2, 1fr);
-    gap: 80px;
+    gap: 20px 80px;
     max-width: calc(100vw - 30px);
   }
 
