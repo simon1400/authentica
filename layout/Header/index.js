@@ -111,8 +111,8 @@ const Header = ({
       </div>
       <div className="header-content">
         <div className="uk-container">
-          {!!logoHead && <img className="uk-svg" src={urlFor(logoHead).url()} uk-svg="" alt="Logo article"/>}
-          <h1>{head}</h1>
+          {!!logoHead && <img className="uk-svg" uk-scrollspy="cls: uk-animation-fade; delay: 300;" src={urlFor(logoHead).url()} uk-svg="" alt="Logo article"/>}
+          <h1 uk-scrollspy="cls: uk-animation-fade; delay: 500;">{head}</h1>
         </div>
       </div>
       <div className={`menu${menu ? ' active' : ''}`}>

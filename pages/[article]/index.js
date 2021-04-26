@@ -43,9 +43,12 @@ const Article = ({content, button}) => {
       head={content.title}
       logoHead={content.logo}
     >
-      <section className="video-bg">
+      {/*<section className="video-bg">
         <video src="/assets/top-video.mp4" loop muted preload="" playsInline uk-video="autoplay: inview"></video>
-      </section>
+      </section>*/}
+      {!!content.media?.iamge && <section className="sec-center">
+        <img src={urlFor(content.media.iamge).url()} alt="" />
+      </section>}
       <section className="sec-center sec-min">
         <div className="uk-container">
           <div className="big-sec">
