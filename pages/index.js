@@ -104,7 +104,7 @@ const Home = ({data, linksArr, links}) => {
             <div>
               <BlockContent blocks={content.content} />
             </div>
-            <a href={`${content.linkButton.type === 'article' ? '' : '/pozice'}/${content.linkButton.slug}`} className="button">{content.button?.name} <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>
+            {(!!content.button?.name?.length && !!content.linkButton?.slug.length) && <a href={`${content.linkButton.type === 'jobOff' ? '/pozice' : ''}/${content.linkButton.slug}`} className="button">{content.button?.name} <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>}
           </div>
         </div>
       </section>

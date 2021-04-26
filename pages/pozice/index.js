@@ -31,11 +31,11 @@ const Position = ({job, jobOff}) => {
 
   return(
     <Page
-      title={job.meta.title}
-      description={job.meta.description}
-      image={urlFor(job.meta.image).url()}
-      ogTitle={job.meta.ogTitle}
-      ogDescription={job.meta.ogDescription}
+      title={job.meta?.title}
+      description={job.meta?.description}
+      image={urlFor(job.meta?.image).url()}
+      ogTitle={job.meta?.ogTitle}
+      ogDescription={job.meta?.ogDescription}
       head={job.title}
       heightAuto={true}
     >
@@ -51,12 +51,12 @@ const Position = ({job, jobOff}) => {
         <div className="uk-container">
           <div className="big-sec small-text">
             <div>
-              <h2>{item.content.title}</h2>
+              {!!item.content?.title && <h2>{item.content.title}</h2>}
               <BlockContent blocks={item.content.content} />
-              <a href={`/pozice/${item.content.slug.current}`} className="button bare">
+              {!!item.content?.slug?.current?.length && <a href={`/pozice/${item.content.slug.current}`} className="button bare">
                 <span>více informací</span>
                 <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/>
-              </a>
+              </a>}
           </div>
           </div>
         </div>

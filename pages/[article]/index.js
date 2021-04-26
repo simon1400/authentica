@@ -9,19 +9,29 @@ const urlFor = source => imageBuilder.image(source)
 export async function getServerSideProps({params, locale}) {
 
   const query = `*[_type == 'article' && content.${locale}.slug.current == $url] {
-    "content": content.${locale}
+    "content": content.${locale},
+    "button": {
+      "name": content.${locale}.button.name,
+      "link": *[_type in ['article', 'jobOff', 'category'] && _id in [^.content.${locale}.button.link._ref]]{
+        "slug": content.${locale}.slug.current,
+        "type": _type
+      }[0]
+    }
   }[0]`;
 
   const data = await sanityClient.fetch(query, {url: params.article})
 
   return {
     props: {
-      content: data.content
+      content: data.content,
+      button: data.button
     }
   }
 }
 
-const Article = ({content}) => {
+const Article = ({content, button}) => {
+
+  console.log(button);
 
   return(
     <Page
@@ -40,14 +50,14 @@ const Article = ({content}) => {
         <div className="uk-container">
           <div className="big-sec">
             <BlockContent blocks={content.content} />
-            <button className="button">{content.button?.name} <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></button>
+            {(!!button?.name?.length && !!button?.link?.slug?.length) && <a href={`${button?.link.type === 'jobOff' ? '/pozice' : ''}/${button?.link.slug}`} className="button">{button?.name} <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a>}
           </div>
         </div>
       </section>
 
-      {!!content.chapters?.length && content.chapters.map((item, index) => <section key={index} className="sec-auto article-sec">
+      {!!content.chapters?.length && content.chapters.map((item, index) => <section key={index} className={`sec-auto article-sec ${!item.images?.length && !item.title ? 'uk-padding-remove-top' : ''}`}>
         {!!item.title && <div className="uk-container">
-          <h2>{item.title}</h2>
+          {!!item.title?.length && <h2>{item.title}</h2>}
         </div>}
         {!!item.images?.length && <div className="uk-container uk-container-large">
           <div className={`uk-grid uk-child-width-1-1 uk-child-width-1-${item.images.length < 3 ? item.images.length : '3'}@s`} uk-grid="">

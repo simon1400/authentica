@@ -17,9 +17,9 @@
     }
   }
   .big-sec{
-    flex-wrap: wrap;
     padding-top: 150px;
     padding-bottom: 130px;
+    display: block;
     p{
       font-size: 20px;
       line-height: 29px;
@@ -153,6 +153,7 @@
         width: 100%;
         padding: 20px;
         text-align: center;
+        max-width: calc(100vw - 70px);
         img, svg{
           margin-top: 0;
         }

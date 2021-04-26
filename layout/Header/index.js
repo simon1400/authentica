@@ -8,12 +8,8 @@ const urlFor = source => imageBuilder.image(source)
 
 const navQuery = (local) => {
   return `*[_type == 'nav'].content.${local} {
-    "titleTopNav": topNav[].title,
-    "linksTopNav": *[_type in ["article", "jobOff", "category"] && _id in ^.topNav[].link._ref].content.${local}.slug.current,
-    "typesTopNav": *[_type in ["article", "jobOff", "category"] && _id in ^.topNav[].link._ref]._type,
-    "titleSecNav": secNav[].title,
-    "linksSecNav": *[_type in ["article", "jobOff", "category"] && _id in ^.secNav[].link._ref].content.${local}.slug.current,
-    "typesSecNav": *[_type in ["article", "jobOff", "category"] && _id in ^.secNav[].link._ref]._type
+    topNav,
+    secNav
   }`
 };
 
@@ -30,21 +26,55 @@ const Header = ({
   const [secNav, setSecNav] = useState([])
 
   useEffect(async () => {
-    const nav = await sanityClient.fetch(navQuery(router.locale))
-    const topNavData = nav[0].titleTopNav.map((item, index) => {
-      return {
-        title: item,
-        link: `${nav[0].typesTopNav[index] === 'jobOff' ? '/pozice' : ''}/${nav[0].linksTopNav[index]}`,
+    var data = await sanityClient.fetch(navQuery(router.locale))
+
+    data = data[0]
+
+    const linksArr = []
+    if(data?.topNav && data?.topNav.length){
+      for(var i = 0; i < data?.topNav.length; i++){
+        if(data.topNav[i].link){
+          linksArr.push(data.topNav[i].link._ref)
+        }else{
+          linksArr.push('-')
+        }
       }
-    })
-    const secNavData = nav[0].titleSecNav.map((item, index) => {
-      return {
-        title: item,
-        link: `${nav[0].typesSecNav[index] === 'jobOff' ? '/pozice' : ''}/${nav[0].linksSecNav[index]}`
+      for(var i = 0; i < data?.secNav.length; i++){
+        if(data.secNav[i].link){
+          linksArr.push(data.secNav[i].link._ref)
+        }else{
+          linksArr.push('-')
+        }
       }
-    })
-    setTopNav(topNavData)
-    setSecNav(secNavData)
+    }
+
+    const queryLinks = `*[_type in ['article', 'jobOff', 'category'] && _id in [${linksArr.map(item => `"${item}"`)}]]{
+      _id,
+      _type,
+      "slug": content.${router.locale}.slug.current
+    }`
+
+    const links = await sanityClient.fetch(queryLinks)
+
+    if(data?.topNav && data?.topNav.length){
+      for(var i = 0; i < data.topNav.length; i++){
+        for(var a = 0; a < links.length; a++){
+          if(data.topNav[i].link?._ref == links[a]._id){
+            data.topNav[i].link = `${links[a]._type === 'jobOff' ? '/pozice' : ''}/${links[a].slug}`
+          }
+        }
+      }
+      for(var i = 0; i < data.secNav.length; i++){
+        for(var a = 0; a < links.length; a++){
+          if(data.secNav[i].link?._ref == links[a]._id){
+            data.secNav[i].link = `${links[a]._type === 'jobOff' ? '/pozice' : ''}/${links[a].slug}`
+          }
+        }
+      }
+    }
+
+    setTopNav(data.topNav)
+    setSecNav(data.secNav)
   }, [])
 
   const toggleMenu = () => {
