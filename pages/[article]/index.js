@@ -8,7 +8,19 @@ const urlFor = source => imageBuilder.image(source)
 
 export async function getServerSideProps({params, locale}) {
 
+  const queryControl = `*[_type == 'article' && content.cs.slug.current == $url || content.en.slug.current == $url || content.de.slug.current == $url]{
+    _id
+  }[0]`
+
+  const dataControl = await sanityClient.fetch(queryControl, {url: params.article})
+  if(!dataControl?._id){
+    return{
+      notFound: true
+    }
+  }
+
   const query = `*[_type == 'article' && content.${locale}.slug.current == $url] {
+    _id,
     "content": content.${locale},
     "button": {
       "name": content.${locale}.button.name,
@@ -21,15 +33,24 @@ export async function getServerSideProps({params, locale}) {
 
   const data = await sanityClient.fetch(query, {url: params.article})
 
+  if (!data?._id) {
+    return {
+      redirect: {
+        destination: locale === 'cs' ? '/' : '/' + locale,
+        permanent: false,
+      },
+    }
+  }
+
   return {
     props: {
-      content: data.content,
-      button: data.button
+      content: data?.content,
+      button: data?.button
     }
   }
 }
 
-const Article = ({content, button}) => {
+const Article = ({content, button, dataControl}) => {
 
   return(
     <Page

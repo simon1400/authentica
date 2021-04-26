@@ -47,9 +47,9 @@ const Page = ({
     sanityClient.fetch(query(router.locale)).then(res => {
       setGlobal({
         ...global,
-        defaultTitle: res[0].endTitle || 'AUTHENTICA',
-        gtm: res[0].gtm || '',
-        std: res[0].std || ''
+        defaultTitle: res[0]?.endTitle || 'AUTHENTICA',
+        gtm: res[0]?.gtm || '',
+        std: res[0]?.std || ''
       })
     })
   }, [])

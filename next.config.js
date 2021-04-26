@@ -29,8 +29,7 @@ module.exports = (phase) => {
     env,
     i18n: {
       locales: ['cs', 'en', 'de'],
-      defaultLocale: 'cs',
-      localeDetection: false,
+      defaultLocale: 'cs'
     }
   }
 }

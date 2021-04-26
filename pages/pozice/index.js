@@ -19,6 +19,15 @@ export async function getServerSideProps({params, locale}) {
   const job = await sanityClient.fetch(queryJob)
   const jobOff = await sanityClient.fetch(queryJobOff)
 
+  if (!job.content?.title) {
+    return {
+      redirect: {
+        destination: locale === 'cs' ? '/' : '/' + locale,
+        permanent: false,
+      },
+    }
+  }
+
   return {
     props: {
       job: job.content,

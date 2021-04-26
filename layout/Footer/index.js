@@ -26,7 +26,7 @@ const Footer = () => {
     setFooter(footer[0])
   }, [])
 
-  if(!footer.title){
+  if(!footer?.title){
     return ''
   }
 

@@ -25,7 +25,15 @@ const Header = ({
   const [topNav, setTopNav] = useState([])
   const [secNav, setSecNav] = useState([])
 
-  useEffect(async () => {
+  useEffect(() => {
+    getMenu()
+  }, [])
+
+  useEffect(() => {
+    getMenu()
+  }, [router.locale])
+
+  const getMenu = async () => {
     var data = await sanityClient.fetch(navQuery(router.locale))
 
     data = data[0]
@@ -73,9 +81,9 @@ const Header = ({
       }
     }
 
-    setTopNav(data.topNav)
-    setSecNav(data.secNav)
-  }, [])
+    setTopNav(data?.topNav)
+    setSecNav(data?.secNav)
+  }
 
   const toggleMenu = () => {
     setMenu(!menu)
@@ -92,9 +100,9 @@ const Header = ({
             <div className="control-header">
               <div className="lang-wrap uk-visible@s">
                 <ul>
-                  <li className="active-lang"><a href="/">cz</a></li>
-                  <li><a href="/">en</a></li>
-                  <li><a href="/">de</a></li>
+                  <li className={`${router.locale === 'cs' ? "active-lang" : ''}`}><Link href={router.asPath} locale="cs"><a>cz</a></Link></li>
+                  <li className={`${router.locale === 'en' ? "active-lang" : ''}`}><Link href={router.asPath} locale="en"><a>en</a></Link></li>
+                  <li className={`${router.locale === 'de' ? "active-lang" : ''}`}><Link href={router.asPath} locale="de"><a>de</a></Link></li>
                 </ul>
               </div>
               <div className="control-menu" onClick={() => toggleMenu()}>
@@ -120,10 +128,10 @@ const Header = ({
           <nav>
             <div>
               <ul className="topNav">
-                {topNav.map((item, index) => <li key={index}><a href={item.link}>{item.title}</a></li>)}
+                {!!topNav?.length && topNav.map((item, index) => <li key={index}><a href={item.link}>{item.title}</a></li>)}
               </ul>
               <ul className="secNav">
-                {secNav.map((item, index) => <li key={index}><a href={item.link}>{item.title}</a></li>)}
+                {!!secNav?.length && secNav.map((item, index) => <li key={index}><a href={item.link}>{item.title}</a></li>)}
               </ul>
             </div>
           </nav>

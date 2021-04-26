@@ -9,11 +9,32 @@ const urlFor = source => imageBuilder.image(source)
 
 export async function getServerSideProps({params, locale}) {
 
+  const queryControl = `*[_type == 'jobOff' && content.cs.slug.current == $url || content.en.slug.current == $url || content.de.slug.current == $url]{
+    _id
+  }[0]`
+
+  const dataControl = await sanityClient.fetch(queryControl, {url: params.position})
+  if(!dataControl?._id){
+    return{
+      notFound: true
+    }
+  }
+
   const query = `*[_type == 'jobOff' && content.${locale}.slug.current == $url] {
+    _id,
     "content": content.${locale}
   }[0]`;
 
   const data = await sanityClient.fetch(query, {url: params.position})
+
+  if (!data?._id) {
+    return {
+      redirect: {
+        destination: locale === 'cs' ? '/' : '/' + locale,
+        permanent: false,
+      },
+    }
+  }
 
   return {
     props: {

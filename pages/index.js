@@ -31,9 +31,9 @@ export async function getStaticProps({params, locale}) {
   const data = await sanityClient.fetch(query)
 
   const linksArr = []
-  if(data?.firmArr && data?.firmArr.length){
+  if(data?.firmArr && data?.firmArr?.length){
     for(var i = 0; i < data?.firmArr.length; i++){
-      if(data.firmArr[i].button.link){
+      if(data.firmArr?.[i]?.button?.link){
         linksArr.push(data.firmArr[i].button.link._ref)
       }else{
         linksArr.push('-')
@@ -50,10 +50,10 @@ export async function getStaticProps({params, locale}) {
 
   const links = await sanityClient.fetch(queryLinks)
 
-  if(data?.firmArr && data?.firmArr.length){
+  if(data?.firmArr && data?.firmArr?.length){
     for(var i = 0; i < data.firmArr.length; i++){
       for(var a = 0; a < links.length; a++){
-        if(data.firmArr[i].button.link?._ref == links[a]._id){
+        if(data.firmArr[i]?.button?.link?._ref == links[a]._id){
           data.firmArr[i].button.link = `${links[a]._type === 'article' ? '' : '/pozice'}/${links[a].slug}`
         }
       }
@@ -104,7 +104,7 @@ const Home = ({data, linksArr, links}) => {
             <div uk-scrollspy="cls: uk-animation-fade; delay: 300">
               <BlockContent blocks={content.content} />
             </div>
-            {(!!content.button?.name?.length && !!content.linkButton?.slug.length) && <div uk-scrollspy="cls: uk-animation-fade; delay: 500"><a href={`${content.linkButton.type === 'jobOff' ? '/pozice' : ''}/${content.linkButton.slug}`} className="button">{content.button?.name} <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a></div>}
+            {(!!content.button?.name?.length && !!content.linkButton?.slug?.length) && <div uk-scrollspy="cls: uk-animation-fade; delay: 500"><a href={`${content.linkButton.type === 'jobOff' ? '/pozice' : ''}/${content.linkButton.slug}`} className="button">{content.button?.name} <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a></div>}
           </div>
         </div>
       </section>
@@ -120,7 +120,7 @@ const Home = ({data, linksArr, links}) => {
               <div uk-scrollspy="cls: uk-animation-fade; repeat: true; delay: 500">
                 <BlockContent blocks={item.content} />
               </div>
-              {(!!item.button.link && !!item.button.name) && <div uk-scrollspy="cls: uk-animation-fade; repeat: true; delay: 700"><a href={item.button.link} className="button bare" ><span>{item.button.name}</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a></div>}
+              {(!!item.button?.link && !!item.button?.name) && <div uk-scrollspy="cls: uk-animation-fade; repeat: true; delay: 700"><a href={item.button.link} className="button bare" ><span>{item.button.name}</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a></div>}
             </div>
           </div>
         </div>
@@ -129,10 +129,10 @@ const Home = ({data, linksArr, links}) => {
       <section className="sec-center">
         <div className="uk-width-expand">
           <div className="uk-container">
-            <h2>{content.secSuccess.title}</h2>
+            <h2>{content.secSuccess?.title}</h2>
           </div>
           <div className="numbers">
-            <Block startCount={startCount} setStartCount={setStartCount} data={content.secSuccess.chapters} />
+            <Block startCount={startCount} setStartCount={setStartCount} data={content.secSuccess?.chapters} />
           </div>
         </div>
       </section>
@@ -144,9 +144,9 @@ const Home = ({data, linksArr, links}) => {
           </div>
           <div className="partners-wrap" uk-scrollspy="cls: uk-animation-fade; target: .partners-item; delay: 500; repeat: true">
             <div className="uk-container">
-              <h2>{content.partners.title}</h2>
+              <h2>{content.partners?.title}</h2>
               <div className="partners-items">
-                {content.partners.logo.map((item, index) => {
+                {!!content.partners && content.partners.logo.map((item, index) => {
                   if(index < 6){
                     return(
                       <div key={index} className="partners-item">
@@ -173,7 +173,7 @@ const Block = handleViewport(({ inViewport, forwardedRef, startCount, setStartCo
 
   return(
     <div className="uk-grid uk-child-width-1-1 uk-child-width-auto@s" uk-parallax="x: 40vw, -100vw; media: @s" uk-grid="" ref={forwardedRef}>
-      {data.map((item, index) => <div key={index} className="numer-item">
+      {data?.length && data.map((item, index) => <div key={index} className="numer-item">
         {startCount && <CountUp
           start={0}
           end={parseInt(item.number)}
