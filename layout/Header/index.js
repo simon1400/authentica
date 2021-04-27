@@ -94,7 +94,7 @@ const Header = ({
     e.preventDefault()
     setMenu(false)
     setLeave(true)
-    setTimeout(() => { router.push(link) }, 600);
+    setTimeout(() => { router.push(link) }, 1000);
   }
 
   return (

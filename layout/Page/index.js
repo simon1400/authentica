@@ -154,6 +154,9 @@ const Page = ({
       height="0" width="0" style={{display:'none', visibility:'hidden'}}></iframe></noscript>
       {/*<!-- End Google Tag Manager (noscript) -->*/}
 
+      <div className="animate-block-black"></div>
+      <div className="animate-block-white"></div>
+
       <Header
         head={head}
         logoHead={logoHead}

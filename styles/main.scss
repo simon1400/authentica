@@ -13,12 +13,32 @@
   left: 0;
   right: 0;
   top: 0;
-  // transform: scale(1);
-  transition: all .5s ease;
+  // transition: all .5s ease;
   opacity: 1;
+  .animate-block-black{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: $black;
+    width: 0;
+    height: 100vh;
+    z-index: 2000;
+    transition: all 1s ease;
+  }
+  .animate-block-white{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: $white;
+    width: 0;
+    height: 100vh;
+    z-index: 1800;
+    transition: all .5s ease;
+  }
   &.visible-root{
-    opacity: 0;
-    // transform: scale(.5);
+    .animate-block-black, .animate-block-white{
+      width: 100vw;
+    }
   }
 }
 
