@@ -8,6 +8,20 @@
   font-family: $ff-name, sans-serif!important;
 }
 
+.root-component{
+  position: relative;
+  left: 0;
+  right: 0;
+  top: 0;
+  // transform: scale(1);
+  transition: all .5s ease;
+  opacity: 1;
+  &.visible-root{
+    opacity: 0;
+    // transform: scale(.5);
+  }
+}
+
 .logo-wrap{
   color: $white;
   &:hover{

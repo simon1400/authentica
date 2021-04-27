@@ -16,7 +16,8 @@ const navQuery = (local) => {
 const Header = ({
   head,
   logoHead = false,
-  heightAuto = false
+  heightAuto = false,
+  setLeave
 }) => {
 
   const router = useRouter()
@@ -89,14 +90,19 @@ const Header = ({
     setMenu(!menu)
   }
 
+  const onChangeLink = (e, link) => {
+    e.preventDefault()
+    setMenu(false)
+    setLeave(true)
+    setTimeout(() => { router.push(link) }, 600);
+  }
+
   return (
     <header className={heightAuto ? 'height-auto' : ''}>
       <div className={`header-fix${menu ? ' active' : ''}`}>
         <div className="uk-container uk-container-large">
           <div className={`header-top${menu ? ' active' : ''}`}>
-            <Link href="/">
-              <a className="logo-wrap"><img className="uk-svg" src="/assets/authentica-group-logo.svg" alt="Authentica" uk-svg=""/></a>
-            </Link>
+            <a href="/" onClick={e => onChangeLink(e, '/')} className="logo-wrap"><img className="uk-svg" src="/assets/authentica-group-logo.svg" alt="Authentica" uk-svg=""/></a>
             <div className="control-header">
               <div className="lang-wrap uk-visible@s">
                 <ul>
@@ -128,10 +134,10 @@ const Header = ({
           <nav>
             <div>
               <ul className="topNav">
-                {!!topNav?.length && topNav.map((item, index) => <li key={index}><a href={item.link}>{item.title}</a></li>)}
+                {!!topNav?.length && topNav.map((item, index) => <li key={index}><a href={item.link} onClick={e => onChangeLink(e, item.link)}>{item.title}</a></li>)}
               </ul>
               <ul className="secNav">
-                {!!secNav?.length && secNav.map((item, index) => <li key={index}><a href={item.link}>{item.title}</a></li>)}
+                {!!secNav?.length && secNav.map((item, index) => <li key={index}><a href={item.link} onClick={e => onChangeLink(e, item.link)}>{item.title}</a></li>)}
               </ul>
             </div>
           </nav>

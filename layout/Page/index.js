@@ -57,6 +57,8 @@ const Page = ({
     })
   }
 
+  const [leave, setLeave] = useState(false)
+
   useEffect(() => {
     getData()
   }, [])
@@ -65,13 +67,16 @@ const Page = ({
     getData()
   }, [router.locale])
 
+  useEffect(() => {
+    setLeave(false)
+  }, [router.asPath])
+
   const theTitle = title ? (title + global.defaultSep + global.defaultTitle).substring(0, 60) : global.defaultTitle;
   const theDescription = description ? description.substring(0, 155) : global.defaultDescription;
   const theImage = image ? image : global.defaultImage;
 
-
   return (
-    <div>
+    <div className={`root-component ${leave ? 'visible-root' : ''}`}>
       <Head>
 
         {/*<!-- Google Tag Manager -->*/}
@@ -149,7 +154,11 @@ const Page = ({
       height="0" width="0" style={{display:'none', visibility:'hidden'}}></iframe></noscript>
       {/*<!-- End Google Tag Manager (noscript) -->*/}
 
-      <Header head={head} logoHead={logoHead} heightAuto={heightAuto} />
+      <Header
+        head={head}
+        logoHead={logoHead}
+        setLeave={setLeave}
+        heightAuto={heightAuto} />
       <main id={id} className={className}>{children}</main>
       <Footer />
 
