@@ -95,7 +95,7 @@ const Home = ({data, linksArr, links, std}) => {
       heightAuto={!data?.videoFile && !content?.media?.iamge}
     >
       <Head>
-        {std.title && <script type="application/ld+json" dangerouslySetInnerHTML={{__html: `{
+        {std?.title && <script type="application/ld+json" dangerouslySetInnerHTML={{__html: `{
           "@context" : "http://schema.org",
           "@type" : "LocalBusiness",
           "name" : "${std.title}",

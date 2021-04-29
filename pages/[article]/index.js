@@ -69,7 +69,7 @@ const Article = ({content, button, dataControl, std}) => {
       logoHead={content.logo}
     >
     <Head>
-      {std.title && <script type="application/ld+json" dangerouslySetInnerHTML={{__html: `{
+      {std?.title && <script type="application/ld+json" dangerouslySetInnerHTML={{__html: `{
         "@context" : "http://schema.org",
         "@type" : "LocalBusiness",
         "name" : "${std.title}",
