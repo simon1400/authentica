@@ -1,5 +1,6 @@
 import Page from '../../layout/Page'
 
+import Head from 'next/head'
 import sanityClient from "../../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import BlockContent from "@sanity/block-content-to-react";
@@ -8,6 +9,10 @@ const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
 
 export async function getServerSideProps({params, locale}) {
+
+  const queryStd = `*[_type == 'settings'].content.${locale}.std`;
+
+  const std = await sanityClient.fetch(queryStd)
 
   const queryJob = `*[_type == 'job'] {
     "content": content.${locale}
@@ -31,12 +36,13 @@ export async function getServerSideProps({params, locale}) {
   return {
     props: {
       job: job.content,
-      jobOff: jobOff
+      jobOff: jobOff,
+      std: std[0]
     }
   }
 }
 
-const Position = ({job, jobOff}) => {
+const Position = ({job, jobOff, std}) => {
 
   return(
     <Page
@@ -48,6 +54,25 @@ const Position = ({job, jobOff}) => {
       head={job.title}
       heightAuto={true}
     >
+      <Head>
+        {std.title && <script type="application/ld+json" dangerouslySetInnerHTML={{__html: `{
+          "@context" : "http://schema.org",
+          "@type" : "LocalBusiness",
+          "name" : "${std.title}",
+          "image" : "${urlFor(std.image).url()}",
+          "telephone" : "${std.phone}",
+          "email" : "${std.email}",
+          "address" : {
+            "@type" : "PostalAddress",
+            "streetAddress" : "${std.street}",
+            "addressLocality" : "${std.city}",
+            "addressRegion" : "${std.region}",
+            "addressCountry" : "${std.country}",
+            "postalCode" : "${std.zip}"
+          },
+          "url" : "${std.url}"
+        }`}} />}
+      </Head>
       <section className="sec-center position-sec">
         <div className="uk-container">
           <div className="big-sec">

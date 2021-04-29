@@ -2,11 +2,16 @@ import Page from '../../layout/Page'
 import sanityClient from "../../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import BlockContent from "@sanity/block-content-to-react";
+import Head from 'next/head'
 
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
 
 export async function getServerSideProps({params, locale}) {
+
+  const queryStd = `*[_type == 'settings'].content.${locale}.std`;
+
+  const std = await sanityClient.fetch(queryStd)
 
   const queryControl = `*[_type == 'article' && content.cs.slug.current == $url || content.en.slug.current == $url || content.de.slug.current == $url]{
     _id
@@ -45,12 +50,13 @@ export async function getServerSideProps({params, locale}) {
   return {
     props: {
       content: data?.content,
-      button: data?.button
+      button: data?.button,
+      std: std[0]
     }
   }
 }
 
-const Article = ({content, button, dataControl}) => {
+const Article = ({content, button, dataControl, std}) => {
 
   return(
     <Page
@@ -62,6 +68,25 @@ const Article = ({content, button, dataControl}) => {
       head={content.title}
       logoHead={content.logo}
     >
+    <Head>
+      {std.title && <script type="application/ld+json" dangerouslySetInnerHTML={{__html: `{
+        "@context" : "http://schema.org",
+        "@type" : "LocalBusiness",
+        "name" : "${std.title}",
+        "image" : "${urlFor(std.image).url()}",
+        "telephone" : "${std.phone}",
+        "email" : "${std.email}",
+        "address" : {
+          "@type" : "PostalAddress",
+          "streetAddress" : "${std.street}",
+          "addressLocality" : "${std.city}",
+          "addressRegion" : "${std.region}",
+          "addressCountry" : "${std.country}",
+          "postalCode" : "${std.zip}"
+        },
+        "url" : "${std.url}"
+      }`}} />}
+    </Head>
       {/*<section className="video-bg">
         <video src="/assets/top-video.mp4" loop muted preload="" playsInline uk-video="autoplay: inview"></video>
       </section>*/}

@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import Page from '../layout/Page'
 import CountUp from 'react-countup';
-
+import Head from 'next/head'
 import handleViewport from 'react-in-viewport';
 
 import sanityClient from "../lib/sanity";
@@ -12,6 +12,10 @@ const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
 
 export async function getStaticProps({params, locale}) {
+
+  const queryStd = `*[_type == 'settings'].content.${locale}.std`;
+
+  const std = await sanityClient.fetch(queryStd)
 
   const query = `*[_type == 'homepage'][0].content.${locale} {
     title,
@@ -62,16 +66,19 @@ export async function getStaticProps({params, locale}) {
 
   return {
     props: {
-      data
+      data,
+      std: std[0]
     }
   }
 }
 
-const Home = ({data, linksArr, links}) => {
+const Home = ({data, linksArr, links, std}) => {
 
   const [startCount, setStartCount] = useState(false)
 
   const content = data
+
+  console.log(std);
 
   if(!data?.title){
     return ''
@@ -87,6 +94,25 @@ const Home = ({data, linksArr, links}) => {
       head={content?.title}
       heightAuto={!data?.videoFile && !content?.media?.iamge}
     >
+      <Head>
+        {std.title && <script type="application/ld+json" dangerouslySetInnerHTML={{__html: `{
+          "@context" : "http://schema.org",
+          "@type" : "LocalBusiness",
+          "name" : "${std.title}",
+          "image" : "${urlFor(std.image).url()}",
+          "telephone" : "${std.phone}",
+          "email" : "${std.email}",
+          "address" : {
+            "@type" : "PostalAddress",
+            "streetAddress" : "${std.street}",
+            "addressLocality" : "${std.city}",
+            "addressRegion" : "${std.region}",
+            "addressCountry" : "${std.country}",
+            "postalCode" : "${std.zip}"
+          },
+          "url" : "${std.url}"
+        }`}} />}
+      </Head>
       <section className="video-bg">
         <video src="/assets/top-video.mp4" loop muted preload="true" playsInline uk-video="autoplay: inview"></video>
       </section>

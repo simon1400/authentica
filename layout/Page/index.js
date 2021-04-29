@@ -87,24 +87,6 @@ const Page = ({
         })(window,document,'script','dataLayer','${global?.gtm}');`}} />}
         {/*<!-- End Google Tag Manager -->*/}
 
-        {global?.std && <script type="application/ld+json" dangerouslySetInnerHTML={{__html: `{
-          "@context" : "http://schema.org",
-          "@type" : "LocalBusiness",
-          "name" : "${global.std?.title}",
-          "image" : "${urlFor(global.std?.image).url()}",
-          "telephone" : "${global.std?.phone}",
-          "email" : "${global.std?.email}",
-          "address" : {
-            "@type" : "PostalAddress",
-            "streetAddress" : "${global.std?.street}",
-            "addressLocality" : "${global.std?.city}",
-            "addressRegion" : "${global.std?.region}",
-            "addressCountry" : "${global.std?.country}",
-            "postalCode" : "${global.std?.zip}"
-          },
-          "url" : "${global.std?.url}"
-        }`}} />}
-
         <meta charSet="utf-8" />
 
         {/* FAVICON */}
