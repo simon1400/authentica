@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react'
 import { useRouter } from 'next/router'
 import sanityClient from "../../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
+import { Scrollbars } from 'react-custom-scrollbars'
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
 
@@ -129,20 +130,32 @@ const Header = ({
           <h1 uk-scrollspy="cls: uk-animation-fade; delay: 500;">{head}</h1>
         </div>
       </div>
-      <div className={`menu${menu ? ' active' : ''}`}>
-        <div className="uk-container uk-height-1-1">
-          <nav>
-            <div>
-              <ul className="topNav">
-                {!!topNav?.length && topNav.map((item, index) => <li key={index}><a href={item.link} onClick={e => onChangeLink(e, item.link)}>{item.title}</a></li>)}
-              </ul>
-              <ul className="secNav">
-                {!!secNav?.length && secNav.map((item, index) => <li key={index}><a href={item.link} onClick={e => onChangeLink(e, item.link)}>{item.title}</a></li>)}
-              </ul>
+
+        <div className={`menu${menu ? ' active' : ''}`}>
+          <Scrollbars autoHide>
+            <div className="uk-container uk-height-1-1">
+              <nav>
+
+                <div>
+                  <div className="lang-wrap uk-hidden@s">
+                    <ul>
+                      <li className={`${router.locale === 'cs' ? "active-lang" : ''}`}><Link href={router.asPath} locale="cs"><a>cz</a></Link></li>
+                      <li className={`${router.locale === 'en' ? "active-lang" : ''}`}><Link href={router.asPath} locale="en"><a>en</a></Link></li>
+                      <li className={`${router.locale === 'de' ? "active-lang" : ''}`}><Link href={router.asPath} locale="de"><a>de</a></Link></li>
+                    </ul>
+                  </div>
+                  <ul className="topNav">
+                    {!!topNav?.length && topNav.map((item, index) => <li key={index}><a href={item.link} onClick={e => onChangeLink(e, item.link)}>{item.title}</a></li>)}
+                  </ul>
+                  <ul className="secNav">
+                    {!!secNav?.length && secNav.map((item, index) => <li key={index}><a href={item.link} onClick={e => onChangeLink(e, item.link)}>{item.title}</a></li>)}
+                  </ul>
+                </div>
+              </nav>
             </div>
-          </nav>
+          </Scrollbars>
         </div>
-      </div>
+
     </header>
   )
 }

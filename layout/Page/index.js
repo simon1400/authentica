@@ -51,8 +51,7 @@ const Page = ({
       setGlobal({
         ...global,
         defaultTitle: res[0]?.endTitle || 'AUTHENTICA',
-        gtm: res[0]?.gtm || '',
-        std: res[0]?.std || '',
+        gtm: res[0]?.gtm || ''
       })
     })
   }

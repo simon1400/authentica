@@ -181,6 +181,9 @@
       >div{
         text-align: center;
       }
+      img, svg{
+        height: 30px;
+      }
     }
   }
   .sec-auto{
@@ -253,6 +256,29 @@
     line-height: 30px;
     &:before{
       top: 15px;
+    }
+  }
+  nav .lang-wrap{
+    margin-bottom: 50px;
+    ul{
+      width: 100%;
+      text-align: right;
+      li{
+        display: inline-block;
+        &.active-lang{
+          a{
+            color: rgba(0, 0, 0, 0.75);
+            &:after{
+              width: 100%;
+            }
+          }
+        }
+        a{
+          font-size: 20px!important;
+          font-weight: normal;
+          color: rgba(0, 0, 0, 0.75);
+        }
+      }
     }
   }
 }

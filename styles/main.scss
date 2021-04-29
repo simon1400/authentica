@@ -99,6 +99,7 @@
   &.active{
     background-image: none;
     z-index: 910;
+    padding-bottom: 30px;
   }
 }
 
@@ -422,7 +423,7 @@ section{
   right: 0;
   background-color: $white;
   color: $black;
-  overflow: hidden;
+  // overflow: scroll;
   opacity: 0;
   transition: all .3s ease;
   &.active{
@@ -435,14 +436,16 @@ section{
     }
   }
   nav{
-    height: 100%;
+    height: auto;
     position: relative;
     display: -webkit-flex;
     display: -ms-flex;
     display: flex;
     justify-content: flex-end;
-    align-items: center;
+    align-items: flex-start;
     visibility: hidden;
+    padding-top: 150px;
+    padding-bottom: 150px;
     ul{
       display: block;
       li{
