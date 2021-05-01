@@ -37,9 +37,9 @@ const Header = ({
 
   useEffect(() => {
     if(menu){
-      document.body.style.overflow = 'hidden'
+      document.body.style.overflowY = 'hidden'
     }else{
-      document.body.style.overflow = 'scroll'
+      document.body.style.overflowY = 'scroll'
     }
   }, [menu])
 
