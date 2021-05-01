@@ -9,7 +9,6 @@
 }
 
 .root-component{
-  position: relative;
   .animate-block-black{
     position: fixed;
     top: 0;
@@ -28,11 +27,12 @@
     height: 100vh;
     z-index: 1800;
   }
-  &.visible-root{
-    .animate-block-black, .animate-block-white{
-      width: 100vw;
-    }
-  }
+}
+
+.firm-sec{
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
 }
 
 .logo-wrap{
@@ -453,6 +453,7 @@ section{
           color: $black;
           font-size: $menu-size;
           position: relative;
+          font-weight: 300;
           &:hover{
             text-decoration: none;
             &:after{

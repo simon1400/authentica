@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react'
 import Page from '../layout/Page'
 import CountUp from 'react-countup';
 import Head from 'next/head'
+import Link from 'next/link'
 import handleViewport from 'react-in-viewport';
 import sanityClient from "../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
@@ -9,6 +10,12 @@ import BlockContent from "@sanity/block-content-to-react";
 
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
+
+const serializers = {
+  marks: {
+    link: ({mark, children}) => <Link href={mark.href}><a>{children}</a></Link>
+  }
+}
 
 export async function getStaticProps({params, locale}) {
 
@@ -126,14 +133,22 @@ const Home = ({data, linksArr, links, std}) => {
         <div className="uk-container">
           <div className="big-sec">
             <div uk-scrollspy="cls: uk-animation-fade; delay: 300">
-              <BlockContent blocks={content.content} />
+              <BlockContent blocks={content.content} serializers={serializers} />
             </div>
-            {(!!content.button?.name?.length && !!content.linkButton?.slug?.length) && <div uk-scrollspy="cls: uk-animation-fade; delay: 500"><a href={`${content.linkButton.type === 'jobOff' ? '/pozice' : ''}/${content.linkButton.slug}`} className="button">{content.button?.name} <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a></div>}
+            {(!!content.button?.name?.length && !!content.linkButton?.slug?.length) && <div uk-scrollspy="cls: uk-animation-fade; delay: 500">
+              <Link href={`${content.linkButton.type === 'jobOff' ? '/kariera' : ''}/${content.linkButton.slug}`}>
+                <a className="button">
+                  {content.button?.name}
+                  <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/>
+                </a>
+              </Link>
+            </div>}
           </div>
         </div>
       </section>
 
-      {content.firmArr.map((item, index) => <section key={index} className="sec-center">
+
+      {content.firmArr.map((item, index) => <section key={index} className="firm-sec sec-center">
         {!!item.background && <img src={urlFor(item.background).url()} alt="" />}
         <div className="uk-overlay-primary uk-position-cover sec-info">
           <div className="uk-container">
@@ -144,7 +159,14 @@ const Home = ({data, linksArr, links, std}) => {
               <div uk-scrollspy="cls: uk-animation-fade; delay: 500">
                 <BlockContent blocks={item.content} />
               </div>
-              {(!!item.button?.link && !!item.button?.name) && <div uk-scrollspy="cls: uk-animation-fade; delay: 700"><a href={item.button.link} className="button bare" ><span>{item.button.name}</span> <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a></div>}
+              {(!!item.button?.link && !!item.button?.name) && <div uk-scrollspy="cls: uk-animation-fade; delay: 700">
+                <Link href={item.button.link}>
+                  <a className="button bare" >
+                    <span>{item.button.name}</span>
+                    <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/>
+                  </a>
+                </Link>
+              </div>}
             </div>
           </div>
         </div>

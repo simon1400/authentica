@@ -35,6 +35,14 @@ const Header = ({
     getMenu()
   }, [router.locale])
 
+  useEffect(() => {
+    if(menu){
+      document.body.style.overflow = 'hidden'
+    }else{
+      document.body.style.overflow = 'scroll'
+    }
+  }, [menu])
+
   const getMenu = async () => {
     var data = await sanityClient.fetch(navQuery(router.locale))
 

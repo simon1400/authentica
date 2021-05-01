@@ -1,11 +1,18 @@
 import Page from '../../layout/Page'
 import Head from 'next/head'
+import Link from 'next/link'
 import sanityClient from "../../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import BlockContent from "@sanity/block-content-to-react";
 
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
+
+const serializers = {
+  marks: {
+    link: ({mark, children}) => <Link href={mark.href}><a>{children}</a></Link>
+  }
+}
 
 export async function getServerSideProps({params, locale}) {
 
@@ -82,14 +89,14 @@ const FullPosition = ({content, std}) => {
       {content.content && <section className="sec-center position-sec">
         <div className="uk-container">
           <div className="big-sec">
-            <BlockContent blocks={content.content} />
+            <BlockContent blocks={content.content} serializers={serializers} />
           </div>
         </div>
       </section>}
       {content.description && <section className="sec-center position-sec">
         <div className="uk-container">
           <div className="big-sec small-text">
-            <BlockContent blocks={content.description} />
+            <BlockContent blocks={content.description} serializers={serializers} />
           </div>
         </div>
       </section>}

@@ -1,5 +1,5 @@
 import Page from '../../layout/Page'
-
+import Link from 'next/link'
 import Head from 'next/head'
 import sanityClient from "../../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
@@ -7,6 +7,12 @@ import BlockContent from "@sanity/block-content-to-react";
 
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
+
+const serializers = {
+  marks: {
+    link: ({mark, children}) => <Link href={mark.href}><a>{children}</a></Link>
+  }
+}
 
 export async function getServerSideProps({params, locale}) {
 
@@ -76,7 +82,7 @@ const Position = ({job, jobOff, std}) => {
       <section className="sec-center position-sec">
         <div className="uk-container">
           <div className="big-sec">
-            <BlockContent blocks={job.content} />
+            <BlockContent blocks={job.content} serializers={serializers} />
           </div>
         </div>
       </section>
@@ -85,13 +91,15 @@ const Position = ({job, jobOff, std}) => {
         <div className="uk-container">
           <div className="big-sec small-text">
             <div>
-              {!!item.content?.title && <h2>{item.content?.title}</h2>}
-              <BlockContent blocks={item.content?.content} />
-              {!!item.content?.slug?.current?.length && <a href={`/pozice/${item.content.slug.current}`} className="button bare">
-                <span>více informací</span>
-                <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/>
-              </a>}
-          </div>
+              {!!item.content?.title && <div uk-scrollspy="cls: uk-animation-fade; delay: 300"><h2>{item.content?.title}</h2></div>}
+              <div uk-scrollspy="cls: uk-animation-fade; delay: 500"><BlockContent blocks={item.content?.content} serializers={serializers} /></div>
+              {!!item.content?.slug?.current?.length && <Link href={`/kariera/${item.content.slug.current}`}>
+                <a className="button bare" uk-scrollspy="cls: uk-animation-fade; delay: 700">
+                  <span>více informací</span>
+                  <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/>
+                </a>
+              </Link>}
+            </div>
           </div>
         </div>
       </section>)}

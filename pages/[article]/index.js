@@ -3,9 +3,16 @@ import sanityClient from "../../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import BlockContent from "@sanity/block-content-to-react";
 import Head from 'next/head'
+import Link from 'next/link'
 
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
+
+const serializers = {
+  marks: {
+    link: ({mark, children}) => <Link href={mark.href}><a>{children}</a></Link>
+  }
+}
 
 export async function getServerSideProps({params, locale}) {
 
@@ -97,9 +104,16 @@ const Article = ({content, button, dataControl, std}) => {
         <div className="uk-container">
           <div className="big-sec">
             <div uk-scrollspy="cls: uk-animation-fade; delay: 300">
-              <BlockContent blocks={content.content} />
+              <BlockContent blocks={content.content} serializers={serializers} />
             </div>
-            {(!!button?.name?.length && !!button?.link?.slug?.length) && <div uk-scrollspy="cls: uk-animation-fade; delay: 500"><a href={`${button?.link.type === 'jobOff' ? '/pozice' : ''}/${button?.link.slug}`} className="button">{button?.name} <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/></a></div>}
+            {(!!button?.name?.length && !!button?.link?.slug?.length) && <div uk-scrollspy="cls: uk-animation-fade; delay: 500">
+              <Link href={`${button?.link.type === 'jobOff' ? '/kariera' : ''}/${button?.link.slug}`}>
+                <a className="button">
+                  {button?.name}
+                  <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/>
+                </a>
+              </Link>
+            </div>}
           </div>
         </div>
       </section>
@@ -118,7 +132,7 @@ const Article = ({content, button, dataControl, std}) => {
           </div>
         </div>}
         {!!item.content && <div uk-scrollspy="cls: uk-animation-fade; delay: 300" className={`uk-container ${!!item.images?.length ? 'mr-top' : ''}`}>
-          <BlockContent blocks={item.content} />
+          <BlockContent blocks={item.content} serializers={serializers} />
         </div>}
       </section>)}
 

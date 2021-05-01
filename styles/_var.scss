@@ -17,11 +17,13 @@ $white: white;
 html{
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
 }
 body{
   -webkit-tap-highlight-color: transparent;
   font-family: $ff-name, sans-serif;
   overflow-x: hidden;
+  max-height: 100vh;
   ::-moz-selection { /* Code for Firefox */
     color: $black;
     background: $white;

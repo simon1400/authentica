@@ -1,10 +1,17 @@
 import {useState, useEffect} from 'react'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 import sanityClient from "../../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
 import BlockContent from "@sanity/block-content-to-react";
+
+const serializers = {
+  marks: {
+    link: ({mark, children}) => <Link href={mark.href}><a>{children}</a></Link>
+  }
+}
 
 const query = (local) => {
   return `*[_type == 'footer'].content.${local}{
@@ -47,7 +54,7 @@ const Footer = () => {
           {footer.addreses.map((item, index) => <div key={index}>
             <div className="footer-item">
               <h3>{item.title}</h3>
-              <BlockContent blocks={item.content} />
+              <BlockContent blocks={item.content} serializers={serializers} />
             </div>
           </div>)}
         </div>
