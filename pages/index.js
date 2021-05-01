@@ -1,9 +1,8 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import Page from '../layout/Page'
 import CountUp from 'react-countup';
 import Head from 'next/head'
 import handleViewport from 'react-in-viewport';
-
 import sanityClient from "../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import BlockContent from "@sanity/block-content-to-react";
@@ -111,6 +110,7 @@ const Home = ({data, linksArr, links, std}) => {
           "url" : "${std.url}"
         }`}} />}
       </Head>
+
       <section className="video-bg">
         <video src="/assets/top-video.mp4" loop muted preload="true" playsInline uk-video="autoplay: inview"></video>
       </section>

@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-
+import { motion } from "framer-motion"
 import imageUrlBuilder from "@sanity/image-url";
-
 import sanityClient from "../../lib/sanity.js";
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
@@ -56,8 +55,6 @@ const Page = ({
     })
   }
 
-  const [leave, setLeave] = useState(false)
-
   useEffect(() => {
     getData()
   }, [])
@@ -66,16 +63,12 @@ const Page = ({
     getData()
   }, [router.locale])
 
-  useEffect(() => {
-    setLeave(false)
-  }, [router.asPath])
-
   const theTitle = title ? (title + global.defaultSep + global.defaultTitle).substring(0, 60) : global.defaultTitle;
   const theDescription = description ? description.substring(0, 155) : global.defaultDescription;
   const theImage = image ? image : global.defaultImage;
 
   return (
-    <div className={`root-component ${leave ? 'visible-root' : ''}`}>
+    <div className="root-component">
       <Head>
 
         {/*<!-- Google Tag Manager -->*/}
@@ -135,14 +128,42 @@ const Page = ({
       height="0" width="0" style={{display:'none', visibility:'hidden'}}></iframe></noscript>
       {/*<!-- End Google Tag Manager (noscript) -->*/}
 
-      <div className="animate-block-black"></div>
-      <div className="animate-block-white"></div>
+      <motion.div
+        initial={{x: 0}}
+        animate={{
+          x: "100%",
+          transition: {
+            ease: 'linear',
+            duration: .5
+          }
+        }}
+        className="animate-block-black"
+      ></motion.div>
 
-      <Header
-        head={head}
-        logoHead={logoHead}
-        setLeave={setLeave}
-        heightAuto={heightAuto} />
+      <motion.div
+        initial={{x: '-100%'}}
+        exit={{
+          x: 0,
+          transition: {
+            duration: .4,
+            delay: .3
+          }
+        }}
+        className="animate-block-black"
+      ></motion.div>
+
+      <motion.div
+        initial={{x: '-100%'}}
+        exit={{
+          x: 0,
+          transition: {
+            duration: .5
+          }
+        }}
+        className="animate-block-white"
+      ></motion.div>
+
+      <Header head={head} logoHead={logoHead} heightAuto={heightAuto} />
       <main id={id} className={className}>{children}</main>
       <Footer />
 

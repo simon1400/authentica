@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import sanityClient from "../../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import { Scrollbars } from 'react-custom-scrollbars'
+
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
 
@@ -17,8 +18,7 @@ const navQuery = (local) => {
 const Header = ({
   head,
   logoHead = false,
-  heightAuto = false,
-  setLeave
+  heightAuto = false
 }) => {
 
   const router = useRouter()
@@ -91,21 +91,12 @@ const Header = ({
     setMenu(!menu)
   }
 
-  const onChangeLink = (e, link) => {
-    e.preventDefault()
-    setMenu(false)
-    setLeave(true)
-    setTimeout(() => { router.push(link) }, 1000);
-  }
-
-  // console.log(router);
-
   return (
     <header className={heightAuto ? 'height-auto' : ''}>
       <div className={`header-fix${menu ? ' active' : ''}`}>
         <div className="uk-container uk-container-large">
           <div className={`header-top${menu ? ' active' : ''}`}>
-            <a href="/" onClick={e => onChangeLink(e, '/')} className="logo-wrap"><img className="uk-svg" src="/assets/authentica-group-logo.svg" alt="Authentica" uk-svg=""/></a>
+            <Link href="/"><a className="logo-wrap"><img className="uk-svg" src="/assets/authentica-group-logo.svg" alt="Authentica" uk-svg=""/></a></Link>
             <div className="control-header">
               <div className="lang-wrap uk-visible@s">
                 <ul>
@@ -147,10 +138,22 @@ const Header = ({
                     </ul>
                   </div>
                   <ul className="topNav">
-                    {!!topNav?.length && topNav.map((item, index) => <li key={index}><a href={item.link} onClick={e => onChangeLink(e, item.link)}>{item.title}</a></li>)}
+                    {!!topNav?.length && topNav.map((item, index) => (
+                      <li key={index}>
+                        <Link href={item.link}>
+                          <a onClick={() => toggleMenu()}>{item.title}</a>
+                        </Link>
+                      </li>)
+                    )}
                   </ul>
                   <ul className="secNav">
-                    {!!secNav?.length && secNav.map((item, index) => <li key={index}><a href={item.link} onClick={e => onChangeLink(e, item.link)}>{item.title}</a></li>)}
+                    {!!secNav?.length && secNav.map((item, index) => (
+                      <li key={index}>
+                        <Link href={item.link}>
+                          <a onClick={() => toggleMenu()}>{item.title}</a>
+                        </Link>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </nav>
