@@ -78,8 +78,6 @@ const Home = ({data, linksArr, links, std}) => {
 
   const content = data
 
-  console.log(std);
-
   if(!data?.title){
     return ''
   }

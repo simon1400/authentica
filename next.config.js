@@ -30,6 +30,41 @@ module.exports = (phase) => {
     i18n: {
       locales: ['cs', 'en', 'de'],
       defaultLocale: 'cs'
-    }
+    },
+    async redirects() {
+      return [
+        {
+          source: '/en/kariera',
+          destination: '/en/career',
+          permanent: false,
+          locale: false
+        },
+        {
+          source: '/de/kariera',
+          destination: '/de/arbeitsmoglichkeiten',
+          permanent: false,
+          locale: false
+        },
+        {
+          source: '/arbeitsmoglichkeiten',
+          destination: '/kariera',
+          permanent: false,
+          locale: false
+        },
+        {
+          source: '/career',
+          destination: '/kariera',
+          permanent: false,
+          locale: false
+        },
+      ]
+    },
+    exportPathMap: async (
+      defaultPathMap,
+      { dev, dir, outDir, distDir, buildId }
+    ) => ({
+      '/career': { page: '/kariera' },
+      '/arbeitsmoglichkeiten': { page: '/kariera' },
+    }),
   }
 }

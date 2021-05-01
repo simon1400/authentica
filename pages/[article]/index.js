@@ -68,25 +68,25 @@ const Article = ({content, button, dataControl, std}) => {
       head={content.title}
       logoHead={content.logo}
     >
-    <Head>
-      {std?.title && <script type="application/ld+json" dangerouslySetInnerHTML={{__html: `{
-        "@context" : "http://schema.org",
-        "@type" : "LocalBusiness",
-        "name" : "${std.title}",
-        "image" : "${urlFor(std.image).url()}",
-        "telephone" : "${std.phone}",
-        "email" : "${std.email}",
-        "address" : {
-          "@type" : "PostalAddress",
-          "streetAddress" : "${std.street}",
-          "addressLocality" : "${std.city}",
-          "addressRegion" : "${std.region}",
-          "addressCountry" : "${std.country}",
-          "postalCode" : "${std.zip}"
-        },
-        "url" : "${std.url}"
-      }`}} />}
-    </Head>
+      <Head>
+        {std?.title && <script type="application/ld+json" dangerouslySetInnerHTML={{__html: `{
+          "@context" : "http://schema.org",
+          "@type" : "LocalBusiness",
+          "name" : "${std.title}",
+          "image" : "${urlFor(std.image).url()}",
+          "telephone" : "${std.phone}",
+          "email" : "${std.email}",
+          "address" : {
+            "@type" : "PostalAddress",
+            "streetAddress" : "${std.street}",
+            "addressLocality" : "${std.city}",
+            "addressRegion" : "${std.region}",
+            "addressCountry" : "${std.country}",
+            "postalCode" : "${std.zip}"
+          },
+          "url" : "${std.url}"
+        }`}} />}
+      </Head>
       {/*<section className="video-bg">
         <video src="/assets/top-video.mp4" loop muted preload="" playsInline uk-video="autoplay: inview"></video>
       </section>*/}

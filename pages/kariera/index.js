@@ -24,14 +24,14 @@ export async function getServerSideProps({params, locale}) {
   const job = await sanityClient.fetch(queryJob)
   const jobOff = await sanityClient.fetch(queryJobOff)
 
-  if (!job.content?.title) {
-    return {
-      redirect: {
-        destination: locale === 'cs' ? '/' : '/' + locale,
-        permanent: false,
-      },
-    }
-  }
+  // if (!job.content?.title) {
+  //   return {
+  //     redirect: {
+  //       destination: locale === 'cs' ? '/' : '/' + locale,
+  //       permanent: false,
+  //     },
+  //   }
+  // }
 
   return {
     props: {
@@ -85,8 +85,8 @@ const Position = ({job, jobOff, std}) => {
         <div className="uk-container">
           <div className="big-sec small-text">
             <div>
-              {!!item.content?.title && <h2>{item.content.title}</h2>}
-              <BlockContent blocks={item.content.content} />
+              {!!item.content?.title && <h2>{item.content?.title}</h2>}
+              <BlockContent blocks={item.content?.content} />
               {!!item.content?.slug?.current?.length && <a href={`/pozice/${item.content.slug.current}`} className="button bare">
                 <span>více informací</span>
                 <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/>

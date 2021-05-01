@@ -70,14 +70,14 @@ const Header = ({
       for(var i = 0; i < data.topNav.length; i++){
         for(var a = 0; a < links.length; a++){
           if(data.topNav[i].link?._ref == links[a]._id){
-            data.topNav[i].link = `${links[a]._type === 'jobOff' ? '/pozice' : ''}/${links[a].slug}`
+            data.topNav[i].link = `${links[a]._type === 'jobOff' ? '/kariera' : ''}/${links[a].slug}`
           }
         }
       }
       for(var i = 0; i < data.secNav.length; i++){
         for(var a = 0; a < links.length; a++){
           if(data.secNav[i].link?._ref == links[a]._id){
-            data.secNav[i].link = `${links[a]._type === 'jobOff' ? '/pozice' : ''}/${links[a].slug}`
+            data.secNav[i].link = `${links[a]._type === 'jobOff' ? '/kariera' : ''}/${links[a].slug}`
           }
         }
       }
@@ -97,6 +97,8 @@ const Header = ({
     setLeave(true)
     setTimeout(() => { router.push(link) }, 1000);
   }
+
+  // console.log(router);
 
   return (
     <header className={heightAuto ? 'height-auto' : ''}>
