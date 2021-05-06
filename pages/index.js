@@ -17,7 +17,7 @@ const serializers = {
   }
 }
 
-export async function getStaticProps({params, locale}) {
+export async function getServerSideProps({params, locale}) {
 
   const queryStd = `*[_type == 'settings'].content.${locale}.std`;
 
