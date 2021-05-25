@@ -8,6 +8,25 @@ import sanityClient from "../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import BlockContent from "@sanity/block-content-to-react";
 
+const shuffle = (array) => {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
 
@@ -70,23 +89,40 @@ export async function getServerSideProps({params, locale}) {
     }
   }
 
+  let logoPartners = data.partners.logo.map(item => urlFor(item).url())
+
+  logoPartners = shuffle(logoPartners)
+
   return {
     props: {
       data,
-      std: std[0]
+      std: std[0],
+      logoPartners
     }
   }
 }
 
-const Home = ({data, linksArr, links, std}) => {
+const Home = ({data, std, logoPartners}) => {
 
   const [startCount, setStartCount] = useState(false)
+  const [stateLogoPartners, setStateLogoPartners] = useState(logoPartners)
+  const [iterator, setIterator] = useState(0)
 
   const content = data
 
   if(!data?.title){
     return ''
   }
+
+  const changeImg = () => {
+    setStateLogoPartners(shuffle(logoPartners))
+    setTimeout(() => setIterator(Math.random()), 3000)
+  }
+
+  useEffect(() => {
+    let timer1 = setTimeout(() => changeImg(), 3000);
+    return () => clearTimeout(timer1);
+  }, [iterator])
 
   return (
     <Page
@@ -188,20 +224,24 @@ const Home = ({data, linksArr, links, std}) => {
           <div className="partners-video">
             <video src="/assets/partners.mp4" loop muted preload="true" playsInline uk-video="autoplay: inview"></video>
           </div>
-          <div className="partners-wrap" uk-scrollspy="cls: uk-animation-fade; target: .partners-item; delay: 500">
+          <div className="partners-wrap" >
             <div className="uk-container">
               <h2>{content.partners?.title}</h2>
-              <div className="partners-items">
-                {!!content.partners && content.partners.logo.map((item, index) => {
-                  if(index < 6){
-                    return(
-                      <div key={index} className="partners-item">
-                        <img className="uk-svg" src={urlFor(item).url()} uk-svg="" alt="logo-partners"/>
-                      </div>
-                    )
-                  }
-                  return ''
-                })}
+              <div className="partners-items" uk-scrollspy="cls: uk-animation-fade; target: .partners-item; delay: 500">
+
+
+                {[0, 1, 2, 3, 4, 5].map(item =>
+                  <div key={item} className="partners-item" style={{
+                      backgroundImage: `url(${urlFor(stateLogoPartners[item]).url()})`
+                    }}>
+                  </div>)}
+
+
+                {/*{!!content.partners && content.partners.logo.slice(0, 6).map((item, index) =>
+                  <div key={index} className="partners-item">
+                    <img className="uk-svg" src={urlFor(item).url()} uk-svg="" alt="logo-partners"/>
+                  </div>)}*/}
+
               </div>
             </div>
           </div>

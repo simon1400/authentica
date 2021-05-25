@@ -106,13 +106,13 @@ const Header = ({
           <div className={`header-top${menu ? ' active' : ''}`}>
             <Link href="/"><a className="logo-wrap"><img className="uk-svg" src="/assets/authentica-group-logo.svg" alt="Authentica" uk-svg=""/></a></Link>
             <div className="control-header">
-              <div className="lang-wrap uk-visible@s">
+              {/*<div className="lang-wrap uk-visible@s">
                 <ul>
-                  <li className={`${router.locale === 'cs' ? "active-lang" : ''}`}><Link href={router.asPath} locale="cs"><a>cz</a></Link></li>
+                  <li className={`${router.locale === 'cs' ? "active-lang" : ''}`}><Link href={router.asPath} locale="cs"><a>cs</a></Link></li>
                   <li className={`${router.locale === 'en' ? "active-lang" : ''}`}><Link href={router.asPath} locale="en"><a>en</a></Link></li>
                   <li className={`${router.locale === 'de' ? "active-lang" : ''}`}><Link href={router.asPath} locale="de"><a>de</a></Link></li>
                 </ul>
-              </div>
+              </div>*/}
               <div className="control-menu" onClick={() => toggleMenu()}>
                 <span className="uk-visible@s">Menu</span>
                 <button className={`hamburger hamburger--collapse${menu ? ' is-active' : ''}`}>
@@ -138,13 +138,13 @@ const Header = ({
               <nav>
 
                 <div>
-                  <div className="lang-wrap uk-hidden@s">
+                  {/*<div className="lang-wrap uk-hidden@s">
                     <ul>
-                      <li className={`${router.locale === 'cs' ? "active-lang" : ''}`}><Link href={router.asPath} locale="cs"><a>cz</a></Link></li>
+                      <li className={`${router.locale === 'cs' ? "active-lang" : ''}`}><Link href={router.asPath} locale="cs"><a>cs</a></Link></li>
                       <li className={`${router.locale === 'en' ? "active-lang" : ''}`}><Link href={router.asPath} locale="en"><a>en</a></Link></li>
                       <li className={`${router.locale === 'de' ? "active-lang" : ''}`}><Link href={router.asPath} locale="de"><a>de</a></Link></li>
                     </ul>
-                  </div>
+                  </div>*/}
                   <ul className="topNav">
                     {!!topNav?.length && topNav.map((item, index) => (
                       <li key={index}>

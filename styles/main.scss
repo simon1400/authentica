@@ -1,7 +1,6 @@
 @import 'var';
 @import 'libs';
 
-
 *{
   padding: 0;
   margin: 0;
@@ -354,11 +353,19 @@ section{
   grid-template-columns: repeat(3, 1fr);
   justify-content: space-between;
   gap: 80px 60px;
+  // .partners-item{
+  //   display: flex;
+  //   > *{
+  //     margin: auto;
+  //   }
+  // }
   .partners-item{
-    display: flex;
-    > *{
-      margin: auto;
-    }
+    padding-top: 50%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    transition: background-image 1s linear;
+    transform: scale(1)
+    // background-size: contain;
   }
 }
 
