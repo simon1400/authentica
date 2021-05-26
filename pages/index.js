@@ -71,7 +71,7 @@ export async function getServerSideProps({params, locale}) {
     }
   }
 
-  let logoPartners = data.partners.logo.map(item => urlFor(item).url())
+  let logoPartners = data.partners.logo.map(item => urlFor(item).auto('format').url())
 
   logoPartners = shuffle(logoPartners)
 
@@ -167,12 +167,12 @@ const Home = ({data, std, logoPartners}) => {
 
 
       {content.firmArr.map((item, index) => <section key={index} className="firm-sec sec-center">
-        {!!item.background && <img src={urlFor(item.background).url()} alt="" />}
+        {!!item.background && <img src={urlFor(item.background).width(2500).auto('format').url()} alt="" />}
         <div className="uk-overlay-primary uk-position-cover sec-info">
           <div className="uk-container">
             <div className="uk-width-1-1 uk-width-2-3@s">
               <div uk-scrollspy="cls: uk-animation-fade; delay: 300">
-                <img className="uk-svg sec-logo-partner" src={urlFor(item.logo)} uk-svg="" alt="logo"/>
+                <img className="uk-svg sec-logo-partner" src={urlFor(item.logo).width(500).auto('format').url()} uk-svg="" alt="logo"/>
               </div>
               <div uk-scrollspy="cls: uk-animation-fade; delay: 500">
                 <BlockContent blocks={item.content} />
@@ -209,12 +209,13 @@ const Home = ({data, std, logoPartners}) => {
           <div className="partners-wrap" >
             <div className="uk-container">
               <h2>{content.partners?.title}</h2>
-              <div className="partners-items" uk-scrollspy="cls: uk-animation-fade; target: .partners-item; delay: 500">
+              {/*uk-scrollspy="cls: uk-animation-fade; target: .partners-item; delay: 500"*/}
+              <div className="partners-items">
 
 
                 {[0, 1, 2, 3, 4, 5].map(item =>
                   <div key={item} className="partners-item" style={{
-                      backgroundImage: `url(${urlFor(stateLogoPartners[item]).url()})`
+                      backgroundImage: `url(${stateLogoPartners[item]})`
                     }}>
                   </div>)}
 

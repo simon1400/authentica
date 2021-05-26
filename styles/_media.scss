@@ -178,6 +178,10 @@
       grid-template-columns: 1fr 1fr;
       grid-gap: 50px;
       padding-top: 85px;
+      a{
+        padding: 0;
+        text-align: center;
+      }
       >div{
         text-align: center;
       }

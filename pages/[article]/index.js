@@ -59,7 +59,7 @@ export async function getServerSideProps({params, locale}) {
   let logoPartners = []
 
   if(data?.content?.partners?.logo?.length){
-    logoPartners = data?.content.partners?.logo.map(item => urlFor(item).url())
+    logoPartners = data?.content.partners?.logo.map(item => urlFor(item).auto('format').url())
     logoPartners = shuffle(logoPartners)
   }
 
@@ -109,7 +109,7 @@ const Article = ({content, button, dataControl, std, logoPartners, router}) => {
     <Page
       title={content.meta?.title}
       description={content.meta?.description}
-      image={urlFor(content.meta?.image).width(1200).height(630).url()}
+      image={urlFor(content.meta?.image).width(1200).height(630).auto('format').url()}
       ogTitle={content.meta?.ogTitle}
       ogDescription={content.meta?.ogDescription}
       head={content.title}
@@ -141,7 +141,7 @@ const Article = ({content, button, dataControl, std, logoPartners, router}) => {
         <video src="/assets/top-video.mp4" loop muted preload="" playsInline uk-video="autoplay: inview"></video>
       </section>*/}
       {!!content.media?.iamge && <section className="sec-center">
-        <img className="uk-animation-reverse uk-transform-origin-top-right" uk-scrollspy="cls: uk-animation-kenburns; repeat: true" src={urlFor(content.media.iamge).url()} alt="" />
+        <img className="uk-animation-reverse uk-transform-origin-top-right" uk-scrollspy="cls: uk-animation-kenburns; repeat: true" src={urlFor(content.media.iamge).width(2500).auto('format').url()} alt="" />
       </section>}
       <section className="sec-center sec-min">
         <div className="uk-container">
@@ -169,7 +169,7 @@ const Article = ({content, button, dataControl, std, logoPartners, router}) => {
           <div className={`uk-grid uk-child-width-1-1 uk-child-width-1-${item.images.length < 3 ? item.images.length : '3'}@s`} uk-grid="">
             {item.images.map((image, indexImage) => <div key={indexImage}>
               <div className={`article-info ${item.images.length > 1 ? 'square-img' : ''}`}>
-                <img src={urlFor(image).url()} alt="Article info" />
+                <img src={urlFor(image).width(2000).auto('format').url()} alt="Article info" />
               </div>
             </div>)}
           </div>
@@ -188,14 +188,14 @@ const Article = ({content, button, dataControl, std, logoPartners, router}) => {
             <div className="partners-items">
               {[0, 1, 2, 3, 4, 5].map(item =>
                 <div key={item} className="partners-item" style={{
-                    backgroundImage: `url(${urlFor(stateLogoPartners[item]).url()})`
+                    backgroundImage: `url(${stateLogoPartners[item]})`
                   }}>
                 </div>)}
               {/*{content.partners?.logo.map((item, index) => {
                 if(index < 6){
                   return(
                     <div key={index} className="partners-item">
-                      <img className="uk-svg" src={urlFor(item).url()} uk-svg="" alt="logo-partners"/>
+                      <img className="uk-svg" src={urlFor(item).auto('format').url()} uk-svg="" alt="logo-partners"/>
                     </div>
                   )
                 }
