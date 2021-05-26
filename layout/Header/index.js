@@ -127,7 +127,7 @@ const Header = ({
       </div>
       <div className="header-content">
         <div className="uk-container">
-          {!!logoHead && <img className="uk-svg" uk-scrollspy="cls: uk-animation-fade; delay: 300;" src={urlFor(logoHead).url()} uk-svg="" alt="Logo article"/>}
+          {!!logoHead && <img className="uk-img" uk-scrollspy="cls: uk-animation-fade; delay: 300;" src={urlFor(logoHead).url()} uk-img="" alt="Logo article"/>}
           <h1 uk-scrollspy="cls: uk-animation-fade; delay: 500;">{head}</h1>
         </div>
       </div>

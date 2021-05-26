@@ -22,7 +22,8 @@ html{
 body{
   -webkit-tap-highlight-color: transparent;
   font-family: $ff-name, sans-serif;
-  overflow-x: hidden;
+  overflow: hidden;
+  overflow-y: scroll;
   max-height: 100vh;
   ::-moz-selection { /* Code for Firefox */
     color: $black;

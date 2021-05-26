@@ -81,7 +81,7 @@ const Position = ({job, jobOff, std}) => {
       </Head>
       <section className="sec-center position-sec">
         <div className="uk-container">
-          <div className="big-sec">
+          <div className="big-sec" uk-scrollspy="cls: uk-animation-fade; delay: 600">
             <BlockContent blocks={job.content} serializers={serializers} />
           </div>
         </div>

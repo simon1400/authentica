@@ -1,9 +1,12 @@
+import {useState, useEffect} from 'react'
 import Page from '../../layout/Page'
 import sanityClient from "../../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import BlockContent from "@sanity/block-content-to-react";
 import Head from 'next/head'
 import Link from 'next/link'
+import shuffle from '../../helpers/shuffle'
+import {withRouter} from 'next/router'
 
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
@@ -53,17 +56,54 @@ export async function getServerSideProps({params, locale}) {
       },
     }
   }
+  let logoPartners = []
+
+  if(data?.content?.partners?.logo?.length){
+    logoPartners = data?.content.partners?.logo.map(item => urlFor(item).url())
+    logoPartners = shuffle(logoPartners)
+  }
 
   return {
     props: {
       content: data?.content,
       button: data?.button,
-      std: std[0]
+      std: std[0],
+      logoPartners,
     }
   }
 }
 
-const Article = ({content, button, dataControl, std}) => {
+const Article = ({content, button, dataControl, std, logoPartners, router}) => {
+
+  const [stateLogoPartners, setStateLogoPartners] = useState(logoPartners)
+  const [iterator, setIterator] = useState(0)
+
+  const changeImg = () => {
+    setStateLogoPartners(shuffle(logoPartners))
+    setTimeout(() => setIterator(Math.random()), 4000)
+  }
+
+  useEffect(() => {
+
+    const scrollTop = () => {
+      document.body.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    router.events.on('routeChangeComplete', scrollTop);
+
+    return () => {
+      router.events.off('routeChangeStart', scrollTop)
+    }
+  }, [])
+
+  useEffect(() => {
+    let timer1 = setTimeout(() => changeImg(), 4000);
+    return () => clearTimeout(timer1);
+  }, [iterator])
 
   return(
     <Page
@@ -93,6 +133,9 @@ const Article = ({content, button, dataControl, std}) => {
           },
           "url" : "${std.url}"
         }`}} />}
+        {/*<link rel="alternate" hreflang="cs" href={`${host}${router.asPath}`} />
+        <link rel="alternate" hreflang="en" href={`${host}${router.asPath}`} />
+        <link rel="alternate" hreflang="de" href={`${host}${router.asPath}`} />*/}
       </Head>
       {/*<section className="video-bg">
         <video src="/assets/top-video.mp4" loop muted preload="" playsInline uk-video="autoplay: inview"></video>
@@ -143,7 +186,12 @@ const Article = ({content, button, dataControl, std}) => {
         <div className="partners-wrap">
           <div className="uk-container">
             <div className="partners-items">
-              {content.partners?.logo.map((item, index) => {
+              {[0, 1, 2, 3, 4, 5].map(item =>
+                <div key={item} className="partners-item" style={{
+                    backgroundImage: `url(${urlFor(stateLogoPartners[item]).url()})`
+                  }}>
+                </div>)}
+              {/*{content.partners?.logo.map((item, index) => {
                 if(index < 6){
                   return(
                     <div key={index} className="partners-item">
@@ -152,7 +200,7 @@ const Article = ({content, button, dataControl, std}) => {
                   )
                 }
                 return ''
-              })}
+              })}*/}
             </div>
           </div>
         </div>
@@ -161,4 +209,4 @@ const Article = ({content, button, dataControl, std}) => {
   )
 }
 
-export default Article
+export default withRouter(Article)

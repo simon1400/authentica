@@ -7,25 +7,7 @@ import handleViewport from 'react-in-viewport';
 import sanityClient from "../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import BlockContent from "@sanity/block-content-to-react";
-
-const shuffle = (array) => {
-  var currentIndex = array.length, temporaryValue, randomIndex;
-
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
-
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
-}
+import shuffle from '../helpers/shuffle'
 
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
@@ -116,11 +98,11 @@ const Home = ({data, std, logoPartners}) => {
 
   const changeImg = () => {
     setStateLogoPartners(shuffle(logoPartners))
-    setTimeout(() => setIterator(Math.random()), 3000)
+    setTimeout(() => setIterator(Math.random()), 4000)
   }
 
   useEffect(() => {
-    let timer1 = setTimeout(() => changeImg(), 3000);
+    let timer1 = setTimeout(() => changeImg(), 4000);
     return () => clearTimeout(timer1);
   }, [iterator])
 
