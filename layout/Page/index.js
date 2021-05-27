@@ -35,11 +35,11 @@ const Page = ({
 
   const router = useRouter()
   const [global, setGlobal] = useState({
-    site_url: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://authentica.cz',
+    site_url: process.env.NODE_ENV === 'development' ? 'http://localhost:3002' : 'https://a-group.cz/',
     facebook_app_id: '',
     defaultTitle: endTitleData || 'AUTHENTICA',
     defaultDescription: 'Authentica',
-    defaultImage: `${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://authentica.cz'}`,
+    defaultImage: `${process.env.NODE_ENV === 'development' ? 'http://localhost:3002' : 'https://a-group.cz/'}`,
     defaultTwitter: '@cereallarceny',
     defaultSep: ' ',
     gtm: gtmData || ''
