@@ -149,7 +149,9 @@ const Article = ({content, button, std, router}) => {
         </div>
       </section>
 
-      {!!content.chapters?.length && content.chapters.map((item, index) => <section key={index} className={`sec-auto article-sec ${!item.images?.length && !item.title ? 'uk-padding-remove-top' : ''}`}>
+      {!!content.chapters?.length && content.chapters.map((item, index) => <section key={index} className={`sec-auto article-sec
+        ${!item.images?.length && !item.title ? 'uk-padding-remove-top ' : ''}
+        ${!content.media?.iamge && index === 0 ? 'uk-padding-remove-top' : ''}`}>
         {!!item.title && <div className="uk-container">
           {!!item.title?.length && <h2 uk-scrollspy="cls: uk-animation-fade; delay: 300">{item.title}</h2>}
         </div>}

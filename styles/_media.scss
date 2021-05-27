@@ -32,7 +32,7 @@
   }
 
   .video-bg{
-    height: 380px;
+    height: 250px;
   }
   section{
     height: auto;
@@ -133,6 +133,9 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 20px 80px;
     max-width: calc(100vw - 30px);
+    .partners-item{
+      background-size: contain;
+    }
   }
 
   .partners.without-video{
