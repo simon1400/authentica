@@ -49,15 +49,18 @@ export async function getServerSideProps({params, locale}) {
     }
   }
 
+  const globalSettings = await sanityClient.fetch(`*[_type == 'settings'].content.${locale}`)
+
   return {
     props: {
+      globalSettings: globalSettings[0],
       content: data.content,
       std: std[0]
     }
   }
 }
 
-const FullPosition = ({content, std, router}) => {
+const FullPosition = ({content, std, router, globalSettings}) => {
 
   useEffect(() => {
 
@@ -84,6 +87,8 @@ const FullPosition = ({content, std, router}) => {
       ogTitle={content.meta?.ogTitle}
       ogDescription={content.meta?.ogDescription}
       head={content.title}
+      gtmData={globalSettings?.gtm}
+      endTitleData={globalSettings?.endTitle}
       heightAuto={true}
     >
       <Head>

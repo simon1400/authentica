@@ -100,20 +100,19 @@ export async function getServerSideProps({params, locale}) {
 
   logoPartners = shuffle(logoPartners)
 
+  const globalSettings = await sanityClient.fetch(`*[_type == 'settings'].content.${locale}`)
+
   return {
     props: {
-      links,
       data,
       std: std[0],
-      logoPartners
+      logoPartners,
+      globalSettings: globalSettings[0]
     }
   }
 }
 
-const Home = ({data, std, logoPartners, router, links}) => {
-
-  console.log(links);
-  console.log(data);
+const Home = ({data, std, logoPartners, router, globalSettings}) => {
 
   const [startCount, setStartCount] = useState(false)
   const [stateLogoPartners, setStateLogoPartners] = useState(logoPartners)
@@ -162,6 +161,8 @@ const Home = ({data, std, logoPartners, router, links}) => {
       ogTitle={data?.meta?.ogTitle}
       ogDescription={data?.meta?.ogDescription}
       head={content?.title}
+      gtmData={globalSettings?.gtm}
+      endTitleData={globalSettings?.endTitle}
       heightAuto={!data?.videoFile && !content?.media?.iamge}
     >
       <Head>

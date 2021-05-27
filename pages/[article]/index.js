@@ -66,9 +66,12 @@ export async function getServerSideProps({params, locale}) {
     linkButton = data?.button.cta.linkMail
   }
 
+  const globalSettings = await sanityClient.fetch(`*[_type == 'settings'].content.${locale}`)
+
   return {
     props: {
       content: data?.content,
+      globalSettings: globalSettings[0],
       button: {
         linkButton: linkButton,
         linkButtonType: linkButtonType
@@ -78,7 +81,7 @@ export async function getServerSideProps({params, locale}) {
   }
 }
 
-const Article = ({content, button, std, router}) => {
+const Article = ({content, button, std, router, globalSettings}) => {
 
   useEffect(() => {
 
@@ -105,6 +108,8 @@ const Article = ({content, button, std, router}) => {
       ogTitle={content.meta?.ogTitle}
       ogDescription={content.meta?.ogDescription}
       head={content.title}
+      gtmData={globalSettings?.gtm}
+      endTitleData={globalSettings?.endTitle}
       logoHead={content.logo}
     >
       <Head>

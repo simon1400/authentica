@@ -41,8 +41,11 @@ export async function getServerSideProps({params, locale}) {
   //   }
   // }
 
+  const globalSettings = await sanityClient.fetch(`*[_type == 'settings'].content.${locale}`)
+
   return {
     props: {
+      globalSettings: globalSettings[0],
       job: job.content,
       jobOff: jobOff,
       std: std[0]
@@ -50,7 +53,7 @@ export async function getServerSideProps({params, locale}) {
   }
 }
 
-const Position = ({job, jobOff, std, router}) => {
+const Position = ({job, jobOff, std, router, globalSettings}) => {
 
   useEffect(() => {
 
@@ -77,6 +80,8 @@ const Position = ({job, jobOff, std, router}) => {
       ogTitle={job.meta?.ogTitle}
       ogDescription={job.meta?.ogDescription}
       head={job.title}
+      gtmData={globalSettings?.gtm}
+      endTitleData={globalSettings?.endTitle}
       heightAuto={true}
     >
       <Head>
