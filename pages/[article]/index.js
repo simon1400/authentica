@@ -184,7 +184,7 @@ const Article = ({content, button, std, router, globalSettings}) => {
               {content.partners?.logo.map((item, index) => {
                 if(index < 6){
                   return(
-                    <div key={index} className="partners-item">
+                    <div key={index} className="partners-item inside">
                       <img className="uk-svg" src={urlFor(item).auto('format').url()} uk-svg="" alt="logo-partners"/>
                     </div>
                   )

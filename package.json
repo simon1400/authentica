@@ -5,13 +5,18 @@
   "scripts": {
     "dev": "next dev -p 3002",
     "build": "next build",
-    "start": "next start -p 3002"
+    "start": "next start -p 3002",
+    "sitemap": "NODE_ENV=prod babel-node ./functions/sitemap-generator.js"
   },
   "dependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.13.12",
     "@sanity/block-content-to-react": "^2.0.7",
     "@sanity/client": "^2.8.0",
     "@sanity/image-url": "^0.140.22",
+    "axios": "^0.21.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.26.0",
     "framer-motion": "^4.1.11",
     "hamburgers": "^1.1.3",
     "next": "10.1.2",
@@ -21,8 +26,13 @@
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "17.0.2",
     "react-in-viewport": "^1.0.0-alpha.16",
+    "react-router-dom": "^5.2.0",
+    "react-router-sitemap": "^1.2.0",
     "react-transition-group": "^4.4.1",
     "sass": "^1.32.8",
     "uikit": "^3.6.18"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0"
   }
 }

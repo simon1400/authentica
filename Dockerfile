@@ -9,6 +9,7 @@ COPY package*.json ./
 RUN yarn install
 COPY --chown=node:node . .
 
+RUN yarn sitemap
 RUN yarn build
 
 EXPOSE 3002

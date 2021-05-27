@@ -353,18 +353,18 @@ section{
   grid-template-columns: repeat(3, 1fr);
   justify-content: space-between;
   gap: 80px 60px;
-  // .partners-item{
-  //   display: flex;
-  //   > *{
-  //     margin: auto;
-  //   }
-  // }
   .partners-item{
+    display: flex;
     padding-top: 50%;
     background-repeat: no-repeat;
     background-position: center center;
     transition: background-image 1s linear;
-    // background-size: contain;
+    &.inside{
+      padding-top: 0;
+    }
+    > *{
+      margin: auto;
+    }
   }
 }
 
