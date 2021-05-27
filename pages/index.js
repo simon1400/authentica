@@ -8,6 +8,7 @@ import sanityClient from "../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import BlockContent from "@sanity/block-content-to-react";
 import shuffle from '../helpers/shuffle'
+import Button from '../components/Button'
 
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
@@ -29,10 +30,6 @@ export async function getServerSideProps({params, locale}) {
     meta,
     media,
     button,
-    "linkButton": *[_type in ['article', 'jobOff'] && _id in [^.button.link._ref]]{
-      "slug": content.${locale}.slug.current,
-      "type": _type
-    }[0],
     firmArr,
     secSuccess,
     partners,
@@ -41,32 +38,57 @@ export async function getServerSideProps({params, locale}) {
 
   const data = await sanityClient.fetch(query)
 
+  let linkButton = '', linkButtonType = 'inter'
+  if(data?.button.cta.linkInter){
+    linkButton = await sanityClient.fetch(`*[_type in ['article', 'jobOff'] && _id in ["${data.button.cta.linkInter._ref}"]]{
+      "slug": content.${locale}.slug.current,
+      "type": _type
+    }[0]`)
+  }else if(data?.button.cta.linkExter){
+    linkButtonType = 'exter'
+    linkButton = data?.button.cta.linkExter
+  }else if(data?.button.cta.linkMail){
+    linkButtonType = 'mail'
+    linkButton = data?.button.cta.linkMail
+  }
+
+  data.linkButton = linkButton
+  data.linkButtonType = linkButtonType
+
   const linksArr = []
   if(data?.firmArr && data?.firmArr?.length){
     for(var i = 0; i < data?.firmArr.length; i++){
-      if(data.firmArr?.[i]?.button?.link){
-        linksArr.push(data.firmArr[i].button.link._ref)
-      }else{
-        linksArr.push('-')
+      if(data.firmArr?.[i]?.button?.cta?.linkInter){
+        linksArr.push(data.firmArr[i].button.cta.linkInter._ref)
+      }else if(data.firmArr?.[i]?.button?.cta?.linkExter){
+        linksArr.push(data.firmArr?.[i]?.button?.cta?.linkExter)
+      }else if(data.firmArr?.[i]?.button?.cta?.linkMail){
+        linksArr.push(data.firmArr?.[i]?.button?.cta?.linkMail)
       }
     }
   }
 
-
-  const queryLinks = `*[_type in ['article', 'jobOff'] && _id in [${linksArr.map(item => `"${item}"`)}]]{
+  const links = await sanityClient.fetch(`*[_type in ['article', 'jobOff'] && _id in [${linksArr.map(item => `"${item}"`)}]]{
     _id,
     _type,
     "slug": content.${locale}.slug.current
-  }`
-
-  const links = await sanityClient.fetch(queryLinks)
+  }`)
 
   if(data?.firmArr && data?.firmArr?.length){
     for(var i = 0; i < data.firmArr.length; i++){
-      for(var a = 0; a < links.length; a++){
-        if(data.firmArr[i]?.button?.link?._ref == links[a]._id){
-          data.firmArr[i].button.link = `${links[a]._type === 'article' ? '' : '/pozice'}/${links[a].slug}`
+      if(data.firmArr[i].button.cta.linkInter){
+        data.firmArr[i].button.typeLink = 'inter'
+        for(var a = 0; a < links.length; a++){
+          if(data.firmArr[i]?.button?.link?._ref == links[a]._id){
+            data.firmArr[i].button.link = `${links[a]._type === 'article' ? '' : '/pozice'}/${links[a].slug}`
+          }
         }
+      }else if(data.firmArr?.[i]?.button?.cta?.linkExter){
+        data.firmArr[i].button.typeLink = 'exter'
+        data.firmArr[i].button.link = data.firmArr?.[i]?.button?.cta?.linkExter
+      }else if(data.firmArr?.[i]?.button?.cta?.linkMail){
+        data.firmArr[i].button.typeLink = 'mail'
+        data.firmArr[i].button.link = data.firmArr?.[i]?.button?.cta?.linkMail
       }
     }
   }
@@ -153,14 +175,7 @@ const Home = ({data, std, logoPartners}) => {
             <div uk-scrollspy="cls: uk-animation-fade; delay: 300">
               <BlockContent blocks={content.content} serializers={serializers} />
             </div>
-            {(!!content.button?.name?.length && !!content.linkButton?.slug?.length) && <div uk-scrollspy="cls: uk-animation-fade; delay: 500">
-              <Link href={`${content.linkButton.type === 'jobOff' ? '/kariera' : ''}/${content.linkButton.slug}`}>
-                <a className="button">
-                  {content.button?.name}
-                  <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/>
-                </a>
-              </Link>
-            </div>}
+            {!!content.button?.name?.length && <Button type={content.linkButtonType} name={content.button.name} link={content.linkButton} />}
           </div>
         </div>
       </section>
@@ -177,14 +192,11 @@ const Home = ({data, std, logoPartners}) => {
               <div uk-scrollspy="cls: uk-animation-fade; delay: 500">
                 <BlockContent blocks={item.content} />
               </div>
-              {(!!item.button?.link && !!item.button?.name) && <div uk-scrollspy="cls: uk-animation-fade; delay: 700">
-                <Link href={item.button.link}>
-                  <a className="button bare" >
-                    <span>{item.button.name}</span>
-                    <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/>
-                  </a>
-                </Link>
-              </div>}
+              {(!!item.button?.link && !!item.button?.name) && <Button
+                                                                  type={item.button.typeLink}
+                                                                  name={item.button.name}
+                                                                  link={item.button.link}
+                                                                  delay={700} bare arr />}
             </div>
           </div>
         </div>

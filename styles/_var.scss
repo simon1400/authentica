@@ -148,6 +148,11 @@ section ul a, p a{
       animation-name: slidein;
     }
   }
+  &.not-anim{
+    img, svg{
+      transform: translateX(0);
+    }
+  }
   &.bare{
     padding: 0;
     border: none;

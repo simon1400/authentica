@@ -7,6 +7,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import shuffle from '../../helpers/shuffle'
 import {withRouter} from 'next/router'
+import Button from '../../components/Button'
 
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
@@ -37,13 +38,7 @@ export async function getServerSideProps({params, locale}) {
   const query = `*[_type == 'article' && content.${locale}.slug.current == $url] {
     _id,
     "content": content.${locale},
-    "button": {
-      "name": content.${locale}.button.name,
-      "link": *[_type in ['article', 'jobOff', 'category'] && _id in [^.content.${locale}.button.link._ref]]{
-        "slug": content.${locale}.slug.current,
-        "type": _type
-      }[0]
-    }
+    "button": content.${locale}.button
   }[0]`;
 
   const data = await sanityClient.fetch(query, {url: params.article})
@@ -56,8 +51,22 @@ export async function getServerSideProps({params, locale}) {
       },
     }
   }
-  let logoPartners = []
 
+  let linkButton = '', linkButtonType = 'inter'
+  if(data?.button.cta.linkInter){
+    linkButton = await sanityClient.fetch(`*[_type in ['article', 'jobOff', 'category'] && _id in ["${data.button.cta.linkInter._ref}"]]{
+      "slug": content.${locale}.slug.current,
+      "type": _type
+    }[0]`)
+  }else if(data?.button.cta.linkExter){
+    linkButtonType = 'exter'
+    linkButton = data?.button.cta.linkExter
+  }else if(data?.button.cta.linkMail){
+    linkButtonType = 'mail'
+    linkButton = data?.button.cta.linkMail
+  }
+
+  let logoPartners = []
   if(data?.content?.partners?.logo?.length){
     logoPartners = data?.content.partners?.logo.map(item => urlFor(item).auto('format').url())
     logoPartners = shuffle(logoPartners)
@@ -66,14 +75,17 @@ export async function getServerSideProps({params, locale}) {
   return {
     props: {
       content: data?.content,
-      button: data?.button,
+      button: {
+        linkButton: linkButton,
+        linkButtonType: linkButtonType
+      },
       std: std[0],
       logoPartners,
     }
   }
 }
 
-const Article = ({content, button, dataControl, std, logoPartners, router}) => {
+const Article = ({content, button, std, logoPartners, router}) => {
 
   const [stateLogoPartners, setStateLogoPartners] = useState(logoPartners)
   const [iterator, setIterator] = useState(0)
@@ -149,14 +161,10 @@ const Article = ({content, button, dataControl, std, logoPartners, router}) => {
             <div uk-scrollspy="cls: uk-animation-fade; delay: 300">
               <BlockContent blocks={content.content} serializers={serializers} />
             </div>
-            {(!!button?.name?.length && !!button?.link?.slug?.length) && <div uk-scrollspy="cls: uk-animation-fade; delay: 500">
-              <Link href={`${button?.link.type === 'jobOff' ? '/kariera' : ''}/${button?.link.slug}`}>
-                <a className="button">
-                  {button?.name}
-                  <img className="uk-svg" src="/assets/arrow-right.svg" uk-svg="" alt="Right"/>
-                </a>
-              </Link>
-            </div>}
+            {(!!button.linkButton && !!content.button?.name) && <Button
+                                                                type={button.linkButtonType}
+                                                                name={content.button?.name}
+                                                                link={button.linkButton} />}
           </div>
         </div>
       </section>
