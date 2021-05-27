@@ -9,6 +9,9 @@ import imageUrlBuilder from "@sanity/image-url";
 import BlockContent from "@sanity/block-content-to-react";
 import shuffle from '../helpers/shuffle'
 import Button from '../components/Button'
+import {withRouter} from 'next/router'
+
+import useWindowSize from '../helpers/windowSize'
 
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
@@ -106,17 +109,36 @@ export async function getServerSideProps({params, locale}) {
   }
 }
 
-const Home = ({data, std, logoPartners}) => {
+const Home = ({data, std, logoPartners, router}) => {
 
   const [startCount, setStartCount] = useState(false)
   const [stateLogoPartners, setStateLogoPartners] = useState(logoPartners)
   const [iterator, setIterator] = useState(0)
+
+  const size = useWindowSize()
 
   const content = data
 
   if(!data?.title){
     return ''
   }
+
+  useEffect(() => {
+
+    const scrollTop = () => {
+      document.body.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    router.events.on('routeChangeComplete', scrollTop);
+
+    return () => {
+      router.events.off('routeChangeStart', scrollTop)
+    }
+  }, [])
 
   const changeImg = () => {
     setStateLogoPartners(shuffle(logoPartners))
@@ -159,7 +181,7 @@ const Home = ({data, std, logoPartners}) => {
       </Head>
 
       <section className="video-bg">
-        <video src="/assets/top-video.mp4" loop muted preload="true" playsInline uk-video="autoplay: inview"></video>
+        <video src={size?.width > 640 ? "/assets/agroup-hq.mp4" : "/assets/agroup-lq.mp4"} loop muted preload="true" playsInline uk-video="autoplay: inview"></video>
       </section>
       {/*{!!data.videoFile && <section className="video-bg">
         <video src={data.videoFile} loop muted playsInline uk-video="autoplay: inview"></video>
@@ -216,7 +238,7 @@ const Home = ({data, std, logoPartners}) => {
       <section className="partners partners-video">
         <div className="partners-logo-wrap">
           <div className="partners-video">
-            <video src="/assets/partners.mp4" loop muted preload="true" playsInline uk-video="autoplay: inview"></video>
+            <video src={size?.width > 640 ? "/assets/smoke-hq.mp4" : "/assets/smoke-lq.mp4"} loop muted preload="true" playsInline uk-video="autoplay: inview"></video>
           </div>
           <div className="partners-wrap" >
             <div className="uk-container">
@@ -269,4 +291,4 @@ const Block = handleViewport(({ inViewport, forwardedRef, startCount, setStartCo
   )
 })
 
-export default Home
+export default withRouter(Home)
