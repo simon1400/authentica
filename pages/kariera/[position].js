@@ -1,6 +1,8 @@
+import {useEffect} from 'react'
 import Page from '../../layout/Page'
 import Head from 'next/head'
 import Link from 'next/link'
+import {withRouter} from 'next/router'
 import sanityClient from "../../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import BlockContent from "@sanity/block-content-to-react";
@@ -55,7 +57,24 @@ export async function getServerSideProps({params, locale}) {
   }
 }
 
-const FullPosition = ({content, std}) => {
+const FullPosition = ({content, std, router}) => {
+
+  useEffect(() => {
+
+    const scrollTop = () => {
+      document.body.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    router.events.on('routeChangeComplete', scrollTop);
+
+    return () => {
+      router.events.off('routeChangeStart', scrollTop)
+    }
+  }, [])
 
   return(
     <Page
@@ -88,21 +107,21 @@ const FullPosition = ({content, std}) => {
       </Head>
       {content.content && <section className="sec-center position-sec">
         <div className="uk-container">
-          <div className="big-sec">
+          <div className="big-sec" uk-scrollspy="cls: uk-animation-fade; delay: 600">
             <BlockContent blocks={content.content} serializers={serializers} />
           </div>
         </div>
       </section>}
       {content.description && <section className="sec-center position-sec">
         <div className="uk-container">
-          <div className="big-sec small-text">
+          <div className="big-sec small-text" uk-scrollspy="cls: uk-animation-fade; delay: 600">
             <BlockContent blocks={content.description} serializers={serializers} />
           </div>
         </div>
       </section>}
       <section className="sec-center position-sec">
         <div className="uk-container">
-          <div className="big-sec small-text">
+          <div className="big-sec small-text" uk-scrollspy="cls: uk-animation-fade; delay: 600">
             <div>
               <p>
                 {!!content.phone?.length && <a href={`tel:${content.phone.split(' ').join('')}`}>{content.phone}</a> && <br />}
@@ -116,4 +135,4 @@ const FullPosition = ({content, std}) => {
   )
 }
 
-export default FullPosition
+export default withRouter(FullPosition)

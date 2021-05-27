@@ -61,11 +61,11 @@ export async function getServerSideProps({params, locale}) {
   const linksArr = []
   if(data?.firmArr && data?.firmArr?.length){
     for(var i = 0; i < data?.firmArr.length; i++){
-      if(data.firmArr?.[i]?.button?.cta?.linkInter){
+      if(data.firmArr.[i]?.button?.cta?.linkInter){
         linksArr.push(data.firmArr[i].button.cta.linkInter._ref)
-      }else if(data.firmArr?.[i]?.button?.cta?.linkExter){
+      }else if(data.firmArr.[i]?.button?.cta?.linkExter){
         linksArr.push(data.firmArr?.[i]?.button?.cta?.linkExter)
-      }else if(data.firmArr?.[i]?.button?.cta?.linkMail){
+      }else if(data.firmArr.[i]?.button?.cta?.linkMail){
         linksArr.push(data.firmArr?.[i]?.button?.cta?.linkMail)
       }
     }
@@ -82,7 +82,7 @@ export async function getServerSideProps({params, locale}) {
       if(data.firmArr[i].button.cta.linkInter){
         data.firmArr[i].button.typeLink = 'inter'
         for(var a = 0; a < links.length; a++){
-          if(data.firmArr[i]?.button?.link?._ref == links[a]._id){
+          if(data.firmArr[i]?.button?.cta.linkInter?._ref == links[a]._id){
             data.firmArr[i].button.link = `${links[a]._type === 'article' ? '' : '/pozice'}/${links[a].slug}`
           }
         }
@@ -102,6 +102,7 @@ export async function getServerSideProps({params, locale}) {
 
   return {
     props: {
+      links,
       data,
       std: std[0],
       logoPartners
@@ -109,7 +110,10 @@ export async function getServerSideProps({params, locale}) {
   }
 }
 
-const Home = ({data, std, logoPartners, router}) => {
+const Home = ({data, std, logoPartners, router, links}) => {
+
+  console.log(links);
+  console.log(data);
 
   const [startCount, setStartCount] = useState(false)
   const [stateLogoPartners, setStateLogoPartners] = useState(logoPartners)

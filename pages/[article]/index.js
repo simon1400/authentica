@@ -53,23 +53,17 @@ export async function getServerSideProps({params, locale}) {
   }
 
   let linkButton = '', linkButtonType = 'inter'
-  if(data?.button.cta.linkInter){
+  if(data?.button?.cta?.linkInter){
     linkButton = await sanityClient.fetch(`*[_type in ['article', 'jobOff', 'category'] && _id in ["${data.button.cta.linkInter._ref}"]]{
       "slug": content.${locale}.slug.current,
       "type": _type
     }[0]`)
-  }else if(data?.button.cta.linkExter){
+  }else if(data?.button?.cta?.linkExter){
     linkButtonType = 'exter'
-    linkButton = data?.button.cta.linkExter
-  }else if(data?.button.cta.linkMail){
+    linkButton = data?.button?.cta?.linkExter
+  }else if(data?.button?.cta?.linkMail){
     linkButtonType = 'mail'
     linkButton = data?.button.cta.linkMail
-  }
-
-  let logoPartners = []
-  if(data?.content?.partners?.logo?.length){
-    logoPartners = data?.content.partners?.logo.map(item => urlFor(item).auto('format').url())
-    logoPartners = shuffle(logoPartners)
   }
 
   return {
@@ -79,21 +73,12 @@ export async function getServerSideProps({params, locale}) {
         linkButton: linkButton,
         linkButtonType: linkButtonType
       },
-      std: std[0],
-      logoPartners,
+      std: std[0]
     }
   }
 }
 
-const Article = ({content, button, std, logoPartners, router}) => {
-
-  const [stateLogoPartners, setStateLogoPartners] = useState(logoPartners)
-  const [iterator, setIterator] = useState(0)
-
-  const changeImg = () => {
-    setStateLogoPartners(shuffle(logoPartners))
-    setTimeout(() => setIterator(Math.random()), 4000)
-  }
+const Article = ({content, button, std, router}) => {
 
   useEffect(() => {
 
@@ -111,11 +96,6 @@ const Article = ({content, button, std, logoPartners, router}) => {
       router.events.off('routeChangeStart', scrollTop)
     }
   }, [])
-
-  useEffect(() => {
-    let timer1 = setTimeout(() => changeImg(), 4000);
-    return () => clearTimeout(timer1);
-  }, [iterator])
 
   return(
     <Page
@@ -194,12 +174,7 @@ const Article = ({content, button, std, logoPartners, router}) => {
         <div className="partners-wrap">
           <div className="uk-container">
             <div className="partners-items">
-              {[0, 1, 2, 3, 4, 5].map(item =>
-                <div key={item} className="partners-item" style={{
-                    backgroundImage: `url(${stateLogoPartners[item]})`
-                  }}>
-                </div>)}
-              {/*{content.partners?.logo.map((item, index) => {
+              {content.partners?.logo.map((item, index) => {
                 if(index < 6){
                   return(
                     <div key={index} className="partners-item">
@@ -208,7 +183,7 @@ const Article = ({content, button, std, logoPartners, router}) => {
                   )
                 }
                 return ''
-              })}*/}
+              })}
             </div>
           </div>
         </div>

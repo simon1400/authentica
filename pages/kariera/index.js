@@ -1,6 +1,8 @@
+import {useEffect} from 'react'
 import Page from '../../layout/Page'
 import Link from 'next/link'
 import Head from 'next/head'
+import {withRouter} from 'next/router'
 import sanityClient from "../../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import BlockContent from "@sanity/block-content-to-react";
@@ -48,7 +50,24 @@ export async function getServerSideProps({params, locale}) {
   }
 }
 
-const Position = ({job, jobOff, std}) => {
+const Position = ({job, jobOff, std, router}) => {
+
+  useEffect(() => {
+
+    const scrollTop = () => {
+      document.body.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    router.events.on('routeChangeComplete', scrollTop);
+
+    return () => {
+      router.events.off('routeChangeStart', scrollTop)
+    }
+  }, [])
 
   return(
     <Page
@@ -108,4 +127,4 @@ const Position = ({job, jobOff, std}) => {
   )
 }
 
-export default Position
+export default withRouter(Position)
