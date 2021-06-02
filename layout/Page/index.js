@@ -41,8 +41,7 @@ const Page = ({
     defaultDescription: 'Authentica',
     defaultImage: `${process.env.NODE_ENV === 'development' ? 'http://localhost:3002' : 'https://a-group.cz'}`,
     defaultTwitter: '@cereallarceny',
-    defaultSep: ' ',
-    gtm: gtmData || ''
+    defaultSep: ' '
   })
 
   const theTitle = title ? (title + global.defaultSep + global.defaultTitle).substring(0, 60) : global.defaultTitle;
@@ -54,21 +53,22 @@ const Page = ({
       <Head>
 
         {/*<!-- Google Tag Manager -->*/}
-        {global?.gtm && <script dangerouslySetInnerHTML={{__html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        {!!gtmData && <script dangerouslySetInnerHTML={{__html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
         j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','${global?.gtm}');`}} />}
+        })(window,document,'script','dataLayer','${gtmData}');`}} />}
         {/*<!-- End Google Tag Manager -->*/}
 
         <meta charSet="utf-8" />
 
         {/* FAVICON */}
         <link rel="icon" href="/favicon/favicon.ico" />
+        <link rel="icon" href="/favicon/favicon.svg" />
         <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
-        <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5" />
+        {/*<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5" />*/}
         <link rel="manifest" href="/favicon/site.webmanifest" />
 
         <meta name="msapplication-TileColor" content="#ffffff" />
@@ -106,7 +106,7 @@ const Page = ({
       </Head>
 
       {/*<!-- Google Tag Manager (noscript) -->*/}
-      <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${global?.gtm || 'GTM-KH5BW7W'}`}
+      <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmData || 'GTM-KH5BW7W'}`}
       height="0" width="0" style={{display:'none', visibility:'hidden'}}></iframe></noscript>
       {/*<!-- End Google Tag Manager (noscript) -->*/}
 

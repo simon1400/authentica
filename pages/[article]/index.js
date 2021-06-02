@@ -130,17 +130,28 @@ const Article = ({content, button, std, router, globalSettings}) => {
           },
           "url" : "${std.url}"
         }`}} />}
-        {/*<link rel="alternate" hreflang="cs" href={`${host}${router.asPath}`} />
-        <link rel="alternate" hreflang="en" href={`${host}${router.asPath}`} />
+        <link rel="alternate" hreflang="cs" href={`https://a-group.cz${router.asPath}`} />
+        {/*<link rel="alternate" hreflang="en" href={`${host}${router.asPath}`} />
         <link rel="alternate" hreflang="de" href={`${host}${router.asPath}`} />*/}
       </Head>
       {/*<section className="video-bg">
         <video src="/assets/top-video.mp4" loop muted preload="" playsInline uk-video="autoplay: inview"></video>
       </section>*/}
       {!!content.media?.iamge && <section className="sec-center">
-        <img className="uk-animation-reverse uk-transform-origin-top-right" uk-scrollspy="cls: uk-animation-kenburns; repeat: true" src={urlFor(content.media.iamge).width(2500).auto('format').url()} alt="" />
+        <img
+          className="uk-img uk-animation-reverse uk-transform-origin-top-right"
+          uk-scrollspy="cls: uk-animation-kenburns; repeat: true"
+          uk-img=""
+          data-src={urlFor(content.media.iamge).auto('format').url()}
+          data-srcset={`${urlFor(content.media.iamge).width(400).auto('format').url()} 400w,
+                    ${urlFor(content.media.iamge).width(640).auto('format').url()} 640w,
+                    ${urlFor(content.media.iamge).width(900).auto('format').url()} 900w,
+                    ${urlFor(content.media.iamge).width(1000).auto('format').url()} 1000w,
+                    ${urlFor(content.media.iamge).width(1600).auto('format').url()} 1600w,
+                    ${urlFor(content.media.iamge).width(2500).auto('format').url()} 2000w`}
+          alt={content.title} />
       </section>}
-      <section className="sec-center sec-min">
+      <section className={`sec-center sec-min${!content.media?.iamge ? ' uk-padding-remove-top' : ''}`} >
         <div className="uk-container">
           <div className="big-sec">
             <div uk-scrollspy="cls: uk-animation-fade; delay: 300">
@@ -154,9 +165,10 @@ const Article = ({content, button, std, router, globalSettings}) => {
         </div>
       </section>
 
+
+
       {!!content.chapters?.length && content.chapters.map((item, index) => <section key={index} className={`sec-auto article-sec
-        ${!item.images?.length && !item.title ? 'uk-padding-remove-top ' : ''}
-        ${!content.media?.iamge && index === 0 ? 'uk-padding-remove-top' : ''}`}>
+        ${!item.images?.length && !item.title ? 'uk-padding-remove-top ' : ''}`}>
         {!!item.title && <div className="uk-container">
           {!!item.title?.length && <h2 uk-scrollspy="cls: uk-animation-fade; delay: 300">{item.title}</h2>}
         </div>}
@@ -164,7 +176,17 @@ const Article = ({content, button, std, router, globalSettings}) => {
           <div className={`uk-grid uk-child-width-1-1 uk-child-width-1-${item.images.length < 3 ? item.images.length : '3'}@s`} uk-grid="">
             {item.images.map((image, indexImage) => <div key={indexImage}>
               <div className={`article-info ${item.images.length > 1 ? 'square-img' : ''}`}>
-                <img src={urlFor(image).width(2000).auto('format').url()} alt="Article info" />
+                <img
+                  className="uk-img"
+                  uk-img=""
+                  data-src={urlFor(image).auto('format').url()}
+                  data-srcset={`${urlFor(image).width(400).auto('format').url()} 400w,
+                            ${urlFor(image).width(640).auto('format').url()} 640w,
+                            ${urlFor(image).width(900).auto('format').url()} 900w,
+                            ${urlFor(image).width(1000).auto('format').url()} 1000w,
+                            ${urlFor(image).width(1600).auto('format').url()} 1600w,
+                            ${urlFor(image).width(2000).auto('format').url()} 2000w`}
+                  alt="Article info" />
               </div>
             </div>)}
           </div>

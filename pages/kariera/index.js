@@ -102,6 +102,7 @@ const Position = ({job, jobOff, std, router, globalSettings}) => {
           },
           "url" : "${std.url}"
         }`}} />}
+        <link rel="alternate" hreflang="cs" href={`https://a-group.cz${router.asPath}`} />
       </Head>
       <section className="sec-center position-sec">
         <div className="uk-container">
