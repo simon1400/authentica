@@ -45,6 +45,8 @@ async function generateSitemap() {
 
     var path = './public/sitemap.xml'
 
+    console.log(`Recreate sitemap -->`, new Date());
+
     return (
       new Sitemap(router)
         .applyParams(paramsConfig)
