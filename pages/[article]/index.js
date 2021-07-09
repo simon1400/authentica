@@ -130,7 +130,7 @@ const Article = ({content, button, std, router, globalSettings}) => {
           },
           "url" : "${std.url}"
         }`}} />}
-        <link rel="alternate" hreflang="cs" href={`https://a-group.cz${router.asPath}`} />
+        <link rel="alternate" hreflang="cs" href={`https://a-group.cz${router.asPath.split('?')[0]}`} />
         {/*<link rel="alternate" hreflang="en" href={`${host}${router.asPath}`} />
         <link rel="alternate" hreflang="de" href={`${host}${router.asPath}`} />*/}
       </Head>

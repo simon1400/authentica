@@ -79,7 +79,7 @@ const Page = ({
 
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{theTitle}</title>
-        <link rel="canonical" href={global.site_url+router.asPath} />
+        <link rel="canonical" href={global.site_url+router.asPath.split('?')[0]} />
         <meta itemProp="name" content={theTitle} />
         <meta itemProp="description" content={theDescription} />
         <meta itemProp="image" content={theImage} />
@@ -92,7 +92,7 @@ const Page = ({
         <meta name="twitter:image:src" content={theImage} />
         <meta property="og:title" content={ogTitle || theTitle} />
         <meta property="og:type" content={contentType || 'website'} />
-        <meta property="og:url" content={global.site_url+router.asPath} />
+        <meta property="og:url" content={global.site_url+router.asPath.split('?')[0]} />
         <meta property="og:image" content={theImage} />
         <meta property="og:description" content={ogDescription || theDescription} />
         <meta property="og:site_name" content="AUTHENTICA GROUP" />

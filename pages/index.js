@@ -183,7 +183,7 @@ const Home = ({data, std, logoPartners, router, globalSettings}) => {
           },
           "url" : "${std.url}"
         }`}} />}
-        <link rel="alternate" hreflang="cs" href={`https://a-group.cz${router.asPath}`} />
+        <link rel="alternate" hrefLang="cs" href={`https://a-group.cz${router.asPath.split('?')[0]}`} />
       </Head>
 
       <section className="video-bg">
