@@ -42,15 +42,15 @@ export async function getServerSideProps({params, locale}) {
   const data = await sanityClient.fetch(query)
 
   let linkButton = '', linkButtonType = 'inter'
-  if(data?.button.cta.linkInter){
+  if(data?.button?.cta?.linkInter){
     linkButton = await sanityClient.fetch(`*[_type in ['article', 'jobOff'] && _id in ["${data.button.cta.linkInter._ref}"]]{
       "slug": content.${locale}.slug.current,
       "type": _type
     }[0]`)
-  }else if(data?.button.cta.linkExter){
+  }else if(data?.button.cta?.linkExter){
     linkButtonType = 'exter'
     linkButton = data?.button.cta.linkExter
-  }else if(data?.button.cta.linkMail){
+  }else if(data?.button.cta?.linkMail){
     linkButtonType = 'mail'
     linkButton = data?.button.cta.linkMail
   }
@@ -79,7 +79,7 @@ export async function getServerSideProps({params, locale}) {
 
   if(data?.firmArr && data?.firmArr?.length){
     for(var i = 0; i < data.firmArr.length; i++){
-      if(data.firmArr[i].button.cta.linkInter){
+      if(data.firmArr[i].button.cta?.linkInter){
         data.firmArr[i].button.typeLink = 'inter'
         for(var a = 0; a < links.length; a++){
           if(data.firmArr[i]?.button?.cta.linkInter?._ref == links[a]._id){
