@@ -48,6 +48,8 @@ const Page = ({
   const theDescription = description ? description.substring(0, 155) : global.defaultDescription;
   const theImage = image ? image : global.defaultImage;
 
+  const locale = router.locale === 'cs' ? '' : '/'+router.locale
+
   return (
     <div className="root-component">
       <Head>
@@ -79,7 +81,7 @@ const Page = ({
 
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{theTitle}</title>
-        <link rel="canonical" href={global.site_url+router.asPath.split('?')[0]} />
+        <link rel="canonical" href={global.site_url+locale+router.asPath.split('?')[0]} />
         <meta itemProp="name" content={theTitle} />
         <meta itemProp="description" content={theDescription} />
         <meta itemProp="image" content={theImage} />

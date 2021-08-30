@@ -130,9 +130,8 @@ const Article = ({content, button, std, router, globalSettings}) => {
           },
           "url" : "${std.url}"
         }`}} />}
-        <link rel="alternate" hreflang="cs" href={`https://a-group.cz${router.asPath.split('?')[0]}`} />
-        {/*<link rel="alternate" hreflang="en" href={`${host}${router.asPath}`} />
-        <link rel="alternate" hreflang="de" href={`${host}${router.asPath}`} />*/}
+        <link rel="alternate" hrefLang="de" href={`https://a-group.cz/de${router.asPath.split('?')[0]}`} />
+        <link rel="alternate" href={`https://a-group.cz${router.asPath.split('?')[0]}`} hrefLang="x-default" />
       </Head>
       {/*<section className="video-bg">
         <video src="/assets/top-video.mp4" loop muted preload="" playsInline uk-video="autoplay: inview"></video>

@@ -109,7 +109,8 @@ const FullPosition = ({content, std, router, globalSettings}) => {
           },
           "url" : "${std.url}"
         }`}} />}
-        <link rel="alternate" hreflang="cs" href={`https://a-group.cz${router.asPath.split('?')[0]}`} />
+        <link rel="alternate" hrefLang="de" href={`https://a-group.cz/de${router.asPath.split('?')[0]}`} />
+        <link rel="alternate" href={`https://a-group.cz${router.asPath.split('?')[0]}`} hrefLang="x-default" />
       </Head>
       {content.content && <section className="sec-center position-sec">
         <div className="uk-container">
