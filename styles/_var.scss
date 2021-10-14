@@ -162,6 +162,7 @@ section ul a, p a{
     }
     &:hover{
       color: $white;
+      background-color: transparent;
     }
     span{
       display: inline-block;
@@ -238,7 +239,7 @@ header.light-mode{
     color: $white;
     background: $black;
   }
-  .button, a.button{
+  .button:not(.bare), a.button:not(.bare){
     border-color: $black;
     img, svg{
       margin-left: 20px;
