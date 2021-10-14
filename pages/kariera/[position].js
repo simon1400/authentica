@@ -135,7 +135,7 @@ const FullPosition = ({content, std, router, globalSettings, benefits, peoples})
         <link rel="alternate" hrefLang="de" href={`https://a-group.cz/de${router.asPath.split('?')[0]}`} />
         <link rel="alternate" href={`https://a-group.cz${router.asPath.split('?')[0]}`} hrefLang="x-default" />
       </Head>
-      {content.content && <section className="sec-center position-sec">
+      {content.content && <section className={`sec-center position-sec${!!peoples[0] ? " uk-padding-remove-bottom" : ''}`}>
         <div className="uk-container">
           <div className="big-sec" uk-scrollspy="cls: uk-animation-fade; delay: 600">
             <BlockContent blocks={content.content} serializers={serializers} />
