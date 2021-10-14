@@ -137,7 +137,7 @@ const Header = ({
             <img src={urlFor(topImg).url()} width="100%" uk-img="" alt="" />
             <div className="uk-container">
               <div className="pos-img-head">
-                <h1>{head} dsf sadf asdfd sadfdsf</h1>
+                <h1>{head}</h1>
               </div>
             </div>
           </div>
