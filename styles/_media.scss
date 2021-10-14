@@ -29,12 +29,15 @@
     padding-top: 0;
   }
   .block-user{
-    position: relative;
+    position: static;
     &.left{
-      left: 20px;
+      margin-left: 20px;
     }
     &.right{
-      right: 20px;
+      float: right;
+    }
+    p{
+      font-size: 18px;
     }
   }
   .pos-img-wrap{

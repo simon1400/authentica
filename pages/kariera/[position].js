@@ -83,10 +83,6 @@ export async function getServerSideProps({params, locale}) {
 
 const FullPosition = ({content, std, router, globalSettings, benefits, peoples}) => {
 
-  console.log(content);
-  console.log(benefits);
-  console.log(peoples);
-
   useEffect(() => {
 
     const scrollTop = () => {

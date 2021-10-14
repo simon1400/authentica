@@ -55,6 +55,8 @@ export async function getServerSideProps({params, locale}) {
 
 const Position = ({job, jobOff, std, router, globalSettings}) => {
 
+  console.log(jobOff);
+
   useEffect(() => {
 
     const scrollTop = () => {
@@ -134,13 +136,13 @@ const Position = ({job, jobOff, std, router, globalSettings}) => {
         </div>
       </div>}
 
-      {jobOff.map((item, index) => <section key={index} className="sec-center position-sec">
+      {!!jobOff.length && !!jobOff[0]?.content && jobOff.map((item, index) => <section key={index} className="sec-center position-sec">
         <div className="uk-container">
           <div className="big-sec small-text">
             <div>
               {!!job?.subtitle?.length && !index && <div className="uk-margin-large-bottom uk-margin-large-top" uk-scrollspy="cls: uk-animation-fade; delay: 300"><h2>{job?.subtitle}</h2></div>}
               {!!item.content?.title && <div uk-scrollspy="cls: uk-animation-fade; delay: 300"><h3>{item.content?.title}</h3></div>}
-              <div uk-scrollspy="cls: uk-animation-fade; delay: 500"><BlockContent blocks={item.content?.content} serializers={serializers} /></div>
+              {!!item.content?.content && <div uk-scrollspy="cls: uk-animation-fade; delay: 500"><BlockContent blocks={item.content?.content} serializers={serializers} /></div>}
               {!!item.content?.slug?.current?.length && <Link href={`/kariera/${item.content.slug.current}`}>
                 <a className="button bare" uk-scrollspy="cls: uk-animation-fade; delay: 700">
                   <span>více informací</span>

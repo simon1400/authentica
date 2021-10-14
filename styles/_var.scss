@@ -234,10 +234,12 @@ header.light-mode{
     color: $white;
     background: $black;
   }
-
   ::selection {
     color: $white;
     background: $black;
+  }
+  ul li:before{
+    background-color: $black;
   }
   .button:not(.bare), a.button:not(.bare){
     border-color: $black;
@@ -357,7 +359,7 @@ section{
       font-size: $text;
       color: $white;
       line-height: 46px;
-      font-weight: lighter;
+      // font-weight: lighter;
       &:before{
         content: '';
         display: block;
