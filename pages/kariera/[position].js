@@ -40,6 +40,25 @@ export async function getServerSideProps({params, locale}) {
 
   const data = await sanityClient.fetch(query, {url: params.position})
 
+  let benefits = [], peoples = []
+
+  if(data.content.benefits?.length){
+    for(var i = 0; i < data.content.benefits.length; i++){
+      benefits[i] = await sanityClient.fetch(`*[_type == 'benefits' && _id in [${data.content.benefits[i].benefits.map(benefit => `"${benefit._ref}"`).toString()}]]{
+         "title": content.${locale}.title,
+         "image": content.${locale}.image
+       }`)
+    }
+  }
+  if(data.content.peoples?.length){
+    peoples = await sanityClient.fetch(`*[_type == 'people' && _id in [${data.content.peoples.map(item => `"${item._ref}"`).toString()}]]{
+       "name": content.${locale}.name,
+       "image": content.${locale}.image,
+       "function": content.${locale}.function,
+       "text": content.${locale}.text
+     }`)
+  }
+
   if (!data?._id) {
     return {
       redirect: {
@@ -55,12 +74,18 @@ export async function getServerSideProps({params, locale}) {
     props: {
       globalSettings: globalSettings[0],
       content: data.content,
-      std: std[0]
+      std: std[0],
+      benefits,
+      peoples
     }
   }
 }
 
-const FullPosition = ({content, std, router, globalSettings}) => {
+const FullPosition = ({content, std, router, globalSettings, benefits, peoples}) => {
+
+  console.log(content);
+  console.log(benefits);
+  console.log(peoples);
 
   useEffect(() => {
 
@@ -90,6 +115,8 @@ const FullPosition = ({content, std, router, globalSettings}) => {
       gtmData={globalSettings?.gtm}
       endTitleData={globalSettings?.endTitle}
       heightAuto={true}
+      lightMode={true}
+      topImg={content?.image}
     >
       <Head>
         {std?.title && <script type="application/ld+json" dangerouslySetInnerHTML={{__html: `{
@@ -118,6 +145,17 @@ const FullPosition = ({content, std, router, globalSettings}) => {
             <BlockContent blocks={content.content} serializers={serializers} />
           </div>
         </div>
+        {!!peoples?.[0] && <div className="uk-container uk-container-large">
+          <div className="block-user-wrap">
+            <div className="block-user left" uk-scrollspy="cls: uk-animation-slide-left-medium; delay: 2000">
+              <div className="img-wrap-user">
+                <img src={urlFor(peoples[0].image).width(50).height(50).auto('format').url()} uk-img=""/>
+              </div>
+              <p>{peoples[0].text}</p>
+              <span><b>{peoples[0].name}</b> / {peoples[0].function}</span>
+            </div>
+          </div>
+        </div>}
       </section>}
       {content.description && <section className="sec-center position-sec">
         <div className="uk-container">
@@ -125,19 +163,64 @@ const FullPosition = ({content, std, router, globalSettings}) => {
             <BlockContent blocks={content.description} serializers={serializers} />
           </div>
         </div>
-      </section>}
-      <section className="sec-center position-sec">
-        <div className="uk-container">
+        {!!peoples?.[1] && <div className="uk-container uk-container-large">
+          <div className="block-user-wrap">
+            <div className="block-user right" uk-scrollspy="cls: uk-animation-slide-right-medium; delay: 2000">
+              <div className="img-wrap-user">
+                <img src={urlFor(peoples[1].image).width(50).height(50).auto('format').url()} uk-img=""/>
+              </div>
+              <p>{peoples[1].text}</p>
+              <span><b>{peoples[1].name}</b> / {peoples[1].function}</span>
+            </div>
+          </div>
+        </div>}
+        <div className="uk-container pos-sec-inside">
           <div className="big-sec small-text" uk-scrollspy="cls: uk-animation-fade; delay: 600">
             <div>
-              <p>
-                {!!content.phone?.length && <a href={`tel:${content.phone.split(' ').join('')}`}>{content.phone}</a> && <br />}
-                {!!content.email?.length && <a href={`mailto:${content.email}`}>{content.email}</a>}
-              </p>
+              {!!content.email?.length && <a href={`mailto:${content.email}`} className="button">{content.email} <img className="uk-svg" src="/assets/envelope.svg" uk-svg="" alt="Message"/></a>}
             </div>
           </div>
         </div>
-      </section>
+      </section>}
+
+      {!!benefits?.length && benefits.map((item, index) => <section key={index} className="sec-center benefit-sec position-sec uk-padding-remove-top">
+        <div className="uk-container uk-margin-large-bottom">
+          <h2>Co od nás za svou práci dostaneš?</h2>
+        </div>
+         <div className="uk-container uk-container-large" uk-scrollspy="cls: uk-animation-fade; target: .article-info; delay: 500">
+          <div className={`uk-grid uk-child-width-1-1 uk-child-width-1-${item.length < 3 ? item.length : '3'}@s`} uk-grid="">
+            {item.map((benefit, indexBenefit) => <div key={indexBenefit}>
+              <div className={`article-info ${item.length > 1 ? 'square-img' : ''}`}>
+                <img
+                  className="uk-img"
+                  uk-img=""
+                  data-src={urlFor(benefit.image).auto('format').url()}
+                  data-srcset={`${urlFor(benefit.image).width(400).auto('format').url()} 400w,
+                            ${urlFor(benefit.image).width(640).auto('format').url()} 640w,
+                            ${urlFor(benefit.image).width(900).auto('format').url()} 900w,
+                            ${urlFor(benefit.image).width(1000).auto('format').url()} 1000w,
+                            ${urlFor(benefit.image).width(1600).auto('format').url()} 1600w,
+                            ${urlFor(benefit.image).width(2000).auto('format').url()} 2000w`}
+                  alt="Article info" />
+                <div className="benefit-head">
+                  <h4>{benefit.title}</h4>
+                </div>
+              </div>
+            </div>)}
+          </div>
+        </div>
+      </section>)}
+
+      {!!benefits?.length && <section className="sec-center position-sec pos-sec-inside uk-padding-remove-top">
+        <div className="uk-container">
+          <div className="big-sec small-text bottom-button" uk-scrollspy="cls: uk-animation-fade; delay: 600">
+            <div>
+              {!!content.email?.length && <a href={`mailto:${content.email}`} className="button">{content.email} <img className="uk-svg" src="/assets/envelope.svg" uk-svg="" alt="Message"/></a>}
+            </div>
+          </div>
+        </div>
+      </section>}
+
     </Page>
   )
 }

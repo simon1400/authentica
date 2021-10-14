@@ -83,6 +83,7 @@ const Position = ({job, jobOff, std, router, globalSettings}) => {
       gtmData={globalSettings?.gtm}
       endTitleData={globalSettings?.endTitle}
       heightAuto={true}
+      lightMode={true}
     >
       <Head>
         {std?.title && <script type="application/ld+json" dangerouslySetInnerHTML={{__html: `{
@@ -113,11 +114,32 @@ const Position = ({job, jobOff, std, router, globalSettings}) => {
         </div>
       </section>
 
+      {!!job.images?.length && <div className="uk-container uk-container-large" uk-scrollspy="cls: uk-animation-fade; target: .article-info; delay: 500">
+        <div className={`uk-grid uk-child-width-1-1 uk-child-width-1-${job.images.length < 3 ? job.images.length : '3'}@s`} uk-grid="">
+          {job.images.map((image, indexImage) => <div key={indexImage}>
+            <div className={`article-info ${job.images.length > 1 ? 'square-img' : ''}`}>
+              <img
+                className="uk-img"
+                uk-img=""
+                data-src={urlFor(image).auto('format').url()}
+                data-srcset={`${urlFor(image).width(400).auto('format').url()} 400w,
+                          ${urlFor(image).width(640).auto('format').url()} 640w,
+                          ${urlFor(image).width(900).auto('format').url()} 900w,
+                          ${urlFor(image).width(1000).auto('format').url()} 1000w,
+                          ${urlFor(image).width(1600).auto('format').url()} 1600w,
+                          ${urlFor(image).width(2000).auto('format').url()} 2000w`}
+                alt="Article info" />
+            </div>
+          </div>)}
+        </div>
+      </div>}
+
       {jobOff.map((item, index) => <section key={index} className="sec-center position-sec">
         <div className="uk-container">
           <div className="big-sec small-text">
             <div>
-              {!!item.content?.title && <div uk-scrollspy="cls: uk-animation-fade; delay: 300"><h2>{item.content?.title}</h2></div>}
+              {!!job?.subtitle?.length && !index && <div className="uk-margin-large-bottom uk-margin-large-top" uk-scrollspy="cls: uk-animation-fade; delay: 300"><h2>{job?.subtitle}</h2></div>}
+              {!!item.content?.title && <div uk-scrollspy="cls: uk-animation-fade; delay: 300"><h3>{item.content?.title}</h3></div>}
               <div uk-scrollspy="cls: uk-animation-fade; delay: 500"><BlockContent blocks={item.content?.content} serializers={serializers} /></div>
               {!!item.content?.slug?.current?.length && <Link href={`/kariera/${item.content.slug.current}`}>
                 <a className="button bare" uk-scrollspy="cls: uk-animation-fade; delay: 700">

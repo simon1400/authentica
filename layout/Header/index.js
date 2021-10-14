@@ -18,7 +18,9 @@ const navQuery = (local) => {
 const Header = ({
   head,
   logoHead = false,
-  heightAuto = false
+  heightAuto = false,
+  lightMode,
+  topImg
 }) => {
 
   const router = useRouter()
@@ -100,7 +102,7 @@ const Header = ({
   }
 
   return (
-    <header className={heightAuto ? 'height-auto' : ''}>
+    <header className={`${heightAuto ? 'height-auto' : ''}${lightMode ? ' light-mode' : ''}${!!topImg ? ' rm-max-h' : ''}`}>
       <div className={`header-fix${menu ? ' active' : ''}`}>
         <div className="uk-container uk-container-large">
           <div className={`header-top${menu ? ' active' : ''}`}>
@@ -125,11 +127,22 @@ const Header = ({
           </div>
         </div>
       </div>
-      <div className="header-content">
-        <div className="uk-container">
+      <div className={`header-content${!!topImg ? ' top-img-content' : ''}`}>
+        {!topImg && <div className="uk-container">
           {!!logoHead && <img className="uk-img" uk-scrollspy="cls: uk-animation-fade; delay: 300;" src={urlFor(logoHead).url()} uk-img="" alt="Logo article"/>}
           <h1 uk-scrollspy="cls: uk-animation-fade; delay: 500;">{head}</h1>
-        </div>
+        </div>}
+        {!!topImg && <div className="uk-container uk-container-large">
+          <div className="pos-img-wrap">
+            <img src={urlFor(topImg).url()} width="100%" uk-img="" alt="" />
+            <div className="uk-container">
+              <div className="pos-img-head">
+                <h1>{head} dsf sadf asdfd sadfdsf</h1>
+              </div>
+            </div>
+          </div>
+        </div>}
+
       </div>
 
         <div className={`menu${menu ? ' active' : ''}`}>

@@ -30,7 +30,9 @@ const Page = ({
   tags,
   heightAuto,
   ogTitle = '',
-  ogDescription = ''
+  ogDescription = '',
+  lightMode = false,
+  topImg = false
 }) => {
 
   const router = useRouter()
@@ -147,9 +149,15 @@ const Page = ({
         className="animate-block-white"
       ></motion.div>
 
-      <Header head={head} logoHead={logoHead} heightAuto={heightAuto} />
-      <main id={id} className={className}>{children}</main>
-      <Footer />
+      <Header
+        head={head}
+        lightMode={lightMode}
+        logoHead={logoHead} 
+        heightAuto={heightAuto}
+        topImg={topImg}
+      />
+      <main id={id} className={`${className}${lightMode ? ' light-mode' : ''}`}>{children}</main>
+      <Footer lightMode={lightMode} />
 
     </div>
   );

@@ -194,6 +194,77 @@ header{
   .uk-container{
     width: 100%;
   }
+
+}
+
+header.light-mode{
+  background-color: $white;
+  color: $black;
+  .header-fix{
+    background-image: linear-gradient($white 0%, rgba($white, 0.738) 19%, rgba($white, 0.541) 34%, rgba($white, 0.382) 47%, rgba($white, 0.278) 56.5%, rgba($white, 0.194) 65%, rgba($white, 0.126) 73%, rgba($white, 0.075) 80.2%, rgba($white, 0.042) 86.1%, rgba($white, 0.021) 91%, rgba($white, 0.008) 95.2%, rgba($white, 0.002) 98.2%, rgba($white, 0) 100%);
+    .logo-wrap{
+      color: $black;
+    }
+    .lang-wrap ul li{
+      &.active-lang{
+        a{
+          color: $black;
+        }
+      }
+      a{
+        color: rgba($black, .4);
+        &:after{
+          background-color: $black;
+        }
+        &:hover{
+          color: $black;
+        }
+      }
+    }
+  }
+  .hamburger-inner, .hamburger-inner::before, .hamburger-inner::after{
+    background-color: $black;
+  }
+
+}
+
+.light-mode{
+  ::-moz-selection { /* Code for Firefox */
+    color: $white;
+    background: $black;
+  }
+
+  ::selection {
+    color: $white;
+    background: $black;
+  }
+  .button, a.button{
+    border-color: $black;
+    img, svg{
+      margin-left: 20px;
+    }
+    &:hover{
+      background-color: $black;
+      img, svg{
+        color: $white!important;
+        fill: $white;
+        transform: translateX(0);
+      }
+    }
+  }
+  h1{
+    color: $black;
+  }
+  section{
+    background-color: $white;
+    color: $black;
+    * {
+      color: $black;
+    }
+  }
+  .button.bare span:after, a.button.bare span:after{
+    background-color: $black;
+  }
 }
 
 footer{
@@ -203,6 +274,21 @@ footer{
   min-height: calc(100vh - 300px);
   color: $black;
   padding: 150px 0;
+  &.light-mode{
+    min-height: auto;
+    background-color: $black;
+    color: $white;
+    padding: 100px 0;
+    * {
+      color: $white;
+    }
+    .uk-container{
+      min-height: auto;
+    }
+    .footer-logo{
+      padding-top: 0;
+    }
+  }
   .uk-container{
     display: -webkit-flex;
     display: -ms-flex;
