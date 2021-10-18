@@ -37,11 +37,11 @@ const Page = ({
 
   const router = useRouter()
   const [global, setGlobal] = useState({
-    site_url: process.env.NODE_ENV === 'development' ? 'http://localhost:3002' : 'https://a-group.cz',
+    site_url: process.env.NODE_ENV === 'development' ? 'http://localhost:3002' : 'https://authenticagroup.cz',
     facebook_app_id: '',
     defaultTitle: endTitleData || 'AUTHENTICA',
     defaultDescription: 'Authentica',
-    defaultImage: `${process.env.NODE_ENV === 'development' ? 'http://localhost:3002' : 'https://a-group.cz'}`,
+    defaultImage: `${process.env.NODE_ENV === 'development' ? 'http://localhost:3002' : 'https://authenticagroup.cz'}`,
     defaultTwitter: '@cereallarceny',
     defaultSep: ' '
   })
@@ -152,7 +152,7 @@ const Page = ({
       <Header
         head={head}
         lightMode={lightMode}
-        logoHead={logoHead} 
+        logoHead={logoHead}
         heightAuto={heightAuto}
         topImg={topImg}
       />

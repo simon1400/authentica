@@ -50,7 +50,7 @@ async function generateSitemap() {
     return (
       new Sitemap(router)
         .applyParams(paramsConfig)
-        .build("https://a-group.cz")
+        .build("https://authenticagroup.cz")
         .save(path)
     );
   }catch(e){

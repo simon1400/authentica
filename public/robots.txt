@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://a-group.cz/sitemap.xml
+Sitemap: https://authenticagroup.cz/sitemap.xml

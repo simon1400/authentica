@@ -184,8 +184,8 @@ const Home = ({data, std, logoPartners, router, globalSettings}) => {
           },
           "url" : "${std.url}"
         }`}} />}
-        <link rel="alternate" hrefLang="de" href={`https://a-group.cz/de${router.asPath.split('?')[0]}`} />
-        <link rel="alternate" href="https://a-group.cz" hrefLang="x-default" />
+        <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de${router.asPath.split('?')[0]}`} />
+        <link rel="alternate" href="https://authenticagroup.cz" hrefLang="x-default" />
       </Head>
 
       <section className="video-bg">
