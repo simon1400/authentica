@@ -52,6 +52,11 @@ const Page = ({
 
   const locale = router.locale === 'cs' ? '' : '/'+router.locale
 
+  let canonical = global.site_url+locale
+  if(router.asPath.split('?')[0] !== '/'){
+    canonical += router.asPath.split('?')[0]
+  }
+
   return (
     <div className="root-component">
       <Head>
@@ -83,7 +88,7 @@ const Page = ({
 
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{theTitle}</title>
-        <link rel="canonical" href={global.site_url+locale+router.asPath.split('?')[0]} />
+        <link rel="canonical" href={canonical} />
         <meta itemProp="name" content={theTitle} />
         <meta itemProp="description" content={theDescription} />
         <meta itemProp="image" content={theImage} />
