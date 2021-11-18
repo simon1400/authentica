@@ -134,7 +134,15 @@ const Header = ({
         </div>}
         {!!topImg && <div className="uk-container uk-container-large">
           <div className="pos-img-wrap">
-            <img src={urlFor(topImg).url()} width="100%" uk-img="" alt="" />
+            <img
+              uk-img=""
+              width="100%"
+              data-src={urlFor(topImg).auto('format').url()}
+              data-srcset={`${urlFor(topImg).width(400).auto('format').url()} 400w,
+                        ${urlFor(topImg).width(640).auto('format').url()} 640w,
+                        ${urlFor(topImg).width(900).auto('format').url()} 900w,
+                        ${urlFor(topImg).width(1000).auto('format').url()} 1000w,
+                        ${urlFor(topImg).width(1400).auto('format').url()} 1400w`} />
             <div className="uk-container">
               <div className="pos-img-head">
                 <h1>{head}</h1>

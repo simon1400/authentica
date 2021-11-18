@@ -190,14 +190,8 @@ const FullPosition = ({content, std, router, globalSettings, benefits, peoples})
                 <img
                   className="uk-img"
                   uk-img=""
-                  data-src={urlFor(benefit.image).auto('format').url()}
-                  data-srcset={`${urlFor(benefit.image).width(400).auto('format').url()} 400w,
-                            ${urlFor(benefit.image).width(640).auto('format').url()} 640w,
-                            ${urlFor(benefit.image).width(900).auto('format').url()} 900w,
-                            ${urlFor(benefit.image).width(1000).auto('format').url()} 1000w,
-                            ${urlFor(benefit.image).width(1600).auto('format').url()} 1600w,
-                            ${urlFor(benefit.image).width(2000).auto('format').url()} 2000w`}
-                  alt="Article info" />
+                  src={urlFor(benefit.image).width(540).height(540).auto('format').url()}
+                  alt={benefit.title} />
                 <div className="benefit-head">
                   <h4>{benefit.title}</h4>
                 </div>
