@@ -1,11 +1,11 @@
-import {useState, useEffect} from 'react'
+import {useEffect} from 'react'
 import Page from '../../layout/Page'
 import sanityClient from "../../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import BlockContent from "@sanity/block-content-to-react";
 import Head from 'next/head'
 import Link from 'next/link'
-import shuffle from '../../helpers/shuffle'
+// import shuffle from '../../helpers/shuffle'
 import {withRouter} from 'next/router'
 import Button from '../../components/Button'
 
