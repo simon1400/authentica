@@ -116,7 +116,7 @@ const ArticleBlog = ({content, globalSettings, router, std}) => {
       </Head>
       <section className="sec-center sec-blog-min" >
         <div className="uk-container">
-          <div className="big-sec">
+          <div>
             <div uk-scrollspy="cls: uk-animation-fade; delay: 300">
               <BlockContent blocks={content.content} serializers={serializers} />
             </div>

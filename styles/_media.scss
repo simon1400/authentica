@@ -1,5 +1,20 @@
 
 @media(max-width: 640px){
+
+  .public-article{
+    flex-wrap: wrap;
+    p{
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  }
+
+  .sec-blog-min .big-sec p{
+    font-size: 20px;
+  }
+  .sec-chapter .small-text p, .sec-chapter h4{
+    font-size: 16px;
+  }
   body h1{
     font-size: 38px;
     line-height: 45px;
@@ -51,6 +66,12 @@
         max-width: 100%;
         padding-left: 20px;
         padding-right: 20px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        h1{
+          font-size: 24px;
+          line-height: 1.2;
+        }
       }
     }
   }
