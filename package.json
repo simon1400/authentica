@@ -30,7 +30,8 @@
     "react-router-sitemap": "^1.2.0",
     "react-transition-group": "^4.4.1",
     "sass": "^1.32.8",
-    "uikit": "^3.6.18"
+    "uikit": "^3.6.18",
+    "vanilla-cookieconsent": "^2.8.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0"

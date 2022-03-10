@@ -38,7 +38,9 @@ export async function getServerSideProps({params, locale}) {
   const query = `*[_type == 'article' && content.${locale}.slug.current == $url] {
     _id,
     "content": content.${locale},
-    "button": content.${locale}.button
+    "button": content.${locale}.button,
+    "slugDE": content.de.slug.current,
+    "slugCS": content.cs.slug.current
   }[0]`;
 
   const data = await sanityClient.fetch(query, {url: params.article})
@@ -76,12 +78,16 @@ export async function getServerSideProps({params, locale}) {
         linkButton: linkButton,
         linkButtonType: linkButtonType
       },
-      std: std[0]
+      std: std[0],
+      slugs: {
+        cs: data.slugCS,
+        de: data.slugDE
+      },
     }
   }
 }
 
-const Article = ({content, button, std, router, globalSettings}) => {
+const Article = ({content, button, std, slugs, router, globalSettings}) => {
 
   useEffect(() => {
 
@@ -130,8 +136,8 @@ const Article = ({content, button, std, router, globalSettings}) => {
           },
           "url" : "${std.url}"
         }`}} />}
-        <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de${router.asPath.split('?')[0]}`} />
-        <link rel="alternate" href={`https://authenticagroup.cz${router.asPath.split('?')[0]}`} hrefLang="x-default" />
+        {slugs.de && <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de/${slugs.de}`} />}
+        {slugs.cs && <link rel="alternate" hrefLang="x-default" href={`https://authenticagroup.cz/${slugs.cs}`} />}
       </Head>
       {/*<section className="video-bg">
         <video src="/assets/top-video.mp4" loop muted preload="" playsInline uk-video="autoplay: inview"></video>

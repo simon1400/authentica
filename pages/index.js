@@ -1,9 +1,7 @@
 import {useState, useEffect} from 'react'
 import Page from '../layout/Page'
-import CountUp from 'react-countup';
 import Head from 'next/head'
 import Link from 'next/link'
-import handleViewport from 'react-in-viewport';
 import sanityClient from "../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import BlockContent from "@sanity/block-content-to-react";
@@ -12,6 +10,7 @@ import Button from '../components/Button'
 import {withRouter} from 'next/router'
 
 import useWindowSize from '../helpers/windowSize'
+import NumberCount from '../components/NumberCount';
 
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
@@ -61,11 +60,11 @@ export async function getServerSideProps({params, locale}) {
   const linksArr = []
   if(data?.firmArr && data?.firmArr?.length){
     for(var i = 0; i < data?.firmArr.length; i++){
-      if(data.firmArr.[i]?.button?.cta?.linkInter){
+      if(data.firmArr[i]?.button?.cta?.linkInter){
         linksArr.push(data.firmArr[i].button.cta.linkInter._ref)
-      }else if(data.firmArr.[i]?.button?.cta?.linkExter){
+      }else if(data.firmArr[i]?.button?.cta?.linkExter){
         linksArr.push(data.firmArr?.[i]?.button?.cta?.linkExter)
-      }else if(data.firmArr.[i]?.button?.cta?.linkMail){
+      }else if(data.firmArr[i]?.button?.cta?.linkMail){
         linksArr.push(data.firmArr?.[i]?.button?.cta?.linkMail)
       }
     }
@@ -238,7 +237,10 @@ const Home = ({data, std, logoPartners, router, globalSettings}) => {
             <h2>{content.secSuccess?.title}</h2>
           </div>
           <div className="numbers">
-            <Block startCount={startCount} setStartCount={setStartCount} data={content.secSuccess?.chapters} />
+            <NumberCount 
+              startCount={startCount} 
+              setStartCount={setStartCount} 
+              data={content.secSuccess?.chapters} />
           </div>
         </div>
       </section>
@@ -275,28 +277,5 @@ const Home = ({data, std, logoPartners, router, globalSettings}) => {
     </Page>
   )
 }
-
-const Block = handleViewport(({ inViewport, forwardedRef, startCount, setStartCount, data }) => {
-
-  if(inViewport){
-    setStartCount(true)
-  }
-
-  return(
-    <div className="uk-grid uk-child-width-1-1 uk-child-width-auto@s" uk-parallax="x: 40vw, -100vw; media: @s" uk-grid="" ref={forwardedRef}>
-      {data?.length && data.map((item, index) => <div key={index} className="numer-item">
-        {startCount && <CountUp
-          start={0}
-          end={parseInt(item.number)}
-          duration={4}
-          useEasing={true}
-          useGrouping={true}
-          redraw={true}
-        />}
-        <p>{item.title}</p>
-      </div>)}
-    </div>
-  )
-})
 
 export default withRouter(Home)

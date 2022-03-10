@@ -86,8 +86,8 @@ const Blog = ({blogArticles, blog, std, router, globalSettings}) => {
         },
         "url" : "${std.url}"
       }`}} />}
-      <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de${router.asPath.split('?')[0]}`} />
-      <link rel="alternate" href={`https://authenticagroup.cz${router.asPath.split('?')[0]}`} hrefLang="x-default" />
+      <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de/blog`} />
+      <link rel="alternate" href={`https://authenticagroup.cz/blog`} hrefLang="x-default" />
     </Head>
     {!!blogArticles?.length && <section className="sec-center benefit-sec blog-sort position-sec uk-padding-remove-top">
       <div className="uk-container uk-container-large" uk-scrollspy="cls: uk-animation-fade; target: .article-info; delay: 500">

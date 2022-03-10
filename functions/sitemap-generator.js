@@ -9,10 +9,16 @@ const Sitemap = require("react-router-sitemap").default;
 
 const query = `{
   'articles': *[_type == "article"]{
-    "slug": content.cs.slug
+    "slugCS": content.cs.slug.current,
+    "slugDE": content.de.slug.current
   },
   'position': *[_type == "jobOff"]{
-    "slug": content.cs.slug
+    "slugCS": content.cs.slug.current,
+    "slugDE": content.de.slug.current
+  },
+  'blog': *[_type == "blogItem"]{
+    "slugCS": content.cs.slug.current,
+    "slugDE": content.de.slug.current
   },
 }`;
 
@@ -21,6 +27,7 @@ async function getData() {
   return {
     articles: res.articles,
     position: res.position,
+    blog: res.blog,
   }
 }
 
@@ -28,31 +35,50 @@ async function generateSitemap() {
   try{
     const result = await getData()
 
-    let paramsArticles = [];
-    let paramsPosition = [];
+    let paramsArticlesCS = [], paramsPositionCS = [], paramsBlogCS = [];
+    let paramsArticlesDE = [], paramsPositionDE = [], paramsBlogDE = [];
 
     for(var i = 0; i < result.position.length; i++) {
-      paramsPosition.push({ position: result.position[i].slug.current });
+      if(result.position[i].slugCS) paramsPositionCS.push({ position: result.position[i].slugCS });
+      if(result.position[i].slugDE) paramsPositionDE.push({ position: result.position[i].slugDE });
     }
     for(var i = 0; i < result.articles.length; i++) {
-      paramsArticles.push({ article: result.articles[i].slug.current });
+      if(result.articles[i].slugCS) paramsArticlesCS.push({ article: result.articles[i].slugCS });
+      if(result.articles[i].slugDE) paramsArticlesDE.push({ article: result.articles[i].slugDE });
+    }
+    for(var i = 0; i < result.blog.length; i++) {
+      if(result.blog[i].slugCS) paramsBlogCS.push({ article: result.blog[i].slugCS });
+      if(result.blog[i].slugDE) paramsBlogDE.push({ article: result.blog[i].slugDE });
     }
 
-    const paramsConfig = {
-      "/kariera/:position": paramsPosition,
-      "/:article": paramsArticles
+    const paramsConfigCS = {
+      "/kariera/:position": paramsPositionCS,
+      "/:article": paramsArticlesCS,
+      "/blog/:article": paramsBlogCS
+    };
+    
+    const paramsConfigDE = {
+      "/kariera/:position": paramsPositionDE,
+      "/:article": paramsArticlesDE,
+      "/blog/:article": paramsBlogDE
     };
 
-    var path = './public/sitemap.xml'
+    var pathCS = './public/sitemap.xml'
+    var pathDE = './public/sitemap-de.xml'
 
     console.log(`Recreate sitemap -->`, new Date());
 
-    return (
-      new Sitemap(router)
-        .applyParams(paramsConfig)
+    new Sitemap(router)
+        .applyParams(paramsConfigCS)
         .build("https://authenticagroup.cz")
-        .save(path)
-    );
+        .save(pathCS)
+
+    new Sitemap(router)
+      .applyParams(paramsConfigDE)
+      .build("https://authenticagroup.cz/de")
+      .save(pathDE)
+
+    return true;
   }catch(e){
     console.log(e);
   }

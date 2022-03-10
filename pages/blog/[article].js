@@ -6,6 +6,7 @@ import BlockContent from "@sanity/block-content-to-react";
 import Head from 'next/head'
 import Link from 'next/link'
 import {withRouter} from 'next/router'
+import Button from '../../components/Button'
 
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
@@ -35,7 +36,9 @@ export async function getServerSideProps({params, locale}) {
 
   const query = `*[_type == 'blogItem' && content.${locale}.slug.current == $url] {
     _id,
-    "content": content.${locale}
+    "content": content.${locale},
+    "slugDE": content.de.slug.current,
+    "slugCS": content.cs.slug.current
   }[0]`;
 
   const data = await sanityClient.fetch(query, {url: params.article})
@@ -55,12 +58,16 @@ export async function getServerSideProps({params, locale}) {
     props: {
       content: data?.content,
       globalSettings: globalSettings[0],
-      std: std[0]
+      std: std[0],
+      slugs: {
+        cs: data.slugCS,
+        de: data.slugDE
+      },
     }
   }
 }
 
-const ArticleBlog = ({content, globalSettings, router, std}) => {
+const ArticleBlog = ({content, globalSettings, slugs, router, std}) => {
 
   useEffect(() => {
 
@@ -111,8 +118,8 @@ const ArticleBlog = ({content, globalSettings, router, std}) => {
           },
           "url" : "${std.url}"
         }`}} />}
-        <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de${router.asPath.split('?')[0]}`} />
-        <link rel="alternate" href={`https://authenticagroup.cz${router.asPath.split('?')[0]}`} hrefLang="x-default" />
+        {slugs.de && <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de/blog/${slugs.de}`} />}
+        {slugs.cs && <link rel="alternate" hrefLang="x-default" href={`https://authenticagroup.cz/blog/${slugs.cs}`} />}
       </Head>
       <section className="sec-center sec-blog-min" >
         <div className="uk-container">
@@ -156,7 +163,13 @@ const ArticleBlog = ({content, globalSettings, router, std}) => {
               {content?.publicInfo && <p>{content.publicInfo}</p>}
             </div>
             <div>
-              <a href="/blog">Další články <img src="/assets/arrow-right.svg" uk-svg="" /></a>
+              {/* <a href="/blog">Další články <img src="/assets/arrow-right.svg" uk-svg="" /></a> */}
+              {/* <Button type="exter" name="Další články" link="/blog" /> */}
+              <Button
+                type="inter"
+                name="Další články"
+                link="/blog"
+                delay={700} bare arr />
             </div>
           </div>
         </div>

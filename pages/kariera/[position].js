@@ -35,7 +35,9 @@ export async function getServerSideProps({params, locale}) {
 
   const query = `*[_type == 'jobOff' && content.${locale}.slug.current == $url] {
     _id,
-    "content": content.${locale}
+    "content": content.${locale},
+    "slugDE": content.de.slug.current,
+    "slugCS": content.cs.slug.current
   }[0]`;
 
   const data = await sanityClient.fetch(query, {url: params.position})
@@ -74,6 +76,10 @@ export async function getServerSideProps({params, locale}) {
     props: {
       globalSettings: globalSettings[0],
       content: data.content,
+      slugs: {
+        cs: data.slugCS,
+        de: data.slugDE
+      },
       std: std[0],
       benefits,
       peoples
@@ -81,7 +87,7 @@ export async function getServerSideProps({params, locale}) {
   }
 }
 
-const FullPosition = ({content, std, router, globalSettings, benefits, peoples}) => {
+const FullPosition = ({content, std, router, globalSettings, benefits, peoples, slugs}) => {
 
   useEffect(() => {
 
@@ -114,6 +120,7 @@ const FullPosition = ({content, std, router, globalSettings, benefits, peoples})
       lightMode={true}
       topImg={content?.image}
     >
+      
       <Head>
         {std?.title && <script type="application/ld+json" dangerouslySetInnerHTML={{__html: `{
           "@context" : "http://schema.org",
@@ -132,8 +139,8 @@ const FullPosition = ({content, std, router, globalSettings, benefits, peoples})
           },
           "url" : "${std.url}"
         }`}} />}
-        <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de${router.asPath.split('?')[0]}`} />
-        <link rel="alternate" href={`https://authenticagroup.cz${router.asPath.split('?')[0]}`} hrefLang="x-default" />
+        {slugs.de && <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de/kariaera/${slugs.de}`} />}
+        {slugs.cs && <link rel="alternate" hrefLang="x-default" href={`https://authenticagroup.cz/kariera/${slugs.cs}`} />}
       </Head>
       {content.content && <section className={`sec-center position-sec${!!peoples[0] ? " uk-padding-remove-bottom" : ''}`}>
         <div className="uk-container">

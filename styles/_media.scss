@@ -1,17 +1,31 @@
 
 @media(max-width: 640px){
 
+  .position-sec.blog-sort{
+    padding-bottom: 90px;
+  }
+
   .public-article{
     flex-wrap: wrap;
     p{
       margin-top: 20px;
       margin-bottom: 20px;
+      font-size: 11px;
     }
   }
 
-  .sec-blog-min .big-sec p{
-    font-size: 20px;
+  .dark-chapter{
+    margin-top: 30px;
+    margin-bottom: 30px;
   }
+
+  .sec-blog-min{
+    padding-top: 30px;
+    padding-bottom: 30px;
+    .big-sec p{
+      font-size: 20px;
+    }
+  } 
   .sec-chapter .small-text p, .sec-chapter h4{
     font-size: 16px;
   }

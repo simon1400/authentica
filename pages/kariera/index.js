@@ -105,8 +105,8 @@ const Position = ({job, jobOff, std, router, globalSettings}) => {
           },
           "url" : "${std.url}"
         }`}} />}
-        <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de${router.asPath.split('?')[0]}`} />
-        <link rel="alternate" href={`https://authenticagroup.cz${router.asPath.split('?')[0]}`} hrefLang="x-default" />
+        <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de/kariera`} />
+        <link rel="alternate" href={`https://authenticagroup.cz/kariera`} hrefLang="x-default" />
       </Head>
       <section className="sec-center position-sec">
         <div className="uk-container">
