@@ -26,7 +26,7 @@ export async function getServerSideProps({params, locale}) {
     "content": content.${locale}
   }[0]`;
 
-  const queryBlogArticles = `*[_type == 'blogItem'] {
+  const queryBlogArticles = `*[_type == 'blogItem'] | order(orderRank) {
     "content": content.${locale}
   }`;
 
@@ -87,7 +87,7 @@ const Blog = ({blogArticles, blog, std, router, globalSettings}) => {
         "url" : "${std.url}"
       }`}} />}
       <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de/blog`} />
-      <link rel="alternate" href={`https://authenticagroup.cz/blog`} hrefLang="x-default" />
+      <link rel="alternate" hrefLang="cs" href={`https://authenticagroup.cz/blog`}  />
     </Head>
     {!!blogArticles?.length && <section className="sec-center benefit-sec blog-sort position-sec uk-padding-remove-top">
       <div className="uk-container uk-container-large" uk-scrollspy="cls: uk-animation-fade; target: .article-info; delay: 500">

@@ -119,7 +119,7 @@ const ArticleBlog = ({content, globalSettings, slugs, router, std}) => {
           "url" : "${std.url}"
         }`}} />}
         {slugs.de && <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de/blog/${slugs.de}`} />}
-        {slugs.cs && <link rel="alternate" hrefLang="x-default" href={`https://authenticagroup.cz/blog/${slugs.cs}`} />}
+        {slugs.cs && <link rel="alternate" hrefLang="cs" href={`https://authenticagroup.cz/blog/${slugs.cs}`} />}
       </Head>
       <section className="sec-center sec-blog-min" >
         <div className="uk-container">

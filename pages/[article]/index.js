@@ -137,7 +137,7 @@ const Article = ({content, button, std, slugs, router, globalSettings}) => {
           "url" : "${std.url}"
         }`}} />}
         {slugs.de && <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de/${slugs.de}`} />}
-        {slugs.cs && <link rel="alternate" hrefLang="x-default" href={`https://authenticagroup.cz/${slugs.cs}`} />}
+        {slugs.cs && <link rel="alternate" hrefLang="cs" href={`https://authenticagroup.cz/${slugs.cs}`} />}
       </Head>
       {/*<section className="video-bg">
         <video src="/assets/top-video.mp4" loop muted preload="" playsInline uk-video="autoplay: inview"></video>

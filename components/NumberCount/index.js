@@ -17,7 +17,7 @@ const NumberCount = handleViewport(({ inViewport, forwardedRef, startCount, setS
           duration={4}
           useEasing={true}
           useGrouping={true}
-          redraw={true}
+          // redraw={true}
         />}
         <p>{item.title}</p>
       </div>)}

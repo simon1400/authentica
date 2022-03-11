@@ -109,6 +109,59 @@ export default function CookieConsent() {
                         }
                     ]
                 }
+            },
+            'de': {
+                consent_modal: {
+                    title: 'Wir verwenden Cookies, damit die Website ordnungsgemäß funktioniert',
+                    description: 'Wir verwenden Cookies, um Ihr Surferlebnis zu verbessern und zusätzliche Funktionen bereitzustellen. Sie können Ihre Zustimmung geben, indem Sie auf die Schaltfläche "Alle zulassen" klicken, oder Sie können sie <button type="button" data-cc="accept-necessary" class="cc-link">hier</button> verweigern.',
+                    primary_btn: {
+                        text: 'Erlaubt alle',
+                        role: 'accept_all'              // 'accept_selected' or 'accept_all'
+                    },
+                    secondary_btn: {
+                        text: 'Einstellungen festlegen',
+                        role: 'settings'        // 'settings' or 'accept_necessary'
+                    }
+                },
+                settings_modal: {
+                    title: 'Nastavení cookies',
+                    save_settings_btn: 'Ich akzeptiere alle Cookies',
+                    accept_all_btn: 'Ich akzeptiere ausgewählte Cookies',
+                    reject_all_btn: false,
+                    close_btn_label: 'Zavřít',
+                    blocks: [
+                        {
+                            description: 'Passen Sie die Kekse nach Ihren eigenen Vorlieben an.'
+                        }, {
+                            title: 'Technische Cookies',
+                            description: 'Diese Cookies sind für das korrekte und sichere Funktionieren der Website unerlässlich. Technische Cookies können nicht deaktiviert werden.',
+                            toggle: {
+                                value: 'necessary',
+                                enabled: true,
+                                readonly: true          // cookie categories with readonly=true are all treated as "necessary cookies"
+                            }
+                        }, {
+                            title: 'Analytische Cookies',
+                            description: 'Analytische Cookies ermöglichen es, die Leistung der Website zu messen. Wir verwenden sie, um zum Beispiel die Anzahl und die Quellen der Besuche zu ermitteln. Die erhobenen Daten sind selbstverständlich anonym.',
+                            toggle: {
+                                value: 'analytics',     // your cookie category
+                                enabled: false,
+                                readonly: false
+                            }
+                        }, {
+                            title: 'Werbe-Cookies',
+                            description: 'Diese Cookies sammeln Informationen darüber, wie Sie die Website nutzen, welche Seiten Sie besucht haben und welche Links Sie angeklickt haben. Sie können Ihre Zustimmung zu diesen Cookies jederzeit widerrufen.',
+                            toggle: {
+                                value: 'targeting',
+                                enabled: false,
+                                readonly: false
+                            }
+                        }, {
+                            title: 'Weitere Informationen',
+                            description: `Wenn Sie weitere Fragen zu den Bedingungen und Einstellungen haben, zögern Sie bitte nicht, <a class="cc-link" href="mailto:${contactUs}">uns zu kontaktieren</a>.`,
+                        }
+                    ]
+                }
             }
           }
       });

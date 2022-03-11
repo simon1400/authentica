@@ -25,7 +25,7 @@ export async function getServerSideProps({params, locale}) {
   const queryJob = `*[_type == 'job'] {
     "content": content.${locale}
   }[0]`;
-  const queryJobOff = `*[_type == 'jobOff'] {
+  const queryJobOff = `*[_type == 'jobOff'] | order(orderRank) {
     "content": content.${locale}
   }`;
 
@@ -54,8 +54,6 @@ export async function getServerSideProps({params, locale}) {
 }
 
 const Position = ({job, jobOff, std, router, globalSettings}) => {
-
-  console.log(jobOff);
 
   useEffect(() => {
 
@@ -106,7 +104,7 @@ const Position = ({job, jobOff, std, router, globalSettings}) => {
           "url" : "${std.url}"
         }`}} />}
         <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de/kariera`} />
-        <link rel="alternate" href={`https://authenticagroup.cz/kariera`} hrefLang="x-default" />
+        <link rel="alternate" hrefLang="cs" href={`https://authenticagroup.cz/kariera`}  />
       </Head>
       <section className="sec-center position-sec">
         <div className="uk-container">

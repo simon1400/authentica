@@ -48,10 +48,12 @@ export async function getServerSideProps({params, locale}) {
     for(var i = 0; i < data.content.benefits.length; i++){
       benefits[i] = await sanityClient.fetch(`*[_type == 'benefits' && _id in [${data.content.benefits[i].benefits.map(benefit => `"${benefit._ref}"`).toString()}]]{
          "title": content.${locale}.title,
-         "image": content.${locale}.image
+         "image": content.${locale}.image,
+         content
        }`)
     }
   }
+  
   if(data.content.peoples?.length){
     peoples = await sanityClient.fetch(`*[_type == 'people' && _id in [${data.content.peoples.map(item => `"${item._ref}"`).toString()}]]{
        "name": content.${locale}.name,
@@ -140,7 +142,7 @@ const FullPosition = ({content, std, router, globalSettings, benefits, peoples, 
           "url" : "${std.url}"
         }`}} />}
         {slugs.de && <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de/kariaera/${slugs.de}`} />}
-        {slugs.cs && <link rel="alternate" hrefLang="x-default" href={`https://authenticagroup.cz/kariera/${slugs.cs}`} />}
+        {slugs.cs && <link rel="alternate" hrefLang="cs" href={`https://authenticagroup.cz/kariera/${slugs.cs}`} />}
       </Head>
       {content.content && <section className={`sec-center position-sec${!!peoples[0] ? " uk-padding-remove-bottom" : ''}`}>
         <div className="uk-container">
