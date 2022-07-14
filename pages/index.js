@@ -1,9 +1,7 @@
 import {useState, useEffect} from 'react'
 import Page from '../layout/Page'
-import CountUp from 'react-countup';
 import Head from 'next/head'
 import Link from 'next/link'
-import handleViewport from 'react-in-viewport';
 import sanityClient from "../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import BlockContent from "@sanity/block-content-to-react";
@@ -12,6 +10,7 @@ import Button from '../components/Button'
 import {withRouter} from 'next/router'
 
 import useWindowSize from '../helpers/windowSize'
+import NumberCount from '../components/NumberCount';
 
 const imageBuilder = imageUrlBuilder(sanityClient);
 const urlFor = source => imageBuilder.image(source)
@@ -62,6 +61,7 @@ export async function getServerSideProps({params, locale}) {
   const linksArr = []
   if(data?.firmArr && data?.firmArr?.length){
     for(var i = 0; i < data?.firmArr.length; i++){
+<<<<<<< HEAD
       const button = data.firmArr?.[i]?.button
       if(button?.cta?.linkInter){
         linksArr.push(button.cta.linkInter._ref)
@@ -69,6 +69,14 @@ export async function getServerSideProps({params, locale}) {
         linksArr.push(button?.cta?.linkExter)
       }else if(button?.cta?.linkMail){
         linksArr.push(button?.cta?.linkMail)
+=======
+      if(data.firmArr[i]?.button?.cta?.linkInter){
+        linksArr.push(data.firmArr[i].button.cta.linkInter._ref)
+      }else if(data.firmArr[i]?.button?.cta?.linkExter){
+        linksArr.push(data.firmArr?.[i]?.button?.cta?.linkExter)
+      }else if(data.firmArr[i]?.button?.cta?.linkMail){
+        linksArr.push(data.firmArr?.[i]?.button?.cta?.linkMail)
+>>>>>>> 6373e3f098d674d9112258ddd376c3a889b9c032
       }
     }
   }
@@ -186,9 +194,9 @@ const Home = ({data, std, logoPartners, router, globalSettings}) => {
           },
           "url" : "${std.url}"
         }`}} />}
-        <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de${router.asPath.split('?')[0]}`} />
-        <link rel="alternate" hrefLang="en" href={`https://authenticagroup.cz/en${router.asPath.split('?')[0]}`} />
-        <link rel="alternate" href="https://authenticagroup.cz" hrefLang="x-default" />
+        <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de/`} />
+        <link rel="alternate" hrefLang="en" href={`https://authenticagroup.cz/en/`} />
+        <link rel="alternate" hrefLang="cs" href="https://authenticagroup.cz" />
       </Head>
 
       <section className="video-bg">
@@ -241,7 +249,10 @@ const Home = ({data, std, logoPartners, router, globalSettings}) => {
             <h2>{content.secSuccess?.title}</h2>
           </div>
           <div className="numbers">
-            <Block startCount={startCount} setStartCount={setStartCount} data={content.secSuccess?.chapters} />
+            <NumberCount 
+              startCount={startCount} 
+              setStartCount={setStartCount} 
+              data={content.secSuccess?.chapters} />
           </div>
         </div>
       </section>
@@ -278,28 +289,5 @@ const Home = ({data, std, logoPartners, router, globalSettings}) => {
     </Page>
   )
 }
-
-const Block = handleViewport(({ inViewport, forwardedRef, startCount, setStartCount, data }) => {
-
-  if(inViewport){
-    setStartCount(true)
-  }
-
-  return(
-    <div className="uk-grid uk-child-width-1-1 uk-child-width-auto@s" uk-parallax="x: 40vw, -100vw; media: @s" uk-grid="" ref={forwardedRef}>
-      {data?.length && data.map((item, index) => <div key={index} className="numer-item">
-        {startCount && <CountUp
-          start={0}
-          end={parseInt(item.number)}
-          duration={4}
-          useEasing={true}
-          useGrouping={true}
-          redraw={true}
-        />}
-        <p>{item.title}</p>
-      </div>)}
-    </div>
-  )
-})
 
 export default withRouter(Home)

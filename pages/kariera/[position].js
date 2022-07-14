@@ -35,7 +35,10 @@ export async function getServerSideProps({params, locale}) {
 
   const query = `*[_type == 'jobOff' && content.${locale}.slug.current == $url] {
     _id,
-    "content": content.${locale}
+    "content": content.${locale},
+    "slugDE": content.de.slug.current,
+    "slugEN": content.en.slug.current,
+    "slugCS": content.cs.slug.current
   }[0]`;
 
   const data = await sanityClient.fetch(query, {url: params.position})
@@ -46,10 +49,12 @@ export async function getServerSideProps({params, locale}) {
     for(var i = 0; i < data.content.benefits.length; i++){
       benefits[i] = await sanityClient.fetch(`*[_type == 'benefits' && _id in [${data.content.benefits[i].benefits.map(benefit => `"${benefit._ref}"`).toString()}]]{
          "title": content.${locale}.title,
-         "image": content.${locale}.image
+         "image": content.${locale}.image,
+         content
        }`)
     }
   }
+  
   if(data.content.peoples?.length){
     peoples = await sanityClient.fetch(`*[_type == 'people' && _id in [${data.content.peoples.map(item => `"${item._ref}"`).toString()}]]{
        "name": content.${locale}.name,
@@ -74,6 +79,11 @@ export async function getServerSideProps({params, locale}) {
     props: {
       globalSettings: globalSettings[0],
       content: data.content,
+      slugs: {
+        cs: data.slugCS,
+        en: data.slugEN,
+        de: data.slugDE
+      },
       std: std[0],
       benefits,
       peoples
@@ -81,7 +91,7 @@ export async function getServerSideProps({params, locale}) {
   }
 }
 
-const FullPosition = ({content, std, router, globalSettings, benefits, peoples}) => {
+const FullPosition = ({content, std, router, globalSettings, benefits, peoples, slugs}) => {
 
   useEffect(() => {
 
@@ -114,6 +124,7 @@ const FullPosition = ({content, std, router, globalSettings, benefits, peoples})
       lightMode={true}
       topImg={content?.image}
     >
+      
       <Head>
         {std?.title && <script type="application/ld+json" dangerouslySetInnerHTML={{__html: `{
           "@context" : "http://schema.org",
@@ -132,9 +143,9 @@ const FullPosition = ({content, std, router, globalSettings, benefits, peoples})
           },
           "url" : "${std.url}"
         }`}} />}
-        <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de${router.asPath.split('?')[0]}`} />
-        <link rel="alternate" hrefLang="en" href={`https://authenticagroup.cz/en${router.asPath.split('?')[0]}`} />
-        <link rel="alternate" href={`https://authenticagroup.cz${router.asPath.split('?')[0]}`} hrefLang="x-default" />
+        {slugs.de && <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de/kariera/${slugs.de}`} />}
+        {slugs.en && <link rel="alternate" hrefLang="en" href={`https://authenticagroup.cz/en/kariera/${slugs.en}`} />}
+        {slugs.cs && <link rel="alternate" hrefLang="cs" href={`https://authenticagroup.cz/kariera/${slugs.cs}`} />}
       </Head>
       {content.content && <section className={`sec-center position-sec${!!peoples[0] ? " uk-padding-remove-bottom" : ''}`}>
         <div className="uk-container">
