@@ -61,7 +61,6 @@ export async function getServerSideProps({params, locale}) {
   const linksArr = []
   if(data?.firmArr && data?.firmArr?.length){
     for(var i = 0; i < data?.firmArr.length; i++){
-<<<<<<< HEAD
       const button = data.firmArr?.[i]?.button
       if(button?.cta?.linkInter){
         linksArr.push(button.cta.linkInter._ref)
@@ -69,14 +68,6 @@ export async function getServerSideProps({params, locale}) {
         linksArr.push(button?.cta?.linkExter)
       }else if(button?.cta?.linkMail){
         linksArr.push(button?.cta?.linkMail)
-=======
-      if(data.firmArr[i]?.button?.cta?.linkInter){
-        linksArr.push(data.firmArr[i].button.cta.linkInter._ref)
-      }else if(data.firmArr[i]?.button?.cta?.linkExter){
-        linksArr.push(data.firmArr?.[i]?.button?.cta?.linkExter)
-      }else if(data.firmArr[i]?.button?.cta?.linkMail){
-        linksArr.push(data.firmArr?.[i]?.button?.cta?.linkMail)
->>>>>>> 6373e3f098d674d9112258ddd376c3a889b9c032
       }
     }
   }
