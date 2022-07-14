@@ -1,11 +1,10 @@
-import {useState, useEffect} from 'react'
+import {useEffect} from 'react'
 import Page from '../../layout/Page'
 import sanityClient from "../../lib/sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import BlockContent from "@sanity/block-content-to-react";
 import Head from 'next/head'
 import Link from 'next/link'
-import shuffle from '../../helpers/shuffle'
 import {withRouter} from 'next/router'
 import Button from '../../components/Button'
 
@@ -131,6 +130,7 @@ const Article = ({content, button, std, router, globalSettings}) => {
           "url" : "${std.url}"
         }`}} />}
         <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de${router.asPath.split('?')[0]}`} />
+        <link rel="alternate" hrefLang="en" href={`https://authenticagroup.cz/en${router.asPath.split('?')[0]}`} />
         <link rel="alternate" href={`https://authenticagroup.cz${router.asPath.split('?')[0]}`} hrefLang="x-default" />
       </Head>
       {/*<section className="video-bg">

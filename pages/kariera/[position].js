@@ -133,6 +133,7 @@ const FullPosition = ({content, std, router, globalSettings, benefits, peoples})
           "url" : "${std.url}"
         }`}} />}
         <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de${router.asPath.split('?')[0]}`} />
+        <link rel="alternate" hrefLang="en" href={`https://authenticagroup.cz/en${router.asPath.split('?')[0]}`} />
         <link rel="alternate" href={`https://authenticagroup.cz${router.asPath.split('?')[0]}`} hrefLang="x-default" />
       </Head>
       {content.content && <section className={`sec-center position-sec${!!peoples[0] ? " uk-padding-remove-bottom" : ''}`}>

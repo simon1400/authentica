@@ -32,15 +32,6 @@ export async function getServerSideProps({params, locale}) {
   const job = await sanityClient.fetch(queryJob)
   const jobOff = await sanityClient.fetch(queryJobOff)
 
-  // if (!job.content?.title) {
-  //   return {
-  //     redirect: {
-  //       destination: locale === 'cs' ? '/' : '/' + locale,
-  //       permanent: false,
-  //     },
-  //   }
-  // }
-
   const globalSettings = await sanityClient.fetch(`*[_type == 'settings'].content.${locale}`)
 
   return {
@@ -106,6 +97,7 @@ const Position = ({job, jobOff, std, router, globalSettings}) => {
           "url" : "${std.url}"
         }`}} />}
         <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de${router.asPath.split('?')[0]}`} />
+        <link rel="alternate" hrefLang="en" href={`https://authenticagroup.cz/en${router.asPath.split('?')[0]}`} />
         <link rel="alternate" href={`https://authenticagroup.cz${router.asPath.split('?')[0]}`} hrefLang="x-default" />
       </Head>
       <section className="sec-center position-sec">

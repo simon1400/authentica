@@ -42,17 +42,18 @@ export async function getServerSideProps({params, locale}) {
   const data = await sanityClient.fetch(query)
 
   let linkButton = '', linkButtonType = 'inter'
-  if(data?.button?.cta?.linkInter){
-    linkButton = await sanityClient.fetch(`*[_type in ['article', 'jobOff'] && _id in ["${data.button.cta.linkInter._ref}"]]{
+  const buttonCta = data?.button?.cta
+  if(buttonCta?.linkInter){
+    linkButton = await sanityClient.fetch(`*[_type in ['article', 'jobOff'] && _id in ["${buttonCta.linkInter._ref}"]]{
       "slug": content.${locale}.slug.current,
       "type": _type
     }[0]`)
-  }else if(data?.button.cta?.linkExter){
+  }else if(buttonCta?.linkExter){
     linkButtonType = 'exter'
-    linkButton = data?.button.cta.linkExter
-  }else if(data?.button.cta?.linkMail){
+    linkButton = buttonCta.linkExter
+  }else if(buttonCta?.linkMail){
     linkButtonType = 'mail'
-    linkButton = data?.button.cta.linkMail
+    linkButton = buttonCta.linkMail
   }
 
   data.linkButton = linkButton
@@ -61,12 +62,13 @@ export async function getServerSideProps({params, locale}) {
   const linksArr = []
   if(data?.firmArr && data?.firmArr?.length){
     for(var i = 0; i < data?.firmArr.length; i++){
-      if(data.firmArr.[i]?.button?.cta?.linkInter){
-        linksArr.push(data.firmArr[i].button.cta.linkInter._ref)
-      }else if(data.firmArr.[i]?.button?.cta?.linkExter){
-        linksArr.push(data.firmArr?.[i]?.button?.cta?.linkExter)
-      }else if(data.firmArr.[i]?.button?.cta?.linkMail){
-        linksArr.push(data.firmArr?.[i]?.button?.cta?.linkMail)
+      const button = data.firmArr?.[i]?.button
+      if(button?.cta?.linkInter){
+        linksArr.push(button.cta.linkInter._ref)
+      }else if(button?.cta?.linkExter){
+        linksArr.push(button?.cta?.linkExter)
+      }else if(button?.cta?.linkMail){
+        linksArr.push(button?.cta?.linkMail)
       }
     }
   }
@@ -79,19 +81,20 @@ export async function getServerSideProps({params, locale}) {
 
   if(data?.firmArr && data?.firmArr?.length){
     for(var i = 0; i < data.firmArr.length; i++){
-      if(data.firmArr[i].button.cta?.linkInter){
-        data.firmArr[i].button.typeLink = 'inter'
+      const button = data.firmArr[i].button
+      if(button.cta?.linkInter){
+        button.typeLink = 'inter'
         for(var a = 0; a < links.length; a++){
-          if(data.firmArr[i]?.button?.cta.linkInter?._ref == links[a]._id){
-            data.firmArr[i].button.link = `${links[a]._type === 'article' ? '' : '/pozice'}/${links[a].slug}`
+          if(button?.cta.linkInter?._ref == links[a]._id){
+            button.link = `${links[a]._type === 'article' ? '' : '/pozice'}/${links[a].slug}`
           }
         }
-      }else if(data.firmArr?.[i]?.button?.cta?.linkExter){
-        data.firmArr[i].button.typeLink = 'exter'
-        data.firmArr[i].button.link = data.firmArr?.[i]?.button?.cta?.linkExter
+      }else if(button?.cta?.linkExter){
+        button.typeLink = 'exter'
+        button.link = button?.cta?.linkExter
       }else if(data.firmArr?.[i]?.button?.cta?.linkMail){
-        data.firmArr[i].button.typeLink = 'mail'
-        data.firmArr[i].button.link = data.firmArr?.[i]?.button?.cta?.linkMail
+        button.typeLink = 'mail'
+        button.link = button?.cta?.linkMail
       }
     }
   }
@@ -163,7 +166,6 @@ const Home = ({data, std, logoPartners, router, globalSettings}) => {
       head={content?.title}
       gtmData={globalSettings?.gtm}
       endTitleData={globalSettings?.endTitle}
-      // heightAuto={!data?.videoFile && !content?.media?.iamge}
       heightAuto={false}
     >
       <Head>
@@ -185,6 +187,7 @@ const Home = ({data, std, logoPartners, router, globalSettings}) => {
           "url" : "${std.url}"
         }`}} />}
         <link rel="alternate" hrefLang="de" href={`https://authenticagroup.cz/de${router.asPath.split('?')[0]}`} />
+        <link rel="alternate" hrefLang="en" href={`https://authenticagroup.cz/en${router.asPath.split('?')[0]}`} />
         <link rel="alternate" href="https://authenticagroup.cz" hrefLang="x-default" />
       </Head>
 
